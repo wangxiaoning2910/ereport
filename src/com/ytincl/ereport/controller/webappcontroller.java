@@ -31,7 +31,7 @@ public class webappcontroller {
 		try {
 			user = userinfoservice.getUserByName(username);
 			if(null == user){
-				logger.debug("查询出错，测试git");
+				logger.debug("查询出错，测试git 我也测试Egit冲突");
 				map.put("resrultcode", "0002");
 			}else{
 				String password1 = user.getPassword();
