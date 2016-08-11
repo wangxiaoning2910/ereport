@@ -31,7 +31,8 @@ public class webappcontroller {
 		try {
 			user = userinfoservice.getUserByName(username);
 			if(null == user){
-				logger.debug("²éÑ¯³ö´í£¬²âÊÔgit ÎÒÒ²²âÊÔEgit³åÍ»");
+				logger.debug("²éÑ¯³ö´í£¬²âÊÔgit ³åÍ»");
+				logger.debug("²éÑ¯³ö´í£¬²âÊÔgit ³åÍ»");
 				map.put("resrultcode", "0002");
 			}else{
 				String password1 = user.getPassword();
