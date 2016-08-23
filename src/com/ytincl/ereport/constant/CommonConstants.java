@@ -2,7 +2,7 @@ package com.ytincl.ereport.constant;
 
 
 public class CommonConstants {
-	
+	 
 	public static final String PROPERTIES_SPLIT = "&";
 	public static final String PROPERTIES_ATTR_SPLIT = ":";
 	public static final String DEFAULT_ENCODE = "UTF-8";
