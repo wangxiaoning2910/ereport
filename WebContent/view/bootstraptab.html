@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <link rel="stylesheet" href="../resources/css/bootstrap.min.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="../resources/css/bootstrap-addtabs.css" type="text/css" media="screen" />
+		<script src="../resources/script/jquery-1.11.1.min.js"></script>
+        <script src="../resources/script/bootstrap.min.js"></script>
+        <script src="../resources/script/bootstrap-addtabs.js"></script>
+
+        <!--[if lt IE 9]>
+          <script src="theme/js/html5shiv.min.js"></script>
+          <script src="theme/js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript">
+            $(function(){
+            	alert("123")
+                $('#tabs').addtabs({monitor:'.topbar'});
+                $('#save').click(function(){
+                    Addtabs.add({
+                       id: $(this).attr('addtabs'),
+                       title: $(this).attr('title') ? $(this).attr('title') : $(this).html(),
+                       content: Addtabs.options.content ? Addtabs.options.content : $(this).attr('content'),
+                       url: $(this).attr('url'),
+                       ajax: $(this).attr('ajax') ? true : false
+                    })
+                });
+            })
+        </script>
+    </head>
+    <body>
+        <header class="topbar admin-header">
+            <div class="brand">
+                <strong>LOGO IN HERE</strong>
+                <small></small>
+            </div>
+            <div class="topbar-collapse">
+                <!--Button group-->
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" data-addtab="mail" url="index.html">我的邮件</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting17" url="tables.html" >使用16</button>
+                    <button type="button" class="btn btn-default" data-addtab="profile" url="/admin/profile">我的属性</button>
+                    <button type="button" class="btn btn-default" data-addtab="message" url="/admin/message" content="指定内容">指定内容</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting" url="/admin/setting" title="指定标题">指定标题</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting1" url="blank.html" >使用AJAX</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting2" url="buttons.html" >使用1</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting3" url="flot.html" >使用2</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting4" url="grid.html" >使用3</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting5" url="home.jsp" >使用4</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting6" url="icons.html" >使用5</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting7" url="login.html" >使用6</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting8" url="morris.html" >使用7</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting9" url="notifications.html" >使用8</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting10" url="panels-wells.html" >使用9</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting11" url="tables.html" >使用10</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting12" url="tables.html" >使用11</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting13" url="tables.html" >使用12</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting14" url="tables.html" >使用13</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting15" url="tables.html" >使用14</button>
+                    <button type="button" class="btn btn-default" data-addtab="setting16" url="tables.html" ajax='true'>使用15</button>
+                    
+                </div>
+            </div>
+        </header>
+
+
+        <div class="col-md-12">
+            <div id="tabs">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active">
+                    	<a href="#home" aria-controls="home" role="tab" data-toggle="tab">主页</a>
+                    </li>                    
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+                        <button type="button" class="btn btn-default" addtabs="save" id="save" url="flot.html">
+                            <i class="glyphicon glyphicon-floppy-disk"></i>
+                            SAVE                            
+                        </button>
+                    </div>                    
+                </div>
+
+            </div>
+
+        </div>
+    </body>
+</html>

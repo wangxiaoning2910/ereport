@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../resources/css/reset.css" />
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="../resources/css/easyui.css">
+<link rel="stylesheet" type="text/css" href="../resources/css/icon.css">
+<script type="text/javascript" src="../resources/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../resources/script/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../resources/script/easyui-lang-zh_CN.js"></script>
+<title>网络医院主页</title>
+<style type="text/css">
+* {
+padding: 0px;
+margin: 0px;
+}
+html,
+body {
+width: 100%;
+height: 100%;
+font-size: 16px;
+overflow: hidden;
+}
+a:link {
+text-decoration: none;
+/* 指正常的未被访问过的链接*/
+}
+a {
+text-decoration: none;
+}
+a:visited {
+text-decoration: none;
+/*指已经访问过的链接*/
+}
+a:hover {
+text-decoration: none;
+/*指鼠标在链接*/
+}
+a:active {
+text-decoration: none;
+/* 指正在点的链接*/
+}
+/**************main*********************/
+.main {
+width: 100%;
+height: 100%;
+background: pink;
+overflow: hidden;
+min-width:1200px;
+}
+.left-box {
+height: 100%;
+float: left;
+width: 15%;
+background: #30323e;
+/*overflow-y: scroll;*/
+}
+.left-box-logo {
+width: 160px;
+height: 150px;
+margin: 30px auto 0px;
+}
+.left-box-logo img {
+width: 160px;
+height: 100px;
+}
+.left-box-logo h3 {
+color: white;
+margin: 0;
+line-height: 50px;
+height: 50px;
+text-align: center;
+}
+/*************tree li******************/
+.tree {
+/*border: 1px solid red;*/
+height: auto;
+}
+.tree-box {
+list-style: none;
+line-height: 48px;
+padding: 0;
+margin: 0;
+}
+.tree-box li {
+border-bottom: 1px solid #232243;
+display: block;
+}
+.tree-box li:hover,
+.tree-box li:focus,
+.tree-box li:active {
+background: #005eac;
+}
+.tree-box>li>a {
+color: #A6A6A6;
+margin-left: 20px;
+}
+.tree-box a {
+display: block;
+height: 48px;
+width: 100%;
+}
+.tree-box-two a {
+text-align: center;
+color: white;
+}
+.hzgl a:before {
+content: url(imges/icon-patient.png);
+height: 100%;
+display: inline-block;
+margin-right: 5px;
+vertical-align: middle;
+}
+.pzgl a:before {
+content: url(imges/icon-lineup.png);
+height: 100%;
+display: inline-block;
+margin-right: 5px;
+vertical-align: middle;
+}
+.xgmm a:before {
+content: url(imges/icon-lock.png);
+height: 100%;
+display: inline-block;
+margin-right: 5px;
+vertical-align: middle;
+}
+a.bg:before {
+content: url(imges/bg-verticalsubmenu.png);
+height: 100%;
+display: inline-block;
+margin-right: 5px;
+vertical-align: middle;
+}
+/**************right-box**************/
+.right-box {
+height: 100%;
+float: left;
+width: 85%;
+background: white;
+font-size: 18px;
+position: relative;
+}
+.time-now {
+margin-left: 20px;
+font-family: "微软雅黑";
+line-height: 50px;
+}
+.right-title {
+width: 98%;
+margin: 10px auto 0px;
+height: 50px;
+background: #FF855E;
+}
+.right-title span {
+margin-top: 8px;
+}
+.right-title .user-info {
+float: right;
+}
+.right-title .user-info button {
+margin-right: 20px;
+}
+#tab-page div {
+background: #D2D2D9;
+}
+h1.welcome {
+font-size: 80px;
+font-family: "微软雅黑";
+color: green;
+margin: 15% auto;
+text-align: center;
+}
+/*****************************************/
+/* easy UI */
+.tabs-header,
+.tabs-tool {
+background: green;
+}
+div.tabs-header {
+border: 1px solid #cacacd;
+border-bottom: 1px solid #e6e6e6;
+}
+ul.tabs {
+border-bottom: 1px solid #cacacd;
+height: 30px;
+}
+.tabs li.tabs-selected a.tabs-inner {
+background: #E6E6E6;
+color: #5a5a5a;
+}
+.tabs li a.tabs-inner {
+background: #f2f2f2;
+color: #5a5a5a;
+border: 1px solid #cacacd;
+padding: 0 15px;
+border-radius: 0;
+}
+.tabs li a.tabs-inner:hover {
+background: #E6E6E6;
+}
+.tabs li.tabs-selected a.tabs-inner {
+border: 1px solid #cacacd;
+border-bottom: 1px solid #E6E6E6;}
+</style>
+<script type="text/javascript">
+$(function() {
+//初始化tab
+$("#tab-page").tabs({
+tabWidth: 100, //tab头的宽度
+tabHeight: 30, //tab头的高度
+closable: true,
+fit: true //tab铺满全屏
+});
+});
+//打开新tab函数
+function addTabs(title, url) {
+if ($('#tab-page').tabs('exists', title)) {
+$('#tab-page').tabs('select', title);
+$('#tab-page').tabs('update', {
+tab: select
+});
+var content = '<iframe class="tabIframe" style="width: 100%;" scrolling="scroll" frameborder="0" src="' + url + '"></iframe>';
+$('#tab-page').tabs('add', {
+title: title,
+fit: true, //tab铺满全屏
+content: content,
+closable: true
+});
+var rH = $(".right-box").height();
+var rhH = $(".right-head").height();
+var hC = rH - 50;
+$(".panel-body .tabIframe").height(hC);
+} else {
+var content = '<iframe class="tabIframe" style="width: 100%;" scrolling="scroll" frameborder="0" src="' + url + '"></iframe>';
+$('#tab-page').tabs('add', {
+title: title,
+content: content,
+fit: true, //tab铺满全屏
+closable: true
+});
+var rH = $(".right-box").height();
+var rhH = $(".right-head").height();
+var hC = rH - 50;
+$(".panel-body .tabIframe").height(hC);
+}
+}
+</script>
+</head>
+<body>
+<div class="main">
+<div class="left-box">
+<div class="left-box-logo">
+<img src="imges/logo.png" />
+<h3> -医生端- </h3>
+</div>
+<div class="tree">
+<ul class="tree-box">
+<li class="hzgl"><a href="#">患者管理</a></li>
+<ul class="tree-box-two">
+<li class="hzlb"><a class="bg" onclick="addTabs('患者列表','articleList.html')">患者列表</a></li>
+<li class="hzzc"><a class="bg" onclick="addTabs('百度','https://www.baidu.com')">患者注册</a></li>
+<li class="hzxq"><a class="bg" onclick="addTabs('360搜索','http://www.so.com/')">患者详情</a></li>
+</ul>
+<li class="pzgl"><a href="">排号管理</a></li>
+<li class="xgmm"><a href="">病例管理</a></li>
+<li class="pzgl"><a href="">加好管理</a></li>
+<li class="xgmm"><a href="">修改密码</a></li>
+<li class="pzgl"><a href="">退出</a></li>
+</ul>
+</div>
+</div>
+<div class="right-box">
+<div class="right-title">
+<span class="time-now">当前时间：2015年6月1日</span>
+<span class="user-info">
+<button type="button" class="btn btn-success">当前账户：libin</button>
+<button type="button" class="btn btn-warning"> 退出</button>
+</span>
+</div>
+<div id="tab-page" class=" " style="width: 100%;">
+<div title="Home">
+<h1 class="welcome">欢迎使用乐普网络医院</h1>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
