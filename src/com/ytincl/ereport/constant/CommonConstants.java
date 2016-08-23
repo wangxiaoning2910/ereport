@@ -3,7 +3,6 @@ package com.ytincl.ereport.constant;
 
 
 
-
 public class CommonConstants {
 	
 	public static final String PROPERTIES_SPLIT = "&";
