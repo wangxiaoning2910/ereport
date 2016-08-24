@@ -10,7 +10,7 @@
 	</appender>
     <!-- 每天 文件的日志记录 -->
 	<appender name="DAILY" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="/app/ytincl/logs/daily.log" />
+		<param name="File" value="/app/ytincl/logs/ereportdaily.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
@@ -22,7 +22,7 @@
         </filter>
 	</appender>
 	<appender name="ROLLING" class="org.apache.log4j.RollingFileAppender">  
-	    <param name="File" value="/app/ytincl/logs/rolling.log"/>  
+	    <param name="File" value="/app/ytincl/logs/ereport.log"/>  
 	    <param name="MaxFileSize" value="10MB"/>  
 	    <param name="MaxBackupIndex" value="9"/>  
 	    <layout class="org.apache.log4j.PatternLayout">  
