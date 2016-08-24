@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +27,19 @@ public class webappcontroller {
 	@RequestMapping(value="/loginsystem")
 	public String login(HttpServletRequest request,HttpServletResponse response) throws BaseApplicationException{
 		Map<String,Object> map = new HashMap<String,Object>();
-		String username = request.getParameter("inputUsername");
-		String password = request.getParameter("inputPassword");
+		HttpSession session = request.getSession();
+		UserInfo queryuser = (UserInfo)session.getAttribute(CommonConstants.SESSION_USER);
+		String username = null;
+		String password = null;
+		if(queryuser != null){
+			username = queryuser.getUsername();
+			password = queryuser.getPassword();
+		}else{
+			username = request.getParameter("inputUsername");
+			password = request.getParameter("inputPassword");
+		}
 		UserInfo user = null;
+		logger.debug("”√ªß√˚=="+username+"£¨√‹¬Î=="+password);
 		try {
 			user = userinfoservice.getUserByName(username);
 			if(null == user){

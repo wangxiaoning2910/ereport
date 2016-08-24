@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.ytincl.ereport.constant.CommonConstants;
+import com.ytincl.ereport.model.UserInfo;
 
 public class EntryValidate implements Filter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(EntryValidate.class);
@@ -75,6 +76,9 @@ public class EntryValidate implements Filter {
 	    		LOGGER.debug("==========SESSION不为空=========");
 	    		Object userObj = session.getAttribute(CommonConstants.SESSION_USER);
 	    		if(userObj != null){
+//	    			UserInfo user = (UserInfo)userObj;
+//	    			String username = user.getUsername();
+	    			
 	    			LOGGER.debug("==========用户不为空，跳转到登录后的几面=========");
 	    			sendRedirect(req, res, this.loginurl);
     				return;
