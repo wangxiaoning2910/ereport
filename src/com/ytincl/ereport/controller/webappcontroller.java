@@ -20,7 +20,6 @@ import com.ytincl.ereport.util.exception.ReturnFormat;
 
 
 
-
 @RestController
 @Controller
 public class webappcontroller{
