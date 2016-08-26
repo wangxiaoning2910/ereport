@@ -13,7 +13,6 @@ public class BusinessException extends Exception {
 	private static final Logger logger = LoggerFactory.getLogger(BusinessException.class);
 	
 	
-	
 	public BusinessException(String rspCode){
 		ReturnFormat.retParam(rspCode);
 	}

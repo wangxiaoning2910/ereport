@@ -58,7 +58,7 @@ public class webappcontroller{
 	}
 	@RequestMapping(value="/view/getMenu")
 	public String getMenu(HttpServletRequest request,HttpServletResponse response){
-		List<Menu> list  = userinfoservice.getMenu();
+		List<Menu> list = userinfoservice.getMenu();
 		return ReturnFormat.retParam(ErrorConstants.ERR_100000,list);
 	}
 }

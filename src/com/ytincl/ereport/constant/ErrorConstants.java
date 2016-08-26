@@ -33,7 +33,6 @@ public class ErrorConstants{
 	public static final String ERR_100004 = "100004";//登录失败，密码不正确
 	
 	
-	
 
 	/** 私有构造 **/
 	private ErrorConstants() {

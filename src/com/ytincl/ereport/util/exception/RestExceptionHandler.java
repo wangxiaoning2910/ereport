@@ -121,5 +121,4 @@ public class RestExceptionHandler {
     public String server500(RuntimeException runtimeException){
         return ReturnFormat.retParam(ErrorConstants.ERR_000011);
     }
-
 }
