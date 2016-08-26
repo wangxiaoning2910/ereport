@@ -16,6 +16,7 @@ public class ErrorConstants{
 	public static final String ERR_000009 = "000009";//405错误
 	public static final String ERR_000010 = "000010";//406错误
 	public static final String ERR_000011 = "000011";//500错误
+	public static final String ERR_000012 = "000012";//数据库连接失败
 	
 	/**
 	 * 缓存异常定义

@@ -21,6 +21,7 @@ public class ResponseMessage {
 	    map.put("100002", "获取数据失败");  
 	    map.put("100003", "登录失败,该用户不存在");  
 	    map.put("100004", "登录失败,密码错误");  
+	    map.put("000012", "数据库连接失败");  
 	} 
 	public static String getResponseMessage(String rspCode){
 		return map.get(String.valueOf(rspCode));

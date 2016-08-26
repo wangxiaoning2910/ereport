@@ -39,13 +39,12 @@ MissingServletRequestParameterException 400 (Bad Request)
 @ControllerAdvice
 public class RestExceptionHandler {
 	
-	//运行时异常
+	//运行时异常   
     @ExceptionHandler(RuntimeException.class)  
     @ResponseBody  
     public String runtimeExceptionHandler(RuntimeException runtimeExceptio) {  
         return ReturnFormat.retParam(ErrorConstants.ERR_000001);
     }  
-
     //空指针异常
     @ExceptionHandler(NullPointerException.class)  
     @ResponseBody  
