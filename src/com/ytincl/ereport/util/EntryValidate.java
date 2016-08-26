@@ -76,9 +76,8 @@ public class EntryValidate implements Filter {
 	    		LOGGER.debug("==========SESSION不为空=========");
 	    		Object userObj = session.getAttribute(CommonConstants.SESSION_USER);
 	    		if(userObj != null){
-//	    			UserInfo user = (UserInfo)userObj;
-//	    			String username = user.getUsername();
-	    			
+	    			String username = (String) session.getAttribute("username");
+	    			String password = (String) session.getAttribute("password");
 	    			LOGGER.debug("==========用户不为空，跳转到登录后的几面=========");
 	    			sendRedirect(req, res, this.loginurl);
     				return;

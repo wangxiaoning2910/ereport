@@ -5,7 +5,7 @@ import com.ytincl.ereport.model.Menu;
 import com.ytincl.ereport.model.UserInfo;
 
 public interface UserInfoDao {
-	public UserInfo getUserByName(String username);
+	public List<UserInfo> getUserByName(String username);
 	public List<Menu> getMenu();
 
 }

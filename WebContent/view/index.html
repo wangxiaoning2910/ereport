@@ -323,7 +323,8 @@
 				async:false,
 				success:function(data){
 					//result typeof is object
-					result = data.result;
+					var resultdata = jQuery.parseJSON(data); 
+					result = resultdata.businessData;
 					//查询结果数量
 					var resultlength = result.length;
 					//获取每条记录中的parentmid 放到  parentmids中

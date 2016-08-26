@@ -1,5 +1,6 @@
 package com.ytincl.ereport.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -19,10 +20,10 @@ public class UserInfoDaoImpl implements UserInfoDao {
 	private SqlSession sqlSession;
 	private static Logger logger = LoggerFactory.getLogger(UserInfoDaoImpl.class);
 	@Override
-	public UserInfo getUserByName(String username) {
+	public List<UserInfo> getUserByName(String username) {
 		// TODO Auto-generated method stub
-		UserInfo user = null;
-		user = (UserInfo)sqlSession.selectOne("com.ytincl.ereport.dao.UserInfoDao.selectUserByName",username);
+		List<UserInfo> user = new ArrayList<>();
+		user = (List)sqlSession.selectList("com.ytincl.ereport.dao.UserInfoDao.selectUserByName",username);
 		return user;
 	}
 	@Override

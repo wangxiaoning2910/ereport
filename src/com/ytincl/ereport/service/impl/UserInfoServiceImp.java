@@ -8,7 +8,6 @@ import com.ytincl.ereport.dao.UserInfoDao;
 import com.ytincl.ereport.model.Menu;
 import com.ytincl.ereport.model.UserInfo;
 import com.ytincl.ereport.service.UserInfoService;
-import com.ytincl.ereport.util.BaseApplicationException;
 
 
 @Service("userInfoService")
@@ -16,7 +15,7 @@ public class UserInfoServiceImp implements UserInfoService{
 	@Autowired
 	private UserInfoDao userinfodao;
 	@Override
-	public UserInfo getUserByName(String username)  {
+	public List<UserInfo> getUserByName(String username)  {
 		// TODO Auto-generated method stub
 		return userinfodao.getUserByName(username);
 	}

@@ -20,7 +20,13 @@
     <!-- 启用spring mvc 注解 -->  
     <context:annotation-config />  
     <!-- 默认的注解映射的支持 -->  
-    <mvc:annotation-driven />  
+    <mvc:annotation-driven>
+    	<mvc:message-converters register-defaults="true">
+      		<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+        		<property name="supportedMediaTypes" value="text/html;charset=UTF-8"/>
+     		</bean>
+    	</mvc:message-converters>
+    </mvc:annotation-driven>  
     <!-- 设置使用注解的类所在的包 -->  
 	<context:component-scan base-package="com.ytincl.ereport"></context:component-scan> 
 	<!-- 完成请求和注解POJO的映射 -->  
@@ -32,6 +38,7 @@
 	   	<property name="prefix" value="/view/"/>
 	   	<property name="suffix" value=".html"/>
 	</bean>
+	
     <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射， 完成json自动转换 
    	<bean id="mappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
     	<property name="supportedMediaTypes">
