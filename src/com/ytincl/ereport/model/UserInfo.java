@@ -3,7 +3,7 @@ package com.ytincl.ereport.model;
  * 
  * ÓÃ»§µÇÂ¼
  * */
-public class UserInfo {
+public class UserInfo{
 	private String username;
 	private String password;
 	public String getUsername() {

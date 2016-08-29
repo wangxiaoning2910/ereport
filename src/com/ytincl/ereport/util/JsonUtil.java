@@ -26,28 +26,12 @@ public class JsonUtil {
 	//将对象转换为json字符串
 	public static String convertJSON(Object obj) {
 		try {
-//			return reviseJSON(mapper.writeValueAsString(obj));
-			return mapper.writeValueAsString(obj);
+			return reviseJSON(mapper.writeValueAsString(obj));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
-	/**生成消息摘要的字符串
-	 * @param obj
-	 * @return
-	 */
-	public static String genDigestMessage(Object obj) {
-		try {
-			String s = mapper.writeValueAsString(obj);
-			return digestMessage(s);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 	
 	
 	//将json转换为object
@@ -70,17 +54,6 @@ public class JsonUtil {
 		return json;
 	}
 	
-	//准备做消息摘要的拼装
-	public static String digestMessage(String json) {
-		try {
-			JsonNode rootNode = mapper.readTree(json);
-			Iterator<Map.Entry<String,JsonNode>> its = rootNode.fields();
-			json = sortjsonMessage(its);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return json;
-	}
 	
 	//对json字符串中值为null的去除
 	public static String delNull(String json) {
@@ -141,38 +114,7 @@ public class JsonUtil {
 		else
 			return null;
 	}
-	//对json进行排序并将值为null的去除------消息摘要用 
-		private static String sortjsonMessage(Iterator<Map.Entry<String,JsonNode>> its) {
-			StringBuffer sBuffer = new StringBuffer();
-			sBuffer.append("");
-			List<Entry> nodeList = new ArrayList<Entry>();
-			while(its.hasNext()) {
-				Map.Entry<String, JsonNode> node = its.next();
-				JsonNode jsonNode = (JsonNode)node.getValue();
-				if(jsonNode.isNull())
-					continue;
-				nodeList.add(new JsonUtil().new Entry(node));
-			}
-			Collections.sort(nodeList);
-			for(Entry e : nodeList) {
-				if(e.getValue().isObject()) {
-					String value = sortjsonMessage(e.getValue().fields());
-					if(StringUtils.isBlank(value))
-						continue;
-					else 
-						sBuffer.append(e.getKey() + "=" + value + "&");
-					continue;
-				} else if(StringUtils.isBlank(e.getValue().asText()))
-					continue;
-				sBuffer.append(e.getKey() + "=" + e.getValue().asText() + "&");
-			}
-			if(StringUtils.isNotBlank(sBuffer.toString()))
-				return sBuffer.substring(0, sBuffer.length()-1);
-			else
-				return null;
-		}
 	
-
 	
 	//内部类用于对比排序
 	class Entry implements Comparable<Entry>{

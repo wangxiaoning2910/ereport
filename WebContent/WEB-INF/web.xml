@@ -25,7 +25,7 @@
   	</servlet>
   	<servlet-mapping>
     	<servlet-name>report-servlet</servlet-name>
-    	<url-pattern>/</url-pattern>
+    	<url-pattern>*.do</url-pattern>
   	</servlet-mapping>
   	<filter>
     	<filter-name>characterEncodingFilter</filter-name>
@@ -59,6 +59,6 @@
    	</filter>
 	<filter-mapping>
     	<filter-name>EntryValidate</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/view/*</url-pattern>
 	</filter-mapping>
 </web-app>

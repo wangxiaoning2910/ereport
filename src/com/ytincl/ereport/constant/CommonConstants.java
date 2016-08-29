@@ -5,6 +5,7 @@ public class CommonConstants {
 	 
 	public static final String PROPERTIES_SPLIT = "&";
 	public static final String PROPERTIES_ATTR_SPLIT = ":";
+	public static final String HOME_PAGE = "index";
 	public static final String DEFAULT_ENCODE = "UTF-8";
 	public static final String NULL_STRING = "";
 	public static final int DICT_ARRAY_LENGTH = 2;

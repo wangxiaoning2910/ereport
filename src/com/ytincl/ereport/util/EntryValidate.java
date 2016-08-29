@@ -18,20 +18,8 @@ import com.ytincl.ereport.model.UserInfo;
 public class EntryValidate implements Filter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(EntryValidate.class);
 	private  String loginpage = "/login.html";
-	private  String loginurl = "/loginsystem";
-	private  String[] args = {
-			".css",
-			".otf",
-			".js",
-			".gif",
-			".bmp",
-			".jpg",
-			".png",
-			".eot",
-			".svg",
-			".woff2",
-			".woff",
-			".ttf"};
+	private  String loginpage1 = "/";
+	
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
@@ -41,7 +29,6 @@ public class EntryValidate implements Filter {
 	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		//控制用户访问权限
 		HttpServletRequest req = (HttpServletRequest)arg0;
 		HttpServletResponse res = (HttpServletResponse)arg1;
 		String contextPath = req.getContextPath();
@@ -51,39 +38,23 @@ public class EntryValidate implements Filter {
 		}else{
 			requestPath = req.getRequestURI();
 		}
+		
 		if(!noFilter(requestPath)){
-			HttpSession session = req.getSession();
+			HttpSession session = req.getSession(false);
 			LOGGER.debug("==========请求被拦截=========");
-			if(session != null){
-				LOGGER.debug("session 不为空 ");
+			if(null != session){
 				Object userObj = session.getAttribute(CommonConstants.SESSION_USER);
-				if(userObj == null){
+				if(null == userObj){
 					LOGGER.debug("用户为空 ，跳转到登录页面");
-	    			sendRedirect(req, res, this.loginpage);
-	    			return;
-	    		}
+		    		sendRedirect(req, res, this.loginpage);
+		    		return;
+				}
 			}else{
-				LOGGER.debug("session 为空 ，跳转到登录页面");
+				LOGGER.debug("session为空 ，跳转到登录页面");
 	    		sendRedirect(req, res, this.loginpage);
 	    		return;
 	    	}
 		}
-		//判断是否登陆状态
-	    if(requestPath.equals(this.loginpage) || requestPath.equals("/")){
-	    	LOGGER.debug("==========请求不被拦截=========");
-	    	HttpSession session = req.getSession(false);
-	    	if(session != null){
-	    		LOGGER.debug("==========SESSION不为空=========");
-	    		Object userObj = session.getAttribute(CommonConstants.SESSION_USER);
-	    		if(userObj != null){
-	    			String username = (String) session.getAttribute("username");
-	    			String password = (String) session.getAttribute("password");
-	    			LOGGER.debug("==========用户不为空，跳转到登录后的几面=========");
-	    			sendRedirect(req, res, this.loginurl);
-    				return;
-	    		}
-	    	}
-	    }
 	    arg2.doFilter(req, res);
 	}
 
@@ -94,13 +65,7 @@ public class EntryValidate implements Filter {
 	
 	private boolean noFilter(String uri){
 		if(this.loginpage.equals(uri))return true;
-		if(this.loginurl.equals(uri))return true;
-		if("/".equals(uri))return true;
-		for(int i = 0;i < args.length;i++){
-			if(uri.contains(args[i])){
-				return true;
-			}
-		}
+		if(this.loginpage1.equals(uri))return true;
 		return false;
 	}
 	private void sendRedirect(HttpServletRequest request, HttpServletResponse response, String url){

@@ -90,15 +90,18 @@
 		 });
 		function login(){
 			$.ajax({
-				url: "loginsystem",
+				url: "verifyUser.do",
 				type: "POST",
+				dataType: 'json',
 				data: $("#loginform").serialize(),
 				success:function(data){
-					var parsedJson = jQuery.parseJSON(data); 
-					var resultCode = parsedJson.rspCode;
-					if(resultCode == "100000"){
-						  window.location.href = "view/index.html"
+					console.log(data)
+					var rspCode = data.rspCode;
+					var rspMsg = data.rspMsg;
+					if(rspCode != "100000"){
+						alert(rspCode+"-"+rspMsg);
 					}else{
+						alert(rspCode+"-"+rspMsg+"验证通过");
 					}
 				}
 			});

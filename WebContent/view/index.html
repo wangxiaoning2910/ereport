@@ -318,15 +318,14 @@
 			var parentmids = [];
 			//ajax必须为同步的，否则菜单有可能不显示
 			$.ajax({
-				url:'getMenu',
+				url:'getMenu.do',
 				type:'post',
 				async:false,
 				success:function(data){
 					//result typeof is object
-					var resultdata = jQuery.parseJSON(data); 
-					result = resultdata.businessData;
+					console.log(data.typeof)
 					//查询结果数量
-					var resultlength = result.length;
+					var resultlength = data.length;
 					//获取每条记录中的parentmid 放到  parentmids中
 					for(var i = 0;i<resultlength;i++){
 						parentmids[i] = result[i].parentmid;

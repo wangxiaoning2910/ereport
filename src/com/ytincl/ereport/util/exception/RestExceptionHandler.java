@@ -1,7 +1,6 @@
 package com.ytincl.ereport.util.exception;
 
 import java.io.IOException;
-
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -42,83 +41,83 @@ public class RestExceptionHandler {
 	//运行时异常   
     @ExceptionHandler(RuntimeException.class)  
     @ResponseBody  
-    public String runtimeExceptionHandler(RuntimeException runtimeExceptio) {  
-        return ReturnFormat.retParam(ErrorConstants.ERR_000001);
+    public BaseExceptionModel runtimeExceptionHandler(RuntimeException runtimeExceptio) {  
+        return new BaseExceptionModel(ErrorConstants.ERR_000001);
     }  
     //空指针异常
     @ExceptionHandler(NullPointerException.class)  
     @ResponseBody  
-    public String nullPointerExceptionHandler(NullPointerException ex) {  
+    public BaseExceptionModel nullPointerExceptionHandler(NullPointerException ex) {  
         ex.printStackTrace();
-        return ReturnFormat.retParam(ErrorConstants.ERR_000002);
+        return new BaseExceptionModel(ErrorConstants.ERR_000002);
     }   
     //类型转换异常
     @ExceptionHandler(ClassCastException.class)  
     @ResponseBody  
-    public String classCastExceptionHandler(ClassCastException ex) {  
+    public BaseExceptionModel classCastExceptionHandler(ClassCastException ex) {  
         ex.printStackTrace();
-        return ReturnFormat.retParam(ErrorConstants.ERR_000003);  
+        return new BaseExceptionModel(ErrorConstants.ERR_000003);  
     }  
 
     //IO异常
     @ExceptionHandler(IOException.class)  
     @ResponseBody  
-    public String iOExceptionHandler(IOException ex) {  
+    public BaseExceptionModel iOExceptionHandler(IOException ex) {  
         ex.printStackTrace();
-        return ReturnFormat.retParam(ErrorConstants.ERR_000004); 
+        return new BaseExceptionModel(ErrorConstants.ERR_000004); 
     }  
     //未知方法异常
     @ExceptionHandler(NoSuchMethodException.class)  
     @ResponseBody  
-    public String noSuchMethodExceptionHandler(NoSuchMethodException ex) {  
+    public BaseExceptionModel noSuchMethodExceptionHandler(NoSuchMethodException ex) {  
         ex.printStackTrace();
-        return ReturnFormat.retParam(ErrorConstants.ERR_000005);
+        return new BaseExceptionModel(ErrorConstants.ERR_000005);
     }  
 
     //数组越界异常
     @ExceptionHandler(IndexOutOfBoundsException.class)  
     @ResponseBody  
-    public String indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException ex) {  
+    public BaseExceptionModel indexOutOfBoundsExceptionHandler(IndexOutOfBoundsException ex) {  
         ex.printStackTrace();
-        return ReturnFormat.retParam(ErrorConstants.ERR_000006);
+        return new BaseExceptionModel(ErrorConstants.ERR_000006);
     }
     //400错误
     @ExceptionHandler({HttpMessageNotReadableException.class})
     @ResponseBody
-    public String requestNotReadable(HttpMessageNotReadableException ex){
+    public BaseExceptionModel requestNotReadable(HttpMessageNotReadableException ex){
         ex.printStackTrace();
-        return ReturnFormat.retParam(ErrorConstants.ERR_000007);
+        return new BaseExceptionModel(ErrorConstants.ERR_000007);
     }
     //400错误
     @ExceptionHandler({TypeMismatchException.class})
     @ResponseBody
-    public String requestTypeMismatch(TypeMismatchException ex){
+    public BaseExceptionModel requestTypeMismatch(TypeMismatchException ex){
         ex.printStackTrace();
-        return ReturnFormat.retParam(ErrorConstants.ERR_000007);
+        return new BaseExceptionModel(ErrorConstants.ERR_000007);
     }
     //400错误
     @ExceptionHandler({MissingServletRequestParameterException.class})
     @ResponseBody
-    public String requestMissingServletRequest(MissingServletRequestParameterException ex){
+    public BaseExceptionModel requestMissingServletRequest(MissingServletRequestParameterException ex){
         ex.printStackTrace();
-        return ReturnFormat.retParam(ErrorConstants.ERR_000007);
+        return new BaseExceptionModel(ErrorConstants.ERR_000007);
     }
     //405错误
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     @ResponseBody
-    public String request405(){
-        return ReturnFormat.retParam(ErrorConstants.ERR_000009);
+    public BaseExceptionModel request405(){
+        return new BaseExceptionModel(ErrorConstants.ERR_000009);
     }
     //406错误
     @ExceptionHandler({HttpMediaTypeNotAcceptableException.class})
     @ResponseBody
-    public String request406(){
-        return ReturnFormat.retParam(ErrorConstants.ERR_000010);
+    public BaseExceptionModel request406(){
+        return new BaseExceptionModel(ErrorConstants.ERR_000010);
     }
     //500错误
     @ExceptionHandler({ConversionNotSupportedException.class,HttpMessageNotWritableException.class})
     @ResponseBody
-    public String server500(RuntimeException runtimeException){
-        return ReturnFormat.retParam(ErrorConstants.ERR_000011);
+    public BaseExceptionModel server500(RuntimeException runtimeException){
+        return new BaseExceptionModel(ErrorConstants.ERR_000011);
     }
 }

@@ -23,7 +23,7 @@
 	</appender>
 	<appender name="ROLLING" class="org.apache.log4j.RollingFileAppender">  
 	    <param name="File" value="/app/ytincl/logs/ereport.log"/>  
-	    <param name="MaxFileSize" value="10MB"/>  
+	    <param name="MaxFileSize" value="50MB"/>  
 	    <param name="MaxBackupIndex" value="9"/>  
 	    <layout class="org.apache.log4j.PatternLayout">  
 	      <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS}|%-5p|%m%n"/>  
