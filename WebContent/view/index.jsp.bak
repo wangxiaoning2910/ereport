@@ -1,6 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <head>
 
     <meta charset="utf-8">
@@ -11,24 +13,18 @@
 
     <title>Bootstrap Admin Theme</title>
     <!-- Bootstrap Core CSS -->
-    <link href="../resources/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/bootstrap.min.css' />">
     <!-- MetisMenu CSS -->
-    <link href="../resources/css/metisMenu.min.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/metisMenu.min.css' />">
     <!-- Timeline CSS -->
-    <link href="../resources/css/timeline.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/timeline.css' />">
     <!-- Custom CSS -->
-    <link href="../resources/css/sb-admin-2.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/sb-admin-2.css' />">
     <!-- Custom Fonts -->
-    <link href="../resources/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="../resources/css/bootstrap-addtabs.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="../resources/css/bootstrap-treeview.min.css" type="text/css" media="screen" />
-    <link href="../resources/css/custom.css" type="text/css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/font-awesome.min.css' />">
+    <link rel="stylesheet" type="text/css" media="screen" href="<c:url value='/resources/css/bootstrap-addtabs.css' />">
+    <link rel="stylesheet" type="text/css" media="screen" href="<c:url value='/resources/css/bootstrap-treeview.min.css' />">
+    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/custom.css' />">
 
 </head>
 
@@ -288,17 +284,17 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="../resources/script/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="<c:url value='/resources/script/jquery-1.11.1.min.js' />"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="../resources/script/bootstrap.min.js"></script>
+    <script type="text/javascript" src="<c:url value='/resources/script/bootstrap.min.js' />"></script>
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="../resources/script/metisMenu.min.js"></script>
+    <script type="text/javascript" src="<c:url value='/resources/script/metisMenu.min.js' />"></script>
     <!-- Morris Charts JavaScript -->
-    <script src="../resources/script/raphael-min.js"></script>
+    <script type="text/javascript" src="<c:url value='/resources/script/raphael-min.js' />"></script>
     <!-- Custom Theme JavaScript -->
-    <script src="../resources/script/sb-admin-2.js"></script>
-    <script src="../resources/script/bootstrap-addtabs.js"></script>
-    <script src="../resources/script/bootstrap-treeview.min.js"></script>
+    <script type="text/javascript" src="<c:url value='/resources/script/sb-admin-2.js' />"></script>
+    <script type="text/javascript" src="<c:url value='/resources/script/bootstrap-addtabs.js' />"></script>
+    <script type="text/javascript" src="<c:url value='/resources/script/bootstrap-treeview.min.js' />"></script>
 	<script type="text/javascript">
 		var PREVIOUS_NODEID = "";
 		var ONSELECTED_NODEID = "";

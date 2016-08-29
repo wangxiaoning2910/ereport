@@ -33,7 +33,7 @@
                         <h2 class="form-signin-heading">欢迎登陆</h2>
                     </div>
                     <div class="panel-body">
-                        <form role="form"  id="loginform" action="javascript:login();" >
+                        <form role="form"  id="loginform" action="verifyUser.do;" >
                             <fieldset>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Your Name" name="inputUsername" type="text" autofocus>
@@ -63,49 +63,61 @@
 	<script type="text/javascript">
     	
 		$().ready(function() {
-		  $("#loginform").validate({
-		    rules: {
-		      inputUsername: "required",
-		      inputPassword: "required",
-		      inputUsername: {
-		        required: true,
-		        minlength: 3
-		      },
-		      inputPassword: {
-		        required: true,
-		        minlength: 5
-		      },
-		    },
-		    messages: {
-		      inputUsername: {
-		        required: "请输入用户名",
-		        minlength: "用户名必需由3个字母组成"
-		      },
-		      inputPassword: {
-		        required: "请输入密码",
-		        minlength: "密码长度不能小于 5 个字母"
-		      }
-		    }
+			$("#loginform").validate({
+				debug:false,
+		    	rules: {
+		      		inputUsername: "required",
+		      		inputPassword: "required",
+		      		inputUsername: {
+		        		required: true,
+		        		minlength: 3,
+		        		success:function(){
+		        			//可以检查用户是否存在
+		        		}
+		      		},
+			      	inputPassword: {
+			        	required: true,
+			        	minlength: 5
+			      	},
+		    	},
+			    messages: {
+			     	inputUsername: {
+			        	required: "请输入用户名",
+			        	minlength: "用户名必需由3个字母组成"
+			      	},
+			      	inputPassword: {
+			        	required: "请输入密码",
+			        	minlength: "密码长度不能小于 5 个字母"
+			      	}
+			    },
+			    submitHandler:function(){
+			    	$.ajax({
+						url: "verifyUser.do",
+						type: "POST",
+						dataType: 'json',
+						data: $("#loginform").serialize(),
+						async:true,
+						success:function(data){
+							console.log(data)
+							var rspCode = data.rspCode;
+							var rspMsg = data.rspMsg;
+							if(rspCode != "100000"){
+								alert(rspCode+"-"+rspMsg);
+							}else{ 
+								$.ajax({
+									url: "signin.do",
+									type: "POST",
+									success:function(data){
+										console.log(data)
+									}
+								});
+							}
+						}
+					});
+			    }
 		  })
 		 });
-		function login(){
-			$.ajax({
-				url: "verifyUser.do",
-				type: "POST",
-				dataType: 'json',
-				data: $("#loginform").serialize(),
-				success:function(data){
-					console.log(data)
-					var rspCode = data.rspCode;
-					var rspMsg = data.rspMsg;
-					if(rspCode != "100000"){
-						alert(rspCode+"-"+rspMsg);
-					}else{
-						alert(rspCode+"-"+rspMsg+"验证通过");
-					}
-				}
-			});
-		}
+		
 	</script>
 </body>
 

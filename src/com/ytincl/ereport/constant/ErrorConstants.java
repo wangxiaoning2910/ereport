@@ -30,7 +30,7 @@ public class ErrorConstants{
 	public static final String BUS_100001 = "100001";//记录不存在
 	public static final String BUS_100002 = "100002";//获取数据失败
 	public static final String BUS_100003 = "100003";//登录失败，用户不存在
-	public static final String BUS = "100004";//登录失败，密码不正确
+	public static final String BUS_100004 = "100004";//登录失败，密码不正确
 	
 	
 

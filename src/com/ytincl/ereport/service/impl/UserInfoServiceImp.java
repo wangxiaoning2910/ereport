@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ytincl.ereport.dao.UserInfoDao;
-import com.ytincl.ereport.model.Menu;
-import com.ytincl.ereport.model.UserInfo;
+import com.ytincl.ereport.pojo.Menu;
+import com.ytincl.ereport.pojo.UserInfo;
 import com.ytincl.ereport.service.UserInfoService;
 
 

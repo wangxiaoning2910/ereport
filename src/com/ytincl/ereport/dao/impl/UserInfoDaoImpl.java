@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import com.ytincl.ereport.controller.webappcontroller;
 import com.ytincl.ereport.dao.UserInfoDao;
-import com.ytincl.ereport.model.Menu;
-import com.ytincl.ereport.model.UserInfo;
+import com.ytincl.ereport.pojo.Menu;
+import com.ytincl.ereport.pojo.UserInfo;
 @Repository("userInfoDao")
 public class UserInfoDaoImpl implements UserInfoDao {
 	@Resource
