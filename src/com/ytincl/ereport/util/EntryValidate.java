@@ -18,7 +18,6 @@ public class EntryValidate implements Filter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(EntryValidate.class);
 	private String loginpage = "/login.jsp";
 	private String loginpage1 = "/";
-	private String loginaction = "ereport.do";	
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
@@ -46,10 +45,6 @@ public class EntryValidate implements Filter {
 				if(null == userObj){
 					LOGGER.debug("用户为空 ，跳转到登录页面");
 		    		sendRedirect(req, res, this.loginpage);
-		    		return;
-				}else{
-					LOGGER.debug("用户不为空 ，跳转到登录页面");
-		    		sendRedirect(req, res, this.loginaction);
 		    		return;
 				}
 			}else{
