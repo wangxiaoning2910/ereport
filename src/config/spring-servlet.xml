@@ -23,7 +23,6 @@
 			<ref bean="stringConverter"/>
 		</mvc:message-converters>
     </mvc:annotation-driven>
-    
     <bean id="stringConverter" class="org.springframework.http.converter.StringHttpMessageConverter">  
         <property name="supportedMediaTypes">  
            <list>

@@ -62,8 +62,12 @@ public class webappcontroller {
 	
 	@RequestMapping(value="/ereport.do")
 	public ModelAndView signin(HttpServletRequest request,HttpServletResponse response){
-		logger.debug("跳转页面");
-		 return new ModelAndView("index");//转向到前画面  
+		ModelAndView ereportPage = new ModelAndView("index");
+		HttpSession session = request.getSession(false);
+		if(session != null){
+			return ereportPage;
+		}
+		return new ModelAndView("redirect:/login.jsp");
 	}
 	
 	

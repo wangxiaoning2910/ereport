@@ -16,8 +16,8 @@ import com.ytincl.ereport.constant.CommonConstants;
 
 public class EntryValidate implements Filter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(EntryValidate.class);
-	private  String loginpage = "/login.html";
-	private  String loginpage1 = "/";
+	private String loginpage = "/login.jsp";
+	private String loginpage1 = "/";
 	private String loginaction = "ereport.do";	
 	@Override
 	public void destroy() {
