@@ -8,7 +8,8 @@
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <meta name="description" content="">
 	    <meta name="author" content="">
-		<title>Insert title here</title>
+		<title>易通-经营分析报表</title>
+		<link rel="Shortcut Icon" href="<c:url value='resources/img/favicon.ico' />" />
 		<!-- Bootstrap Core CSS -->
 	    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/bootstrap.min.css' />">
 	    <!-- MetisMenu CSS -->
@@ -298,7 +299,6 @@
 			highlightSelected: false,
 			multiSelect: false,
 			onNodeSelected: function(event, data) {
-				console.log(data)
 				addatab(data);
 			},
 			onNodeUnselected: function(event,data){
@@ -313,7 +313,6 @@
 				async:false,
 				dataType: 'json',
 				success:function(data){
-					console.log(data)
 					var resultlength = data.length;
 					result = data;
 					for(var i = 0;i<resultlength;i++){

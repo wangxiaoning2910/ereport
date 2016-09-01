@@ -6,5 +6,6 @@
 	<typeAliases>  
     	<typeAlias type="com.ytincl.ereport.pojo.UserInfo" alias="User" />
     	<typeAlias type="com.ytincl.ereport.pojo.Menu" alias="Menu" />
+    	<typeAlias type="com.ytincl.ereport.pojo.UpLoadFile" alias="UpLoadFile" />
 	</typeAliases>  
 </configuration>

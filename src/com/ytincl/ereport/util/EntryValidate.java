@@ -39,7 +39,6 @@ public class EntryValidate implements Filter {
 		
 		if(!noFilter(requestPath)){
 			HttpSession session = req.getSession(false);
-			LOGGER.debug("==========«Î«Û±ª¿πΩÿ=========");
 			if(null != session){
 				Object userObj = session.getAttribute(CommonConstants.SESSION_USER);
 				if(null == userObj){

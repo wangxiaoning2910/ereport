@@ -18,7 +18,6 @@ import com.ytincl.ereport.pojo.UserInfo;
 public class UserInfoDaoImpl implements UserInfoDao {
 	@Resource
 	private SqlSession sqlSession;
-	private static Logger logger = LoggerFactory.getLogger(UserInfoDaoImpl.class);
 	@Override
 	public List<UserInfo> getUserByName(String username) {
 		// TODO Auto-generated method stub
