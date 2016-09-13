@@ -4,7 +4,13 @@
 <mapper namespace="com.ytincl.ereport.dao.UpLoadFileDao">
 	<resultMap type="UpLoadFile" id="result_tobeuploaded"></resultMap>
 	<select id="selectToBeUpLoaded"  resultMap="result_tobeuploaded">
-		select t.name,t.status from tobeuploaded t
+		select t.name,t.status from tobeuploaded t where t.time = #{querydate}
 	</select>
+	<insert id="test" parameterType="com.ytincl.ereport.pojo.ResolveExcel" >
+		insert into user (no,name,age,score) value (#{no},#{name},#{age},#{score})
+	</insert> 
+	<update id="updateStatus" parameterType="com.ytincl.ereport.pojo.UpLoadFile">
+		UPDATE tobeuploaded t set t.status = '1'  where t.id = '3'
+	</update>
 </mapper>
 
