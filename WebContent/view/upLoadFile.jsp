@@ -49,12 +49,15 @@
 	            <!-- /.row -->
 	            <div class="row">
 	                <div class="col-lg-3">
-	                    
+	                    <div class="panel panel-default">
+	                        <div class="panel-heading">
                            		<input type="text"  id="datetimepicker" name="datetimepicker" >
 	                        	<button type="button" onclick="queryList()" class="btn btn-default btn-sm">
           							<span class="glyphicon glyphicon-search"></span> 查询
         						</button>
-	                     
+	                       </div>
+	                        <!-- /.panel-body -->
+	                    </div>
 	                </div>
 	                <!-- /.col-lg-6 -->
 	                <div class="col-lg-12">

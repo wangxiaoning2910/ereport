@@ -69,6 +69,8 @@ $(document).ready(function() {
     	pageNumber:1,      //初始化加载第一页，默认第一页
     	pageSize: 10,      //每页的记录行数（*）
     	pageList: [10, 25, 50, 100],
+    	showExport: true,                     //是否显示导出
+        exportDataType: "basic",              //basic', 'all', 'selected'.
     	columns: [{
             field: 'state',
             radio: true,
@@ -113,8 +115,8 @@ $(document).ready(function() {
         uploadAsync: true, //默认异步上传
         showUpload: true, //是否显示上传按钮
         showRemove : true, //显示移除按钮
-        showPreview : true, //是否显示预览
-        showCaption: false,//是否显示标题
+        showPreview : false, //是否显示预览
+        showCaption: true,//是否显示标题
         browseClass: "btn btn-primary", //按钮样式     
         dropZoneEnabled: false,//是否显示拖拽区域
         //minImageWidth: 50, //图片的最小宽度
