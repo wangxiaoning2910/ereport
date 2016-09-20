@@ -1,18 +1,19 @@
 package com.ytincl.ereport.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ytincl.ereport.model.SystemBusinessReq;
 import com.ytincl.ereport.pojo.BusinessTest;
@@ -25,68 +26,96 @@ import com.ytincl.ereport.service.SystemBusinessService;
  */
 @Controller
 public class SystemBusinessController {
+
+	SystemBusiness systembusiness = new SystemBusiness();
 	private static Logger logger = LoggerFactory.getLogger(webappcontroller.class);
-	@Resource
+	@Autowired
 	private SystemBusinessService systemBusinessService;
-	@Resource
+	@Autowired
 	private BusinessTestService businessTestService;
 
 	@RequestMapping(value = "/view/systemBuseniss.do")
-	public String queryAllSysBusiness(HttpServletRequest request, HttpServletResponse response) {
-		List<SystemBusiness> list = systemBusinessService.querySystemBusiness();
-		request.setAttribute("list", list);
-		
-		List<BusinessTest> bt = businessTestService.queryBusinessTest();
-		request.setAttribute("list1", bt);
-		return "sysBusiness";
+	@ResponseBody
+	public SystemBusinessReq queryAllSysBusiness(HttpServletRequest request, HttpServletResponse response) {
+		logger.debug("==========查询业务系统============");
+		ArrayList<SystemBusiness> list = systemBusinessService.querySystemBusiness();
+		logger.debug("==========查询业务系统完成============");
+		SystemBusinessReq sbr = new SystemBusinessReq();
+		sbr.setList(list);
+		logger.debug("==========查询业务系统名称============");
+		ArrayList<BusinessTest> list1 = businessTestService.queryBusinessTest();
+		logger.debug("==========查询业务系统名称完成============");
+		sbr.setList1(list1);
+		return sbr;
 	}
 
 	@RequestMapping(value = "/view/systemBusenissAdd.do")
-	public String insertSysBusiness(HttpServletRequest request, HttpServletResponse response,
-			SystemBusinessReq sysBusinessReq) {
-//		sysBusinessReq.setSystemBusinessName(request.getParameter("systemBusinessName"));
-//		sysBusinessReq.setUserName(request.getParameter("userName"));
-//		sysBusinessReq.setPassword(request.getParameter("password"));
-		
-		String systemBusinessName= request.getParameter("systemBusinessAdd");
-		String userName= request.getParameter("userName");
-		String password= request.getParameter("password");
-		
-		SystemBusiness systembusiness = new SystemBusiness();
-		
-		//==========新增，
+	public SystemBusiness insertSysBusiness(HttpServletRequest request, HttpServletResponse response) {
+		String systemBusinessName = request.getParameter("systemBusinessAdd");
+		String userName = request.getParameter("userNameAdd");
+		String password = request.getParameter("password");
+
+		// ==========新增，
 		try {
-			//解码
-			systemBusinessName = java.net.URLDecoder.decode(systemBusinessName , "UTF-8");
+			// 解码
+			systemBusinessName = java.net.URLDecoder.decode(systemBusinessName, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		systembusiness.setSystemBusinessName(systemBusinessName);
 		systembusiness.setUserName(userName);
-		//TODO 增加到几个表
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String openDate = sdf.format(date);
+		systembusiness.setOpenDate(openDate);
+		systembusiness.setModifyDate(openDate);
+		// TODO 增加到几个表
 		logger.debug("==========增加业务系统============");
 		systemBusinessService.insertSystemBusiness(systembusiness);
 		logger.debug("==========增加业务系统完成============");
-		return "forward:/view/systemBuseniss.do";
+		return systembusiness;
 	}
+
 	@RequestMapping(value = "/view/systemBusenissUpdate.do")
-	public String updateSystemBusiness(HttpServletRequest request,SystemBusiness systemBusiness){
-		String systemBusinessName= request.getParameter("systemBusinessUpdate");
+	public int updateSystemBusiness(HttpServletRequest request) {
+		String systemBusinessName = request.getParameter("systemBusinessUpdate");
 		try {
-			//解码
-			systemBusinessName = java.net.URLDecoder.decode(systemBusinessName , "UTF-8");
+			// 解码
+			systemBusinessName = java.net.URLDecoder.decode(systemBusinessName, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		systemBusiness.setSystemBusinessName(systemBusinessName);
-		systemBusiness.setUserName(request.getParameter("userName"));
-		int s = systemBusinessService.updateSystemBusiness(systemBusiness);
-		return "forward:/view/systemBuseniss.do";
+		systembusiness.setSystemBusinessName(systemBusinessName);
+		systembusiness.setUserName(request.getParameter("userName"));
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String modifyDate = sdf.format(date);
+		systembusiness.setModifyDate(modifyDate);
+		logger.debug("==========更新业务系统============");
+		int s = systemBusinessService.updateSystemBusiness(systembusiness);
+		logger.debug("==========更新业务系统完成============");
+		// return "forward:/view/systemBuseniss.do";
+		return s;
 	}
+
 	@RequestMapping(value = "/view/systemBusenissDelete.do")
-	public String deleteSystemBusiness(String userName){
+	public int deleteSystemBusiness(HttpServletRequest request) {
+		String userNames = request.getParameter("userNames");
+		System.out.println(userNames);
+		if (userNames.indexOf(",") != -1) {
+			String[] userNameArr = userNames.split(",");
+			logger.debug("==========删除业务系统============");
+			for (int i = 0; i < userNameArr.length; i++) {
+				systemBusinessService.deleteSystemBusiness(userNameArr[i]);
+			}
+			logger.debug("==========删除业务系统完成============");
+			return userNameArr.length;
+		} else {
+			logger.debug("==========删除业务系统============");
+			systemBusinessService.deleteSystemBusiness(userNames);
+			logger.debug("==========删除业务系统完成============");
+			return 1;
+		}
 		
-		systemBusinessService.deleteSystemBusiness(userName);
-		return "forward:/view/systemBuseniss.do";
 	}
 }

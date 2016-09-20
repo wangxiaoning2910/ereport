@@ -15,9 +15,9 @@ public class SystemBusinessDaoImpl implements SystemBusinessDao {
 	@Resource
 	private SqlSession sqlSession;
 	@Override
-	public List<SystemBusiness> querySystemBusiness() {
-		List<SystemBusiness> sysBusiness = new ArrayList<>();
-		sysBusiness = (List)sqlSession.selectList("com.ytincl.ereport.dao.SystemBusinessDao.querySystemBusiness");
+	public ArrayList<SystemBusiness> querySystemBusiness() {
+		ArrayList<SystemBusiness> sysBusiness = new ArrayList<>();
+		sysBusiness = (ArrayList)sqlSession.selectList("com.ytincl.ereport.dao.SystemBusinessDao.querySystemBusiness");
 		return sysBusiness;
 	}
 	@Override

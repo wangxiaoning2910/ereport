@@ -1,6 +1,6 @@
 package com.ytincl.ereport.service.impl;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +13,7 @@ import com.ytincl.ereport.service.SystemBusinessService;
 public class SystemBusinessServiceImpl implements SystemBusinessService {
 	@Autowired
 	private SystemBusinessDao systemBusinessDao;
-	//===================================查询
-	@Override
-	public List<SystemBusiness> querySystemBusiness() {
-		// TODO Auto-generated method stub
-		return systemBusinessDao.querySystemBusiness();
-	}
+
 	//===================================新增
 	@Override
 	public void insertSystemBusiness(SystemBusiness systemBusiness) {
@@ -33,5 +28,10 @@ public class SystemBusinessServiceImpl implements SystemBusinessService {
 	public void deleteSystemBusiness(String userName) {
 		systemBusinessDao.deleteSystemBusiness(userName);
 		
+	}
+	@Override
+	public ArrayList<SystemBusiness> querySystemBusiness() {
+		//查询
+		return systemBusinessDao.querySystemBusiness();
 	}
 }

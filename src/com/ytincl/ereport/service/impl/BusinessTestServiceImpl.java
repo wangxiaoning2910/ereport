@@ -1,6 +1,6 @@
 package com.ytincl.ereport.service.impl;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class BusinessTestServiceImpl implements BusinessTestService {
 	private BusinessTestDao businessTestDao;
 
 	@Override
-	public List<BusinessTest> queryBusinessTest() {
+	public ArrayList<BusinessTest> queryBusinessTest() {
 		
 		return businessTestDao.queryBusinessTest();
 	}

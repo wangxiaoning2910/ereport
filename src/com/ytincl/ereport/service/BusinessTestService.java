@@ -1,10 +1,10 @@
 package com.ytincl.ereport.service;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.ytincl.ereport.pojo.BusinessTest;
 
 public interface BusinessTestService {
-	public List<BusinessTest> queryBusinessTest();
+	public ArrayList<BusinessTest> queryBusinessTest();
 	
 }

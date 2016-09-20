@@ -1,7 +1,6 @@
 package com.ytincl.ereport.dao.impl;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -15,9 +14,9 @@ public class BusinessTestDaoImpl implements BusinessTestDao {
 	@Resource
 	private SqlSession sqlSession;
 	@Override
-	public List<BusinessTest> queryBusinessTest() {
-		List<BusinessTest> sysBusiness = new ArrayList<>();
-		sysBusiness = (List)sqlSession.selectList("com.ytincl.ereport.dao.BusinessTestDao.queryBusinessTest");
+	public ArrayList<BusinessTest> queryBusinessTest() {
+		ArrayList<BusinessTest> sysBusiness = new ArrayList<>();
+		sysBusiness = (ArrayList)sqlSession.selectList("com.ytincl.ereport.dao.BusinessTestDao.queryBusinessTest");
 		return sysBusiness;
 	}
 	

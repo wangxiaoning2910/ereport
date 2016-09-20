@@ -7,11 +7,12 @@
 		select * from systembusiness s  
 	</select>
 	<insert id="insertSystemBusiness" parameterType="java.lang.String">
-		insert into systembusiness (systembusinessname,username) values 
-		(#{systemBusinessName},#{userName})
+		insert into systembusiness (systembusinessname,username,opendate,modifydate) values 
+		(#{systemBusinessName},#{userName},#{openDate},#{modifyDate})
 	</insert>
 	<update id="updateSystemBusiness" parameterType="com.ytincl.ereport.pojo.SystemBusiness">
-		update systembusiness set systembusinessname = #{systemBusinessName} where username = 
+		update systembusiness set systembusinessname = #{systemBusinessName},modifyDate
+		= #{modifyDate} where username = 
 		#{userName}
 	</update>
 	<delete id="deleteSystemBusiness" parameterType="java.lang.String">
