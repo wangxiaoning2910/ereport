@@ -4,6 +4,8 @@ public class SystemBusiness {
 
 	private String systemBusinessName;
 	private String userName;
+	private String openDate;
+	private String modifyDate;
 	public String getSystemBusinessName() {
 		return systemBusinessName;
 	}
@@ -15,6 +17,18 @@ public class SystemBusiness {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	public String getOpenDate() {
+		return openDate;
+	}
+	public void setOpenDate(String openDate) {
+		this.openDate = openDate;
+	}
+	public String getModifyDate() {
+		return modifyDate;
+	}
+	public void setModifyDate(String modifyDate) {
+		this.modifyDate = modifyDate;
 	}
 	
 	

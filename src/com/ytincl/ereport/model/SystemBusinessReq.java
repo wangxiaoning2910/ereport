@@ -1,10 +1,18 @@
 package com.ytincl.ereport.model;
 
+import java.util.ArrayList;
+
+import com.ytincl.ereport.pojo.BusinessTest;
+import com.ytincl.ereport.pojo.SystemBusiness;
+
 public class SystemBusinessReq {
 	private String systemBusinessName;
 	private String userName;
 	private String password;
 	private String institution;
+	private ArrayList<SystemBusiness> list;
+	private ArrayList<BusinessTest> list1;
+	
 	public String getSystemBusinessName() {
 		return systemBusinessName;
 	}
@@ -28,6 +36,18 @@ public class SystemBusinessReq {
 	}
 	public void setInstitution(String institution) {
 		this.institution = institution;
+	}
+	public ArrayList<SystemBusiness> getList() {
+		return list;
+	}
+	public void setList(ArrayList<SystemBusiness> list) {
+		this.list = list;
+	}
+	public ArrayList<BusinessTest> getList1() {
+		return list1;
+	}
+	public void setList1(ArrayList<BusinessTest> list1) {
+		this.list1 = list1;
 	}
 	
 }
