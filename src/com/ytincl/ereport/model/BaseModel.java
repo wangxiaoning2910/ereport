@@ -19,5 +19,6 @@ public class BaseModel {
 	private void setRspMsg(String rspMsg) {
 		this.rspMsg = rspMsg;
 	}
-	
+	public BaseModel(){}
+	public BaseModel(String rspCode){}
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ytincl.ereport.dao.SystemBusinessDao">
+	<resultMap type="com.ytincl.ereport.pojo.SystemBusiness" id="result_systemBusiness"></resultMap>
+	<select id="querySystemBusiness"  resultMap="result_systemBusiness">
+		select * from systembusiness s  
+	</select>
+	<insert id="insertSystemBusiness" parameterType="java.lang.String">
+		insert into systembusiness (systembusinessname,username,opendate,modifydate) values 
+		(#{systemBusinessName},#{userName},#{openDate},#{modifyDate})
+	</insert>
+	<update id="updateSystemBusiness" parameterType="com.ytincl.ereport.pojo.SystemBusiness">
+		update systembusiness set systembusinessname = #{systemBusinessName},modifyDate
+		= #{modifyDate} where username = 
+		#{userName}
+	</update>
+	<delete id="deleteSystemBusiness" parameterType="java.lang.String">
+		delete from systembusiness where userName = #{userName}
+	</delete>
+</mapper>
+

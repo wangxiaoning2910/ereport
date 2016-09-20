@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ytincl.ereport.dao.download">
+	<resultMap type="ToBeDownLoadFile" id="result"></resultMap>
+	<resultMap type="testdownloaddata" id="result1"></resultMap>
+	<select id="selectToBeDownLoadFile"  resultMap="result">
+		select * from tobedownload t where t.status = '0' and t.date = #{querydate}
+	</select>
+	
+	<select id="selectdownloadata"  resultMap="result1">
+		select * from data d where d.timepoint =  #{querydate}
+	</select>
+</mapper>
+
