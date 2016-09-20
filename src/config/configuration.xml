@@ -7,5 +7,7 @@
     	<typeAlias type="com.ytincl.ereport.pojo.UserInfo" alias="User" />
     	<typeAlias type="com.ytincl.ereport.pojo.Menu" alias="Menu" />
     	<typeAlias type="com.ytincl.ereport.pojo.UpLoadFile" alias="UpLoadFile" />
+    	<typeAlias type="com.ytincl.ereport.pojo.ToBeDownLoadFile" alias="ToBeDownLoadFile" />
+    	<typeAlias type="com.ytincl.ereport.pojo.testdownloaddata" alias="testdownloaddata" />
 	</typeAliases>  
 </configuration>

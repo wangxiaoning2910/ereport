@@ -86,9 +86,9 @@ $(document).ready(function() {
 		  		var status = row.status
 		  		var icon;
 		  		if(status==0){//待上传
-		  			icon = '<span class="glyphicon glyphicon-remove"></span>';
+		  			icon = '<span class="glyphicon glyphicon-remove" style="color: rgb(151, 0, 0);"></span>';
 		  		}else if(status==1){//已上传
-		  			icon = '<span class="glyphicon glyphicon-ok"></span>';
+		  			icon = '<span class="glyphicon glyphicon-ok" style="color: rgb(0, 174, 0);"></span>';
 		  		}else{//其他情况
 		  			icon = '<span class="glyphicon glyphicon-question-sign"></span>';
 		  		}
