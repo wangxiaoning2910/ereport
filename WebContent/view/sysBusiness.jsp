@@ -343,6 +343,7 @@
 			    dataType:'json',
 			    success:function(json){
 			    	data = json.list;
+			    	console.log(data)
 			        $("#dataTables").bootstrapTable('load',data);
 			        data1= json.list1;
 			    	for(var i = data1.length - 1; i >= 0; i--){
