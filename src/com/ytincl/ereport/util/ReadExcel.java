@@ -28,7 +28,7 @@ public class ReadExcel {
             if (!CommonConstants.NULL_STRING.equals(postfix)) {
                 if (CommonConstants.OFFICE_EXCEL_2003_POSTFIX.equals(postfix)) {
                 	//如果是Excel2003
-                    //return readXls(path);
+                    return readXls(path);
                 } else if (CommonConstants.OFFICE_EXCEL_2010_POSTFIX.equals(postfix)) {
                 	//如果是Excel2010
                     return readXlsx(path);
@@ -84,13 +84,13 @@ public class ReadExcel {
      * @return
      * @throws IOException
      */
-    public List<Object> readXls(String path) throws IOException {
+    public List<String[]> readXls(String path) throws IOException {
     	//根据路径获取文件
         InputStream is = new FileInputStream(path);
         //HSSFWorkbook读取该文件
         HSSFWorkbook hssfWorkbook = new HSSFWorkbook(is);
-        List<Object> list = new ArrayList<Object>();
-        Object [] arr = null;
+        List<String[]> list = new ArrayList<String[]>();
+        String [] arr = null;
         // Read the Sheet 解析该Excel的每个Sheet
         for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) {
             HSSFSheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);//每一个Sheet对象
@@ -102,9 +102,10 @@ public class ReadExcel {
                 HSSFRow hssfRow = hssfSheet.getRow(rowNum);//每一行的对象
                 if (hssfRow != null) {
                 	//每行的每一列
-                	arr = new Object[hssfRow.getLastCellNum()];
+                	arr = new String[hssfRow.getLastCellNum()];
                     for(int xssfRowsize = 0;xssfRowsize < hssfRow.getLastCellNum();xssfRowsize++){
                     	arr[xssfRowsize] = getValue(hssfRow.getCell(xssfRowsize));
+                    	System.out.println("================"+arr[xssfRowsize]+"=======================");
                     }
                     list.add(arr);
                 }

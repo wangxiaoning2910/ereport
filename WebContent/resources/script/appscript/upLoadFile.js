@@ -110,7 +110,7 @@ $(document).ready(function() {
         browseLabel : "选择文件",
         removeLabel : "删除",
         uploadLabel : "上传",
-        allowedFileExtensions: ['xlsx'],//接收的文件后缀
+        allowedFileExtensions: ['xlsx','xls'],//接收的文件后缀
         //uploadExtraData:{"id": 1, "fileName":'123.mp3'},
         uploadAsync: true, //默认异步上传
         showUpload: true, //是否显示上传按钮
