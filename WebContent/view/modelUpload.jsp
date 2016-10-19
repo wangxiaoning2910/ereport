@@ -207,7 +207,7 @@
 	    		title: '源模板',
 	    		align: 'center',
 	    		editable: {
-                    type: 'checklist',
+               //     type: 'checklist',
                //   title: '源模板',
                     source: result
                 }
