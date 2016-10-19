@@ -110,7 +110,7 @@ $(document).ready(function() {
         browseLabel : "选择文件",
         removeLabel : "删除",
         uploadLabel : "上传",
-        allowedFileExtensions: ['xlsx','xls'],//接收的文件后缀
+        allowedFileExtensions: ['xls'],//接收的文件后缀
         //uploadExtraData:{"id": 1, "fileName":'123.mp3'},
         uploadAsync: true, //默认异步上传
         showUpload: true, //是否显示上传按钮
@@ -133,13 +133,11 @@ $(document).ready(function() {
     });
 	//异步上传失败返回结果处理
 	$('#choosefile').on('fileerror', function(event, data, msg){
-		console.log(data)
-    	console.log(event)
-       	console.log(msg)
 	});
 	//异步上传成功返回结果处理
 	$("#choosefile").on("fileuploaded", function (event, data, previewId, index) {
-       console.log(data.response)
+		console.log(event)
+		queryList();
     });
 });
 $(setDate)

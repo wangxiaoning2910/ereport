@@ -10,7 +10,49 @@
 		insert into user (no,name,age,score) value (#{no},#{name},#{age},#{score})
 	</insert> 
 	<update id="updateStatus" parameterType="com.ytincl.ereport.pojo.UpLoadFile">
-		UPDATE tobeuploaded t set t.status = '1'  where t.id = '3'
+		UPDATE tobeuploaded t set t.status = '1'  where t.name = #{name} and t.time  = #{queryDate}
 	</update>
+	<insert id="insertSavingsDifferenceType" parameterType="com.ytincl.ereport.pojo.SavingsDifferenceType">
+		insert into 
+		yt_report_deposit_type 
+		(date,savetype_no,savetype_name,saveway_no,saveway_name,
+		savetime_no,savetime_name,balance_number,balance_money,save_compare,
+		order_add,balance_number1,balance_money1,save_compare1,order_add1) 
+		value 
+		(#{date},#{savetype_no},#{savetype_name},#{saveway_no},#{saveway_name},
+		#{savetime_no},#{savetime_name},#{balance_number},#{balance_money},#{save_compare},
+		#{order_add},#{balance_number1},#{balance_money1},#{save_compare1},
+		#{order_add1})
+	</insert>
+	<insert id="insertSavingsNetAmount" parameterType="com.ytincl.ereport.pojo.SavingsNetAmount">
+		insert into 
+		yt_report_deposit_city
+		(date,unit_no,unit_name,time_money,currentbalance_money,time_money1,time_money2,time_money3,time_money4,time_money5,time_money6,time_money7,time_money8,time_money9,time_money10,time_money11,time_money12,
+		currentbalance_money1,time_money13,time_money14,time_money15,time_money16,time_money17,time_money18,time_money19,time_money20,time_money21,time_money22,time_money23,currentbalance_money2,currentbalance_money3,
+		ranking_no,currentbalance_money4,currentbalance_money5,ranking_no1)
+		value
+		(#{date},#{unit_no},#{unit_name},#{time_money},#{currentbalance_money},#{time_money1},#{time_money2},#{time_money3},#{time_money4},
+		#{time_money5},#{time_money6},#{time_money7},#{time_money8},#{time_money9},#{time_money10},#{time_money11},#{time_money12},#{currentbalance_money1},
+		#{time_money13},#{time_money14},#{time_money15},#{time_money16},#{time_money17},#{time_money18},#{time_money19},#{time_money20},#{time_money21},
+		#{time_money22},#{time_money23},#{currentbalance_money2},#{currentbalance_money3},#{ranking_no},#{currentbalance_money4},#{currentbalance_money5},
+		#{ranking_no1})
+	</insert>
+	
+	<insert id="insertSavingsNetAmount2" parameterType="com.ytincl.ereport.pojo.SavingsNetAmount2">
+		insert into 
+		yt_report_deposit_county
+		(date,unit_no,unit_name,time_money,currentbalance_money,time_money1,time_money2,
+		time_money3,time_money4,time_money5,time_money6,time_money7,ranking_no,time_money8,
+		time_money9,ranking_no1,time_money10,time_money11,currentbalance_money1,time_money12,
+		time_money13,time_money14,time_money15,time_money16,time_money17,
+		time_money18,ranking_no2,time_money19,time_money20,ranking_no3,time_money21)
+		value
+		(#{date},#{unit_no},#{unit_name},#{time_money},#{currentbalance_money},#{time_money1},#{time_money2},
+		#{time_money3},#{time_money4},#{time_money5},#{time_money6},#{time_money7},#{ranking_no},#{time_money8},
+		#{time_money9},#{ranking_no1},#{time_money10},#{time_money11},#{currentbalance_money1},#{time_money12},
+		#{time_money13},#{time_money14},#{time_money15},#{time_money16},#{time_money17},
+		#{time_money18},#{ranking_no2},#{time_money19},#{time_money20},#{ranking_no3},#{time_money21})
+	</insert>
+	
 </mapper>
 

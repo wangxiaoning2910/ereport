@@ -7,6 +7,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 import com.ytincl.ereport.dao.UpLoadFileDao;
 import com.ytincl.ereport.pojo.ResolveExcel;
+import com.ytincl.ereport.pojo.SavingsDifferenceType;
+import com.ytincl.ereport.pojo.SavingsNetAmount;
+import com.ytincl.ereport.pojo.SavingsNetAmount2;
 import com.ytincl.ereport.pojo.UpLoadFile;
 
 
@@ -31,6 +34,22 @@ public class UpLoadFileImpl implements UpLoadFileDao{
 	public int updateStatus(UpLoadFile ulf) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("com.ytincl.ereport.dao.UpLoadFileDao.updateStatus",ulf);
+	}
+	@Override
+	public int insertSavingsDifferenceType(SavingsDifferenceType sdt) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("com.ytincl.ereport.dao.UpLoadFileDao.insertSavingsDifferenceType",sdt);
+	}
+	@Override
+	public int insertSavingsNetAmount(SavingsNetAmount sna) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("com.ytincl.ereport.dao.UpLoadFileDao.insertSavingsNetAmount",sna);
+	}
+	@Override
+	public int insertSavingsNetAmount2(SavingsNetAmount2 sna2) {
+		// TODO Auto-generated method stub
+		System.out.println("dao sna2");
+		return sqlSession.insert("com.ytincl.ereport.dao.UpLoadFileDao.insertSavingsNetAmount2",sna2);
 	}
 	
 
