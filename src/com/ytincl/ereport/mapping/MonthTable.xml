@@ -3,8 +3,8 @@
 
 <mapper namespace="com.ytincl.ereport.dao.MonthTableDao">
 	<resultMap type="com.ytincl.ereport.pojo.MonthTable" id="result_MonthTable"></resultMap>
-	<select id="queryMonthTable"  resultMap="result_MonthTable">
-		select * from fullaperture_month f  
+	<select id="queryMonthTable" parameterType="java.lang.String" resultMap="result_MonthTable" statementType="STATEMENT">
+		select * from  ${_parameter} t  
 	</select>
 	
 </mapper>

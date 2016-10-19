@@ -151,7 +151,7 @@
 	            success: function (json) {
 	            	 data = json.list;
 	            	$.each(data,function(key,value){
-	            		result.push({ value: key, text: value.temp_id });
+	            		result.push({ value: value.temp_id, text: value.temp_id });
 //	               		console.log({ value: key, text: value.temp_id });
 	            	});
 	            }
@@ -190,6 +190,14 @@
 	    		field: 'formula',
 	    		title: '列公式',
 	    		align: 'center',
+	    		editable: {
+                    type: 'text',
+                    validate: function (v) {
+//                        if (isNaN(v)) return '年龄必须是数字';
+  //                      var age = parseInt(v);
+    //                    if (age <= 0) return '年龄必须是正整数';
+                    }
+                }
 	        },{
 	    		field: 'type',
 	    		title: '计算类型',
@@ -207,11 +215,10 @@
 	    		field: 'Temp_rowC',
 	    		title: '源模板列',
 	    		align: 'center',
-	    		editable: {
-                    type: 'select',
-             //     title: '源模板',
-                source: sourceRow(row)
+                formatter: function (value, row, index) {
+                    return "<a href=\"#\" name=\"Temp_rowC\" data-type=\"select\" data-pk='1' > </a>";
                 }
+                
 	        },{
 	    		field: 'version',
 	    		title: '版本号',
@@ -225,23 +232,27 @@
 	    	},
 	    	//四个参数 当前列的名称、当前行数据对象、更新前的值、编辑的当前单元格的jQuery对象
 	    	onEditableSave: function (field, row, oldValue, $el) {
-               /*  $.ajax({
-                    type: "post",
-                    url: "/Editable/Edit",
-                    data: { strJson: JSON.stringify(row) },
-                    success: function (data, status) {
-                        if (status == "success") {
-                            alert("编辑成功");
-                        }
-                    },
-                    error: function () {
-                        alert("Error");
-                    },
-                    complete: function () {
-
-                    }
-
-                }); */
+	    		if(field=="Temp_idC"){//查询源模板中的列
+	    			var data;
+    		        var result = [];
+    		        $.ajax({
+	    		            url: 'queryTemplateCRow.do?Temp_idC='+row.Temp_idC+"&version="+row.version,
+	    		            type: "get",
+	    		            async:false,
+	    		            contentType: 'application/json',
+	    				    dataType:'json',
+	    		            success: function (json) {
+	    		            	 data = json.list1;
+	    		            	$.each(data,function(key,value){
+	    		            		result.push({ value: key, text: value.loc_name });
+	    		            	});
+	    		            }
+	    		        });
+	    		        $("#template_detail a").editable({
+	                        type: 'select',
+	                        source:result
+	                    });
+	    		}
             }
 		});
 		var temp_id = row.temp_id;
@@ -264,35 +275,11 @@
 			})
 			return data;
 	}
-/* 	 function source(row){
-        var data;
-        var result = [];
-        $.ajax({
-            url: 'queryTemplate.do?t=3&temp_id='+row.temp_id,
-            type: "get",
-            async:false,
-            contentType: 'application/json',
-		    dataType:'json',
-            success: function (json) {
-            	 data = json.list;
-            	$.each(data,function(key,value){
-            		result.push({ value: key, text: value.temp_id });
-//               		console.log({ value: key, text: value.temp_id });
-            	});
-            }
-        });
-        return result;
-}  */
-	function sourceRow(){
-		
-	}
-	
-	
 	function upload(){
 		//上传模板
 		$("#choosefile").fileinput({
 			language : 'zh', //设置语言
-			uploadUrl : "ModelUpload.do", //上传的地址
+			uploadUrl : "ModelUpload.do?t=1", //上传的地址
 			browseLabel : "选择文件",
 			removeLabel : "删除",
 			uploadLabel : "提交",
@@ -315,8 +302,10 @@
                 var temp_start = document.getElementById('temp_start').value;
                 var tempType = $('input:radio[name="tempType"]:checked').val();
                 var temp_rows = document.getElementById('temp_rows').value;
-                return {"temp_id": temp_id,"temp_name":temp_name,
-                	"temp_start":temp_start,"tempType":tempType,
+                return {"temp_id": temp_id,
+                	"temp_name":temp_name,
+                	"temp_start":temp_start,
+                	"tempType":tempType,
                 	"temp_rows":temp_rows
                 };
             }
@@ -339,7 +328,7 @@
 //	<!--清除模态框数据=====================================================================-->
 	$(function() {
 		$('#model_add').on('hide.bs.modal', function() {
-			alert('嘿，我听说您喜欢模态框...');
+		//	alert('嘿，我听说您喜欢模态框...');
 			$(this).removeData("bs.modal");
 		})
 	});
@@ -347,7 +336,7 @@
 		//上传模板
 		$("#choosefileC").fileinput({
 			language : 'zh', //设置语言
-			uploadUrl : "ModelUploadC.do", //上传的地址
+			uploadUrl : "ModelUpload.do?t=2", //上传的地址
 			browseLabel : "选择文件",
 			removeLabel : "删除",
 			uploadLabel : "提交",
@@ -464,7 +453,7 @@
 								<label>模板编号</label> <input class="form-control" id="temp_id"
 									name="temp_id" /> <label>模板说明</label> <input
 									class="form-control" id="temp_name" name="temp_name" />
-									 <label>标题起终点坐标(如:A1-H1)</label><input
+									 <label>标题起终点坐标(如:a1-h1)</label><input
 									class="form-control" id="temp_start" name="temp_start" /> 
 									<div class="form-group">
 									<label>行数</label><input
@@ -493,7 +482,7 @@
 						<div class="modal-body">
 							<label>模板编号</label> <input class="form-control" id="temp_idC"
 								name="temp_idC" /> <label>模板说明</label> <input
-								class="form-control" id="temp_nameC" name="temp_nameC" /> <label>标题起终点坐标(如:A1-H1)</label><input
+								class="form-control" id="temp_nameC" name="temp_nameC" /> <label>标题起终点坐标(如:a1-h1)</label><input
 								class="form-control" id="temp_startC" name="temp_startC" />
 							<label>行数</label><input
 									class="form-control" id="temp_rowsC" name="temp_rowsC" />
@@ -503,7 +492,7 @@
 								</select>
 							</div>
 							<div class="form-group">
-								<input type="file" name="templateFileC" id="choosefileC" />
+								<input type="file" name="templateFile" id="choosefileC" />
 							</div>
 						</div>
 						<!-- </form> -->

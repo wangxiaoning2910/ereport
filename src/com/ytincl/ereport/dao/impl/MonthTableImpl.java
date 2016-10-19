@@ -15,9 +15,9 @@ public class MonthTableImpl implements MonthTableDao {
 	@Resource
 	private SqlSession sqlSession;
 	@Override
-	public ArrayList<MonthTable> queryMonthTable() {
+	public ArrayList<MonthTable> queryMonthTable(String monthTableName) {
 		ArrayList<MonthTable> monthTables= new ArrayList<>();
-		monthTables = (ArrayList)sqlSession.selectList("com.ytincl.ereport.dao.MonthTableDao.queryMonthTable");
+		monthTables = (ArrayList)sqlSession.selectList("com.ytincl.ereport.dao.MonthTableDao.queryMonthTable",monthTableName);
 		return monthTables;
 	}
 
