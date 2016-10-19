@@ -2,171 +2,80 @@
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Bootstrap 实例 - 边框表格</title>
-	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">  
-	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<%@ page import="com.ytincl.ereport.pojo.*" %> 
-	<%@ page import="java.util.*" %> 
-</head>
-<body>
-
-<table class="table table-bordered">
-<!--<caption>中国邮政储蓄银行xxx省分行储蓄分储种情况</caption>-->
-	<caption style="text-align:center">中国邮政储蓄银行xxx省分行储蓄分储种情况</caption>
-	<thead>
-	    <tr>
-	        <th colspan="3" valign="middle" align="center" ></th>
-		    <th colspan="4" valign="middle" style="text-align:center" >全国口径</th>
-		    <th colspan="4" valign="middle" style="text-align:center" >银行自营</th>
-
-		</tr>
-		<tr>
-			<th>储种</th>
-			<th>存储方式</th>
-			<th>期限</th>
-			<th>本期结存户数（户）</th>
-			<th>本期存款余额（亿元）</th>
-			<th>存款占比%</th>
-			<th>定比增幅%</th>
-	
-			<th>本期结存户数（户）</th>
-			<th>本期存款余额（亿元）</th>
-			<th>存款占比%</th>
-			<th>定比增幅%</th>
-		</tr>
-		<% FindFileSet res_qkj = (FindFileSet) request.getAttribute("objs_qkj");%>
-			<% FindFileSet res_zy = (FindFileSet) request.getAttribute("objs_zy");%>
-			<% List<FindFile> rset_qkj = res_qkj.getResult(); %>
-			<% List<FindFile> rset_zy = res_zy.getResult(); %>
-			<% Iterator<FindFile> iter_qkj = rset_qkj.iterator(); %>
-			<% Iterator<FindFile> iter_zy = rset_zy.iterator(); %>
-			<%! FindFile obj_qkj; %>
-			<%! FindFile obj_zy; %>
-			<!-- <% while(iter_qkj.hasNext()) {%> -->
-			<%  obj_qkj = iter_qkj.next(); %>
-			<%  obj_zy = iter_zy.next(); %>
-	    <!-- 定期 -->
-         <tr>
-            <th data-field="定期" rowspan="2" style="text-align:left;vertical-align:middle">定期</th>
-            <th data-field="定期" rowspan="1" data-valign="middle" data-align="center">整存整取</th>
-            <th data-field="定期" rowspan="1" data-valign="middle" data-align="center">三个月</th>
-			<td><%=obj_qkj.getJiecunhushu() %></td>
-			<td><%=obj_qkj.getSave_balance_money() %></td>
-			<td><%=obj_qkj.getSave_compare() %></td>
-			<td><%=obj_qkj.getOrder_add() %></td>
-
-
-			<td><%=obj_zy.getJiecunhushu() %></td>
-			<td><%=obj_zy.getSave_balance_money() %></td>
-			<td><%=obj_zy.getSave_compare() %></td>
-			<td><%=obj_zy.getOrder_add() %></td>
-
-	    </tr>
-	    <%  obj_qkj = iter_qkj.next(); %>
-		<%  obj_zy = iter_zy.next(); %>
-	     <tr>
-            <th data-field="定期" rowspan="1" data-valign="middle" data-align="center">零存零取</th>
-            <th data-field="定期" rowspan="1" data-valign="middle" data-align="center">三个月</th>
-			<td><%=obj_qkj.getJiecunhushu() %></td>
-			<td><%=obj_qkj.getSave_balance_money() %></td>
-			<td><%=obj_qkj.getSave_compare() %></td>
-			<td><%=obj_qkj.getOrder_add() %></td>
-
-
-			<td><%=obj_zy.getJiecunhushu() %></td>
-			<td><%=obj_zy.getSave_balance_money() %></td>
-			<td><%=obj_zy.getSave_compare() %></td>
-			<td><%=obj_zy.getOrder_add() %></td>
-
-	    </tr>
-	    
-	    <!-- 活期 -->
-	    <%  obj_qkj = iter_qkj.next(); %>
-	    <%  obj_zy = iter_zy.next(); %>
-	    <tr>
-            <th data-field="活期" rowspan="1" style="text-align:left;vertical-align:middle">活期</th>
-            <th data-field="活期" rowspan="1" data-valign="middle" data-align="center"></th>
-            <th data-field="活期" rowspan="1" data-valign="middle" data-align="center"></th>
-			<td><%=obj_qkj.getJiecunhushu() %></td>
-			<td><%=obj_qkj.getSave_balance_money() %></td>
-			<td><%=obj_qkj.getSave_compare() %></td>
-			<td><%=obj_qkj.getOrder_add() %></td>
-
-
-			<td><%=obj_zy.getJiecunhushu() %></td>
-			<td><%=obj_zy.getSave_balance_money() %></td>
-			<td><%=obj_zy.getSave_compare() %></td>
-			<td><%=obj_zy.getOrder_add() %></td>
-
-	    </tr>
-	    
-	    <!-- 定活两便 -->
-	    <%  obj_qkj = iter_qkj.next(); %>
-	    <%  obj_zy = iter_zy.next(); %>
-	    <tr>
-            <th data-field="定活两便" rowspan="1" style="text-align:left;vertical-align:middle">定活两便</th>
-            <th data-field="定活两便" rowspan="1" data-valign="middle" data-align="center"></th>
-            <th data-field="定活两便" rowspan="1" data-valign="middle" data-align="center"></th>
-			<td><%=obj_qkj.getJiecunhushu() %></td>
-			<td><%=obj_qkj.getSave_balance_money() %></td>
-			<td><%=obj_qkj.getSave_compare() %></td>
-			<td><%=obj_qkj.getOrder_add() %></td>
-
-
-			<td><%=obj_zy.getJiecunhushu() %></td>
-			<td><%=obj_zy.getSave_balance_money() %></td>
-			<td><%=obj_zy.getSave_compare() %></td>
-			<td><%=obj_zy.getOrder_add() %></td>
-
-	    </tr>
-	    
-	    <!-- 通知存款 -->
-	    <%  obj_qkj = iter_qkj.next(); %>
-	    <%  obj_zy = iter_zy.next(); %>
-	    <tr>
-            <th data-field="通知存款" rowspan="1" style="text-align:left;vertical-align:middle">通知存款</th>
-            <th data-field="通知存款" rowspan="1" data-valign="middle" data-align="center"></th>
-            <th data-field="通知存款" rowspan="1" data-valign="middle" data-align="center"></th>
-			<td><%=obj_qkj.getJiecunhushu() %></td>
-			<td><%=obj_qkj.getSave_balance_money() %></td>
-			<td><%=obj_qkj.getSave_compare() %></td>
-			<td><%=obj_qkj.getOrder_add() %></td>
-
-
-			<td><%=obj_zy.getJiecunhushu() %></td>
-			<td><%=obj_zy.getSave_balance_money() %></td>
-			<td><%=obj_zy.getSave_compare() %></td>
-			<td><%=obj_zy.getOrder_add() %></td>
-
-	    </tr>
-	    
-	    <!-- 总计 -->
-	    <%  obj_qkj = iter_qkj.next(); %>
-		<%  obj_zy = iter_zy.next(); %>
-	    <tr>
-            <th data-field="总计" rowspan="1" style="text-align:left;vertical-align:middle">总计</th>
-            <th data-field="通总计" rowspan="1" data-valign="middle" data-align="center"></th>
-            <th data-field="总计" rowspan="1" data-valign="middle" data-align="center"></th>
-			<td><%=obj_qkj.getJiecunhushu() %></td>
-			<td><%=obj_qkj.getSave_balance_money() %></td>
-			<td><%=obj_qkj.getSave_compare() %></td>
-			<td><%=obj_qkj.getOrder_add() %></td>
-
-
-			<td><%=obj_zy.getJiecunhushu() %></td>
-			<td><%=obj_zy.getSave_balance_money() %></td>
-			<td><%=obj_zy.getSave_compare() %></td>
-			<td><%=obj_zy.getOrder_add() %></td>
-
-	    </tr>
-			<!-- <% } %>		 -->
-	</thead>
-			
-</table>
-
-
-</body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<!-- Bootstrap Core CSS -->
+		<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/bootstrap.min.css' />">
+		<!-- MetisMenu CSS -->
+	    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/metisMenu.min.css' />">
+		<!-- Custom CSS -->
+		<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/sb-admin-2.css' />">
+		<!-- Custom Fonts -->
+		<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/font-awesome.min.css' />">
+		<link rel="stylesheet" type="text/css" media="screen" href="<c:url value='/resources/css/bootstrap-addtabs.css' />">
+		<link rel="stylesheet" type="text/css" media="screen" href="<c:url value='/resources/css/bootstrap-treeview.min.css' />">
+		<link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/custom.css' />">
+		<link rel="stylesheet" type="text/css" href="<c:url value='/resources/uploadify/uploadify.css' />">
+		<link rel="stylesheet" type="text/css" href="<c:url value='/resources/bootstrap-table/bootstrap-table.css' />">
+		<link rel="stylesheet" type="text/css" href="<c:url value='/resources/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css' />">
+		<link rel="stylesheet" type="text/css" href="<c:url value='/resources/bootstrap-fileinput/css/fileinput.css' />">
+		<!-- jQuery -->
+		<script type="text/javascript" src="<c:url value='/resources/script/jquery-1.11.1.min.js' />"></script>
+		<!-- Bootstrap Core JavaScript -->
+		<script type="text/javascript" src="<c:url value='/resources/script/bootstrap.min.js' />"></script>
+		<!-- Custom Theme JavaScript -->
+		<script type="text/javascript" src="<c:url value='/resources/script/sb-admin-2.js' />"></script>
+		<!-- Metis Menu Plugin JavaScript -->
+    	<script type="text/javascript" src="<c:url value='/resources/script/metisMenu.min.js' />"></script>
+		<script type="text/javascript" src="<c:url value='/resources/uploadify/jquery.uploadify.js' />"></script>
+		<script type="text/javascript" src="<c:url value='/resources/bootstrap-table/bootstrap-table.js' />"></script>
+		<script type="text/javascript" src="<c:url value='/resources/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js' />"></script>
+		<script type="text/javascript" src="<c:url value='/resources/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js' />"></script>
+		<script type="text/javascript" src="<c:url value='/resources/bootstrap-fileinput/js/fileinput.js' />"></script>
+		<script type="text/javascript" src="<c:url value='/resources/script/jquery.validate.min.js' />"></script>
+		<script type="text/javascript" src="<c:url value='/resources/script/appscript/upLoadFile.js' />"></script>
+		<title>UpLoadFileTOService</title>
+	</head>
+	<body>
+		<div id="wrapper">
+	        <!-- Page Content -->
+	        <div id="page-wrapper">
+	            <div class="row">
+	                <div class="col-lg-12">
+	                   <h1 class="page-header">文件重新上传</h1>
+	                </div>
+	                
+	                <div class="panel panel-default">
+					     <div class="panel-heading">
+					           <span class="glyphicon glyphicon-step-backward"></span> 
+					           <Button type="button" class="btn btn-default"  id="select" onclick="javascript:history.back(1);" >返回</button>								
+					      </div>
+					      
+					           <!-- /.panel-body -->
+					 </div>
+	                <!-- /.col-lg-12 -->
+	            </div>
+	            <!-- /.row -->
+	            <div class="row">	            
+	                <!-- /.col-lg-6 -->
+	                <div class="col-lg-12">
+	                    <div class="panel panel-default">
+	                        <div class="panel-heading">
+	                        </div>
+	                        <!-- /.panel-heading -->
+	                        <div class="panel-body">
+	                        	<input type="file" name="file" id="choosefile" />
+	                        	                       
+	                        </div>
+	                        <!-- /.panel-body -->
+	                    </div>
+	                </div>
+	                <!-- /.col-lg-6 -->
+	            </div>
+	            <!-- /.row -->
+	        </div>
+	        <!-- /#page-wrapper -->
+    	</div>
+    <!-- /#wrapper -->
+	</body>
 </html>

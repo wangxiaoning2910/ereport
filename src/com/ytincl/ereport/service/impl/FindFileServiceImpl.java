@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.ytincl.ereport.dao.FindFileDao;
 import com.ytincl.ereport.model.FindFileAsParam;
-import com.ytincl.ereport.pojo.FindFile;
+import com.ytincl.ereport.pojo.DepType;
+import com.ytincl.ereport.pojo.DepCity;
+import com.ytincl.ereport.pojo.DepCounty;
 import com.ytincl.ereport.service.FindFileService;
 
 
@@ -17,16 +19,34 @@ public class FindFileServiceImpl implements FindFileService{
 	@Autowired
 	private FindFileDao dao;
 	
+
+	
 	@Override
-	public List[] geFindFilename(FindFile obj) {
+	public List<DepType> getByDate() {
 		// TODO Auto-generated method stub
-		return dao.getFindFileByName(obj);
+		return null;
+	}
+
+
+
+	@Override
+	public List getDepTypeService(String date) {
+		// TODO Auto-generated method stub
+		return dao.getDepTypeData(date);
 	}
 
 	@Override
-	public List<FindFile> getByDate() {
+	public List getDepCityService(String date) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.getDepCityData(date);
+	}
+
+
+
+	@Override
+	public List getDepCountyService(String date) {
+		// TODO Auto-generated method stub
+		return dao.getDepCountyData(date);
 	}
 
 }

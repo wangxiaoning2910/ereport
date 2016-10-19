@@ -9,5 +9,9 @@
     	<typeAlias type="com.ytincl.ereport.pojo.UpLoadFile" alias="UpLoadFile" />
     	<typeAlias type="com.ytincl.ereport.pojo.ToBeDownLoadFile" alias="ToBeDownLoadFile" />
     	<typeAlias type="com.ytincl.ereport.pojo.testdownloaddata" alias="testdownloaddata" />
+    	<typeAlias type="com.ytincl.ereport.pojo.DepType" alias="DepType" />
+    	<typeAlias type="com.ytincl.ereport.pojo.GetEreport" alias="GetEreport" />
+    	<typeAlias type="com.ytincl.ereport.pojo.DepCity" alias="DepCity" />
+    	<typeAlias type="com.ytincl.ereport.pojo.DepCounty" alias="DepCounty" />
 	</typeAliases>  
 </configuration>

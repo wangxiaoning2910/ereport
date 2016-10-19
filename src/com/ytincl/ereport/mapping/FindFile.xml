@@ -2,11 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ytincl.ereport.dao.FindFileDao">
-	<resultMap type="FindFile" id="result_findfile"></resultMap>
-	<select id="selectFindFileByName" parameterType="String" resultMap="result_findfile">
-		select * from tobefindereport t where t.date = #{date} and t.name =#{name} order by id asc
-	</select>	
-	<select id="selectFindFileZYByName" parameterType="String" resultMap="result_findfile">
-		select * from tobefindereport t where t.date = #{date} and t.name =#{name} order by id desc
-	</select>	
+	<resultMap type="DepType" id="result_findfile"></resultMap>
+	<select id="selectDepTypeByDate" parameterType="String" resultMap="result_findfile">
+		select * from yt_report_deposit_type t where t.date = #{date} group by savetype_no,saveway_no,savetime_no  
+	</select>
+
+	<resultMap type="DepCity" id="result_depcity"></resultMap>
+	<select id="selectDepCityByDate" parameterType="String" resultMap="result_depcity">
+		select * from yt_report_deposit_city t where t.date = #{date} group by unit_no  
+	</select>
+	
+	<resultMap type="DepCounty" id="result_depcounty"></resultMap>
+	<select id="selectDepCountyByDate" parameterType="String" resultMap="result_depcounty">
+		select * from yt_report_deposit_county t where t.date = #{date} group by unit_no  
+	</select>
+	
+		
 </mapper>

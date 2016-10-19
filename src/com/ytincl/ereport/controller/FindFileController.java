@@ -24,7 +24,9 @@ import com.ytincl.ereport.dao.FindFileDao;
 import com.ytincl.ereport.dao.impl.FindFileDaoImpl;
 
 import com.ytincl.ereport.model.FindFileAsParam;
-import com.ytincl.ereport.pojo.FindFile;
+import com.ytincl.ereport.pojo.DepCity;
+import com.ytincl.ereport.pojo.DepCounty;
+import com.ytincl.ereport.pojo.DepType;
 import com.ytincl.ereport.pojo.FindFileSet;
 import com.ytincl.ereport.service.FindFileService;
 
@@ -35,27 +37,52 @@ public class FindFileController {
 	@Autowired   
 	FindFileService service;
 	private static Logger logger = LoggerFactory.getLogger(FindFileController.class);
-    @RequestMapping(value="/view/ereportname.do")
+    @RequestMapping(value="/view/getDepType.do")
    // @ResponseBody
     
-    public ModelAndView ereportname(HttpServletRequest request,HttpServletResponse response){
+    public ModelAndView getDepType(HttpServletRequest request,HttpServletResponse response){
     	FindFileAsParam uiap = new FindFileAsParam();
-		String date = request.getParameter("d11");
-		String name = request.getParameter("d22");
-		FindFile obj  = new FindFile();
-		obj.setDate(date);
-		obj.setName(name);
-        List<FindFile> result[] = service.geFindFilename(obj);
-        FindFileSet rset[] = new FindFileSet[2];
-        ModelAndView page = new ModelAndView("../view/ereportname");
-        rset[0] = new FindFileSet();
-        rset[0].setResult(result[0]);           //全口径
-        page.addObject("objs_qkj", rset[0]);
+		String date = request.getParameter("date");
+        List<DepType> result = service.getDepTypeService(date);
+		FindFileSet rset = new FindFileSet();
+        rset.setDepTypeResult(result);
+        ModelAndView page = new ModelAndView("../view/depType");
+        page.addObject("rset", rset);
+        page.addObject("date", date);
+        
 
-        rset[1] = new FindFileSet();
-        rset[1].setResult(result[1]);           //银行自营
-        page.addObject("objs_zy", rset[1]);
         return page;
     }
-	
+
+    @RequestMapping(value="/view/getDepCity.do")
+   // @ResponseBody
+    public ModelAndView getDepCity(HttpServletRequest request,HttpServletResponse response){
+    	FindFileAsParam uiap = new FindFileAsParam();
+		String date = request.getParameter("date");
+        List<DepCity> result = service.getDepCityService(date);
+		FindFileSet rset = new FindFileSet();
+        rset.setDepCityResult(result);
+        ModelAndView page = new ModelAndView("../view/depCity");
+        page.addObject("rset", rset);
+        page.addObject("date", date);
+        
+        return page;
+    }
+
+    @RequestMapping(value="/view/getDepCounty.do")
+   // @ResponseBody
+    public ModelAndView getDepCounty(HttpServletRequest request,HttpServletResponse response){
+    	FindFileAsParam uiap = new FindFileAsParam();
+		String date = request.getParameter("date");
+        List<DepCounty> result = service.getDepCountyService(date);
+		FindFileSet rset = new FindFileSet();
+        rset.setDepCountyResult(result);
+        ModelAndView page = new ModelAndView("../view/depCounty");
+        page.addObject("rset", rset);
+        page.addObject("date", date);
+        
+        return page;
+    }
+
+    
 }  

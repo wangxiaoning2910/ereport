@@ -11,19 +11,27 @@ import org.springframework.stereotype.Repository;
 
 import com.mysql.jdbc.Driver;
 import com.ytincl.ereport.dao.FindFileDao;
-import com.ytincl.ereport.pojo.FindFile;
+import com.ytincl.ereport.pojo.DepType;
 
 @Repository("findFileDao")
 public class FindFileDaoImpl  implements  FindFileDao{
 	@Resource
 	private SqlSession sqlSession;
 	@Override
-	public List[] getFindFileByName(FindFile obj) {
+	public List getDepTypeData(String date) {
 		// TODO Auto-generated method stub
-		List<FindFile> data[] = new ArrayList[2];
-		data[0] = sqlSession.selectList("com.ytincl.ereport.dao.FindFileDao.selectFindFileByName", obj); //全口径数据
-		data[1] = sqlSession.selectList("com.ytincl.ereport.dao.FindFileDao.selectFindFileZYByName", obj);  //银行自营数据
-		return data;
+		return sqlSession.selectList("com.ytincl.ereport.dao.FindFileDao.selectDepTypeByDate", date); //全口径数据
+	}
+
+	public List getDepCityData(String date) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("com.ytincl.ereport.dao.FindFileDao.selectDepCityByDate", date); //全口径数据
+	}
+
+	@Override
+	public List getDepCountyData(String date) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("com.ytincl.ereport.dao.FindFileDao.selectDepCountyByDate", date); //全口径数据
 	}
 
 }
