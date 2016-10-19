@@ -12,4 +12,6 @@ public interface TemplateService {
 	ArrayList<TemplateDetail> queryTemplateDetail(TemplateDetailKey key);
 	public ArrayList<Template> queryTemplateF();
 	public ArrayList<Template> queryTemplateC(String temp_id);
+	
+	public int insertTemplateDetail(TemplateDetail templateDetail);
 }

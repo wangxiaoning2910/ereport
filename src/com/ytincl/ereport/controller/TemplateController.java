@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,8 @@ import com.ytincl.ereport.pojo.TemplateDetail;
 import com.ytincl.ereport.pojo.TemplateDetailKey;
 import com.ytincl.ereport.service.TemplateService;
 import com.ytincl.ereport.util.FileUtil;
+import com.ytincl.ereport.util.templateUtil.ExcelReader;
+import com.ytincl.ereport.util.templateUtil.ReportTools2;
 
 
 @Controller
@@ -36,27 +39,25 @@ public class TemplateController {
 	@Autowired
 	private TemplateService templateService;
 	/**
-	 * 上传单一及复合模板
+	 * 上传单一及复合模板 还有子模板
 	 * @param file
 	 * @param request
 	 * @param response
 	 * @return
-	 * @throws IOException
+	 * @throws Exception 
 	 */
 	@RequestMapping(value="/view/ModelUpload.do")
 	@ResponseBody
 	public BaseModel ModelUpload(@RequestParam("templateFile") CommonsMultipartFile file,HttpServletRequest request,
-			HttpServletResponse response) throws IOException{
+			HttpServletResponse response) throws Exception{
 		String filePath = request.getSession().getServletContext().getRealPath("/uploadModelFiles/");
 		logger.debug("filePath================="+filePath);
 		String fileName;
 		fileName= this.saveFile(file, filePath);
+		String t = request.getParameter("t");//t=1 单一复合     t=2 子模板
 		String temp_name = request.getParameter("temp_name");
 		String temp_id = request.getParameter("temp_id");
-		String temp_type = request.getParameter("tempType");
-		String temp_start = request.getParameter("temp_start");//起终点坐标
-		String temp_rows = request.getParameter("temp_rows");//行数
-		//存储
+		//--------------------------     存储模板相关信息------------------------------------//
 		Template template = new Template();
 		template.setCatalog("/uploadModelFiles");
 		template.setFile_name(fileName);
@@ -64,15 +65,49 @@ public class TemplateController {
 		template.setTemp_name(temp_name);//模板名称说明
 		template.setUrl(filePath);
 		template.setVersion("V1");//直接存的v1版本
-		template.setTemp_type(temp_type);
+		if("1".equals(t)){
+			String temp_type = request.getParameter("tempType");
+			template.setTemp_type(temp_type);
+		}else if("2".equals(t)){
+			template.setTemp_type("2");
+			String upTemp_id = request.getParameter("upTemp_id");
+			template.setUpTemp_id(upTemp_id);
+		}
+		
 		Date date = new Date();
 		template.setCreate_time(date);
 		templateService.insertTemplate(template);
+		//---------------------------将模板列名存入模板明细表------------------------------//
+		String temp_start = request.getParameter("temp_start");//起终点坐标
+		String temp_rows = request.getParameter("temp_rows");//行数
+		String[] se = temp_start.split("-"); //分割起终点坐标，得到两个坐标点
+		ReportTools2 reportTools2 = new ReportTools2();
+		ExcelReader excelReader = new ExcelReader();		
+		String[] fprop = reportTools2.getPos_ColRow(se[0], se[1]);	//所有列坐标的数组
+		//得到所有数据
+		String  sheet1_kh = filePath+"/"+fileName;
+		List<String[]> list1=excelReader.getALLExcelListByFileAndLetters(sheet1_kh,fprop, 0);
+		//只得到第一行，列标题
+		String []firstArray =excelReader.getListArrayOnlyFirstRow(list1);
+		TemplateDetail templateDetail = new TemplateDetail();
+		templateDetail.setTemp_id(temp_id);
+		templateDetail.setFormula("");//规则
+		templateDetail.setIs_extend("0");//是否扩展列
+		templateDetail.setType("0");//计算类型
+		templateDetail.setVersion("V1");
+		
+		for(int i=0;i<firstArray.length;i++){		
+			logger.debug("firstArray["+i+"]="+firstArray[i]+",");		
+			templateDetail.setLoc_name(firstArray[i]);
+			templateDetail.setLoc_num( Integer.toString(i+1));
+			templateDetail.setLocation(fprop[i]);
+			templateService.insertTemplateDetail(templateDetail);
+		}
 		return new BaseModel("000000");
 	}
 	
 	/**
-	 * 查询模板 全部 复合 源
+	 * 查询模板 全部/复合/源
 	 * @param request
 	 * @param response
 	 * @return
@@ -144,6 +179,13 @@ public class TemplateController {
 		tr.setList2(list);
 		return tr;
 	}
+	/**
+	 * 删除模板的数据源文件
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
 	@RequestMapping(value="/view/fileDelete.do")
 	@ResponseBody
 	public BaseModel fileDelete(HttpServletRequest request, HttpServletResponse response) throws IOException{
@@ -173,42 +215,24 @@ public class TemplateController {
 		return new BaseModel("000000");
 	}
 	/**
-	 * 上传子模板
-	 * @param file
+	 * 查询源模板列  =====查询模板明细
 	 * @param request
 	 * @param response
 	 * @return
-	 * @throws IOException
 	 */
-	@RequestMapping(value="/view/ModelUploadC.do")
+	@RequestMapping(value="/view/queryTemplateCRow.do")
 	@ResponseBody
-	public BaseModel ModelUploadC(@RequestParam("templateFileC") CommonsMultipartFile file,HttpServletRequest request,
-			HttpServletResponse response) throws IOException{
-		String filePath = request.getSession().getServletContext().getRealPath("/uploadModelFiles/");
-		logger.debug("filePath================="+filePath);
-		String fileName;
-		fileName= this.saveFile(file, filePath);
-		String temp_name = request.getParameter("temp_name");
-		String temp_id = request.getParameter("temp_id");
-		String temp_type = request.getParameter("tempType");
-		String temp_start = request.getParameter("temp_start");
-		String upTemp_id = request.getParameter("upTemp_id");
-		String temp_rows = request.getParameter("temp_rows");//行数
-		//存储
-		Template template = new Template();
-		template.setCatalog("/uploadModelFiles");
-		template.setFile_name(fileName);
-		template.setTemp_id(temp_id);
-		template.setTemp_name(temp_name);//模板名称说明
-		template.setUrl(filePath);
-		template.setVersion("V1");//直接存的v1版本
-		template.setTemp_type(temp_type);
-		template.setTemp_type("2");
-		template.setUpTemp_id(upTemp_id);
-		Date date = new Date();
-		template.setCreate_time(date);
-		templateService.insertTemplate(template);
-		return new BaseModel("000000");
+	public TemplateRes queryTemplateCRow(HttpServletRequest request, HttpServletResponse response){
+		String version = request.getParameter("version");
+		String Temp_idC = request.getParameter("Temp_idC");
+		TemplateDetailKey key = new TemplateDetailKey();
+		key.setTemp_id(Temp_idC);
+		key.setVersion(version);
+		ArrayList<TemplateDetail> list = new ArrayList<TemplateDetail>();
+		list = templateService.queryTemplateDetail(key);
+		TemplateRes tr = new TemplateRes();
+		tr.setList1(list);
+		return tr;
 	}
 	public String saveFile( CommonsMultipartFile file,String filePath) throws IOException{
 		String fileName = file.getOriginalFilename();
@@ -220,7 +244,9 @@ public class TemplateController {
 		String uuidFileName = uuid + fileName;
 		//File f = new File(filePath+"/"+uuid+"."+fileType);
 		//将文件保存到服务器
-		FileUtil.upFile(file.getInputStream(), uuidFileName, filePath);
+//		FileUtil.upFile(file.getInputStream(), uuidFileName, filePath);
+		//测试，先不加uuid
+		FileUtil.upFile(file.getInputStream(), fileName, filePath);
 		return fileName;
 	}
 }

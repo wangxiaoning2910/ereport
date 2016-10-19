@@ -15,9 +15,9 @@ public class MonthTableServiceImpl implements MonthTableService {
 	private MonthTableDao monthTableDao;
 
 	@Override
-	public ArrayList<MonthTable> queryMonthTable() {
+	public ArrayList<MonthTable> queryMonthTable(String monthTableName) {
 		// TODO Auto-generated method stub
-		return monthTableDao.queryMonthTable();
+		return monthTableDao.queryMonthTable(monthTableName);
 	}
 
 	

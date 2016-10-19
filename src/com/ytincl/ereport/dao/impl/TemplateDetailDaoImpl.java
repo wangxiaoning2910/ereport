@@ -23,8 +23,8 @@ public class TemplateDetailDaoImpl implements TemplateDetailDao{
 
 	@Override
 	public int insert(TemplateDetail record) {
-		// TODO Auto-generated method stub
-		return 0;
+		int n = sqlSession.insert("com.ytincl.ereport.dao.TemplateDetailDao.insert", record);
+		return n;
 	}
 
 	@Override

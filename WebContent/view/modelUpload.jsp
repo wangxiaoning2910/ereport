@@ -207,7 +207,7 @@
 	    		title: '源模板',
 	    		align: 'center',
 	    		editable: {
-                    type: 'select',
+                    type: 'checklist',
                //   title: '源模板',
                     source: result
                 }
@@ -248,6 +248,7 @@
 	    		            	});
 	    		            }
 	    		        });
+    		        $("#template_detail").bootstrapTable("refresh");
 	    		        $("#template_detail a").editable({
 	                        type: 'select',
 	                        source:result
@@ -504,7 +505,7 @@
 			<!-- ====================================查看模板明细============================================== -->
 			<div class="modal fade" id="model_detail" tabindex="-1" role="dialog"
 				aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog" style="width:800px;">
+				<div class="modal-dialog" style="width:1000px;">
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal"

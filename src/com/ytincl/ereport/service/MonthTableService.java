@@ -5,6 +5,6 @@ import java.util.ArrayList;
 import com.ytincl.ereport.pojo.MonthTable;
 
 public interface MonthTableService {
-	public ArrayList<MonthTable> queryMonthTable();
+	public ArrayList<MonthTable> queryMonthTable(String monthTableName);
 	
 }

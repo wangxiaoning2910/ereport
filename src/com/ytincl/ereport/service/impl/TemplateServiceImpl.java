@@ -54,6 +54,12 @@ public class TemplateServiceImpl implements TemplateService {
 		list = templateDao.queryTemplateC(temp_id);
 		return list;
 	}
+
+	@Override
+	public int insertTemplateDetail(TemplateDetail templateDetail) {
+		int n = templateDetailDao.insert(templateDetail);
+		return 0;
+	}
 	
 
 	
