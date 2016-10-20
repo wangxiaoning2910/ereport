@@ -233,6 +233,9 @@ public class upLoadFile {
 		String[] sss = fileName.split("\\.");
 		String fn = sss[0];
 		UpLoadFile ulf = new UpLoadFile();
+		if(fn.contains("__")){
+			fn = fn.replaceAll("__", "--");
+		}
 		ulf.setName(fn);
 		ulf.setQueryDate(date);
 		tobeuploaded.updateStatus(ulf);
