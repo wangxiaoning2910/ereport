@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<regulations>
+    <regulation>
+        <name>储蓄分储种情况</name>
+        <datastart>E-6</datastart>
+        <dataend>L-39</dataend>
+    </regulation>
+    <regulation>
+        <name>储蓄净增额完成情况__地市</name>
+        <datastart>A-7</datastart>
+        <dataend>AG-21</dataend>
+    </regulation>
+    <regulation>
+        <name>储蓄净增额完成情况__县行</name>
+        <datastart>B-8</datastart>
+        <dataend>AD-78</dataend>
+    </regulation>
+    <regulation>
+        <name>test</name>
+        <datastart>A-0</datastart>
+        <dataend>B-1</dataend>
+    </regulation>
+</regulations>

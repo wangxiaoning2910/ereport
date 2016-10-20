@@ -26,6 +26,8 @@ $(document).ready(function() {
     	pageSize: 10,      //每页的记录行数（*）
     	pageList: [10, 25, 50, 100],
     	columns: [{
+    		checkbox:true,
+    	},{
     	    field: 'filename',
     	    title: '名称',
     	    align: 'center',
@@ -55,17 +57,23 @@ $(document).ready(function() {
 		}],
     	onRefresh:function(){
     		queryList();
-    	},
-    	onCheck:function(row){
-    		changeBtnStatus(row.status);
-    	},
-    	onDblClickRow:function(row,element){
+    	},onCheck:function(row){
+    		getSelectNum()
+    	},onCheckAll:function(rows){
+    		getSelectNum()
+    	},onUncheckAll:function(rows){
+    		getSelectNum()
+    	},onUncheck:function(row){
+    		getSelectNum()
     	}
 	});
-
+    $('#downloadfiles').click(function(){
+    	downloadFiles();
+    })
 	
 });
 $(setDate)
+$(init)
 $(queryList)
 var Listdata;
 function queryList(){
@@ -106,5 +114,37 @@ function downloadFile(index){
 	var filename = row.filename
 	$('#filename').attr('value',filename);
 	$('#ymounth').attr('value',date);
+	$('#exportfileform').attr('method','post');
+	$("#exportfileform").attr("action", "exportfile.do");
 	$('#exportfileform').submit();
+}
+function downloadFiles(){
+	var selectedrows = $('#uploadTable').bootstrapTable('getSelections');
+	
+	var filename = [];
+	var date = selectedrows[0].date;
+	var length = selectedrows.length;
+	for(var i = 0; i <length; i++){
+		filename[i] = selectedrows[i].filename;
+	}
+	$('#filename').attr('value',filename);
+	$('#ymounth').attr('value',date);
+	$('#exportfileform').attr('method','post');
+	$("#exportfileform").attr("action", "exportfiles.do");
+	$('#exportfileform').submit();
+}
+function init(){
+	changeBtnStatus(0)
+}
+function changeBtnStatus(length){
+	if(length != 0){
+		$('#downloadfiles').removeAttr('disabled');
+	}else{
+		$('#downloadfiles').attr('disabled',true);
+	}
+}
+function getSelectNum(){
+	var selected = $('#uploadTable').bootstrapTable('getSelections');
+	var length = selected.length;
+	changeBtnStatus(length)
 }

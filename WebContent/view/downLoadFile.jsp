@@ -52,7 +52,7 @@
 	                        	<button type="button" onclick="queryList()" class="btn btn-default btn-sm">
           							<span class="glyphicon glyphicon-search"></span> 查询
         						</button>
-        						<form role="form"  id="exportfileform" method="POST" action="exportfile.do">
+        						<form role="form"  id="exportfileform">
 		                        	<input type="hidden"  name="filename" id="filename">
 		                        	<input type="hidden"  name="ymounth" id="ymounth">
 		                        </form>
@@ -65,6 +65,9 @@
 	                        </div>
 	                        <!-- /.panel-heading -->
 	                        <div class="panel-body">
+	                        	<button class="btn btn-primary btn-sm" id="downloadfiles">
+									<span class="glyphicon glyphicon-download"></span> DownLoad
+								</button>
 	                        	<table id="uploadTable"></table>
 	                        </div>
 	                    </div>

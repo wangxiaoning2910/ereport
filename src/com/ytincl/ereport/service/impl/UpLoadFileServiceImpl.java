@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ytincl.ereport.dao.UpLoadFileDao;
 import com.ytincl.ereport.pojo.ResolveExcel;
+import com.ytincl.ereport.pojo.SavingsDifferenceType;
+import com.ytincl.ereport.pojo.SavingsNetAmount;
+import com.ytincl.ereport.pojo.SavingsNetAmount2;
 import com.ytincl.ereport.pojo.UpLoadFile;
 import com.ytincl.ereport.service.UpLoadFileService;
 
@@ -30,6 +33,24 @@ public class UpLoadFileServiceImpl implements UpLoadFileService{
 	public List<UpLoadFile> getToBeUpLoadedList(String querydate) {
 		// TODO Auto-generated method stub
 		return uploadfiledao.getToBeUpLoaded(querydate);
+	}
+
+	@Override
+	public int insertSavingsDifferenceType(SavingsDifferenceType sdt) {
+		// TODO Auto-generated method stub
+		return uploadfiledao.insertSavingsDifferenceType(sdt);
+	}
+
+	@Override
+	public int insertSavingsNetAmount(SavingsNetAmount sna) {
+		// TODO Auto-generated method stub
+		return uploadfiledao.insertSavingsNetAmount(sna);
+	}
+
+	@Override
+	public int insertSavingsNetAmount2(SavingsNetAmount2 sna2) {
+		// TODO Auto-generated method stub
+		return uploadfiledao.insertSavingsNetAmount2(sna2);
 	}
 	
 	

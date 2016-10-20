@@ -2,9 +2,7 @@ package com.ytincl.ereport.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 import com.ytincl.ereport.dao.ToBeDownLoadListDao;
@@ -23,7 +21,7 @@ public class ToBeDownLoadListImpl implements ToBeDownLoadListDao{
 		return list; 
 	}
 	@Override
-	public List<testdownloaddata> getDataList(String querydate) {
+	public ArrayList<testdownloaddata> getDataList(String querydate) {
 		ArrayList<testdownloaddata> list;
 		list = (ArrayList)sqlSession.selectList("com.ytincl.ereport.dao.download.selectdownloadata",querydate);
 		return list;

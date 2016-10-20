@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -19,72 +21,14 @@ import com.ytincl.ereport.constant.CommonConstants;
 
 
 public class ReadExcel {
-	public List<String[]> readExcel(String path) throws IOException {
-        if (path == null || CommonConstants.NULL_STRING.equals(path)) {
-            return null;
-        } else {
-            String postfix = getPostfix(path);
-            //判断excel后缀
-            if (!CommonConstants.NULL_STRING.equals(postfix)) {
-                if (CommonConstants.OFFICE_EXCEL_2003_POSTFIX.equals(postfix)) {
-                	//如果是Excel2003
-                    return readXls(path);
-                } else if (CommonConstants.OFFICE_EXCEL_2010_POSTFIX.equals(postfix)) {
-                	//如果是Excel2010
-                    return readXlsx(path);
-                }
-            } else {
-            }
-        }
-        return null;
-    }
-
-    /**
-     * 读取  Excel2010
-     * @param path the path of the excel file
-     * @return 
-     * @throws IOException
-     */
-    public List<String[]> readXlsx(String path) throws IOException {
-    	//根据路径拿到文件
-        InputStream is = new FileInputStream(path);
-        //XSSFWorkbook 读取工作簿
-        XSSFWorkbook xssfWorkbook = new XSSFWorkbook(is);
-        List<String[]> list = new ArrayList<String[]>();
-        String [] arr = null;
-        // Read the Sheet
-        //表格数量
-        for (int numSheet = 0; numSheet < xssfWorkbook.getNumberOfSheets(); numSheet++) {
-        	//依次初始化sheet
-            XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(numSheet);
-            if (xssfSheet == null) {
-                continue;
-            }
-            // Read the Row 读取该Sheet中的每一行
-            for (int rowNum = 1; rowNum <= xssfSheet.getLastRowNum(); rowNum++) {
-            	//获取到每一行，XSSFRow
-                XSSFRow xssfRow = xssfSheet.getRow(rowNum);//行
-                if (xssfRow != null) {
-                	//每行的每一列
-                	arr = new String[xssfRow.getLastCellNum()];
-                    for(int xssfRowsize = 0;xssfRowsize < xssfRow.getLastCellNum();xssfRowsize++){
-                    	arr[xssfRowsize] = getValue(xssfRow.getCell(xssfRowsize));
-                    }
-                    list.add(arr);
-                    
-                }
-            }
-        }
-        return list;
-    }
-
+    
     /**
      * Read the Excel 2003-2007
      * @param path the path of the Excel
      * @return
      * @throws IOException
      */
-    public List<String[]> readXls(String path) throws IOException {
+    public List<String[]> readXls(String path,int startx,int starty,int endx,int endy) throws IOException {
     	//根据路径获取文件
         InputStream is = new FileInputStream(path);
         //HSSFWorkbook读取该文件
@@ -98,14 +42,15 @@ public class ReadExcel {
                 continue;
             }
             // Read the Row 读取每个Sheet中的每一行
-            for (int rowNum = 1; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {
+            //rowNum 为开始的行
+            for (int rowNum = starty; rowNum <= endy; rowNum++) {
                 HSSFRow hssfRow = hssfSheet.getRow(rowNum);//每一行的对象
                 if (hssfRow != null) {
-                	//每行的每一列
+                	//初始化String数组的大小为数据的行数
                 	arr = new String[hssfRow.getLastCellNum()];
-                    for(int xssfRowsize = 0;xssfRowsize < hssfRow.getLastCellNum();xssfRowsize++){
-                    	arr[xssfRowsize] = getValue(hssfRow.getCell(xssfRowsize));
-                    	System.out.println("================"+arr[xssfRowsize]+"=======================");
+                	//xssfRowsize为开始的列
+                    for(int xssfRowsize = startx,xb = 0;xssfRowsize <= endx;xssfRowsize++,xb++){
+                    	arr[xb] = getValue(hssfRow.getCell(xssfRowsize));
                     }
                     list.add(arr);
                 }
@@ -113,47 +58,86 @@ public class ReadExcel {
         }
         return list;
     }
-
-    @SuppressWarnings("static-access")
-    private String getValue(XSSFCell xssfRow) {
-        if (xssfRow.getCellType() == xssfRow.CELL_TYPE_BOOLEAN) {
-            return String.valueOf(xssfRow.getBooleanCellValue());
-        } else if (xssfRow.getCellType() == xssfRow.CELL_TYPE_NUMERIC) {
-            // 返回数值类型的值
-            Object inputValue = null;// 单元格值
-            Long longVal = Math.round(xssfRow.getNumericCellValue());
-            Double doubleVal = xssfRow.getNumericCellValue();
-            if(Double.parseDouble(longVal + ".0") == doubleVal){   //判断是否含有小数位.0
-                inputValue = longVal;
+    /**
+     * Read the Excel 2003-2007
+     * @param path the path of the Excel
+     * @return
+     * @throws IOException
+     */
+    public List<String[]> readXls(String path,Map<String,String> map) throws IOException {
+    	//根据路径获取文件
+        InputStream is = new FileInputStream(path);
+        //HSSFWorkbook读取该文件
+        HSSFWorkbook hssfWorkbook = new HSSFWorkbook(is);
+        List<String[]> list = new ArrayList<String[]>();
+        String [] arr = null;
+        // Read the Sheet 解析该Excel的每个Sheet
+        int startx,starty,endx,endy;
+        String start = map.get("datastart");
+        String end = map.get("dataend");
+        GetGrid gg = new GetGrid(start);
+        startx = gg.getX();
+        starty = gg.getY();
+        GetGrid gg1 = new GetGrid(end);
+        endx = gg1.getX();
+        endy = gg1.getY();
+        for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) {
+            HSSFSheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);//每一个Sheet对象
+            if (hssfSheet == null) {
+                continue;
             }
-            else{
-                inputValue = doubleVal;
+            // Read the Row 读取每个Sheet中的每一行
+            //rowNum 为开始的行
+            for (int rowNum = starty; rowNum <= endy; rowNum++) {
+                HSSFRow hssfRow = hssfSheet.getRow(rowNum);//每一行的对象
+                System.out.println("行数=="+rowNum);
+                if (hssfRow != null) {
+                	//初始化String数组的大小为数据的行数
+                	arr = new String[endx-startx+1];
+                	//xssfRowsize为开始的列
+                    for(int xssfRowsize = startx,xb = 0;xssfRowsize <= endx;xssfRowsize++,xb++){
+                    	arr[xb] = getValue(hssfRow.getCell(xssfRowsize));
+                    	System.out.println("===arr[xb]=="+arr[xb]);
+                    }
+                    list.add(arr);
+                }
             }
-            DecimalFormat df = new DecimalFormat("#.####");    //格式化为四位小数，按自己需求选择；
-            return String.valueOf(df.format(inputValue));      //返回String类型
-        } else {
-            return String.valueOf(xssfRow.getStringCellValue());
         }
+        return list;
     }
-
-    @SuppressWarnings("static-access")
+   
     private String getValue(HSSFCell hssfCell) {
         if (hssfCell.getCellType() == hssfCell.CELL_TYPE_BOOLEAN) {
             return String.valueOf(hssfCell.getBooleanCellValue());
         } else if (hssfCell.getCellType() == hssfCell.CELL_TYPE_NUMERIC) {
-            // 返回数值类型的值
-            Object inputValue = null;// 单元格值
+            Object inputValue = hssfCell.getNumericCellValue();// 单元格值
             Long longVal = Math.round(hssfCell.getNumericCellValue());
             Double doubleVal = hssfCell.getNumericCellValue();
+            String stringVal = String.valueOf(hssfCell.getNumericCellValue())+"";
             if(Double.parseDouble(longVal + ".0") == doubleVal){   //判断是否含有小数位.0
                 inputValue = longVal;
-            }
-            else{
+            }else{
                 inputValue = doubleVal;
             }
-            DecimalFormat df = new DecimalFormat("#.####");    //格式化为四位小数，按自己需求选择；
-            return String.valueOf(df.format(inputValue));      //返回String类型
-        } else {
+            return String.valueOf(inputValue);
+        } else if(hssfCell.getCellType() == hssfCell.CELL_TYPE_FORMULA){
+        	//数值类型
+        	Object inputValue = hssfCell.getNumericCellValue();// 单元格值
+            Long longVal = Math.round(hssfCell.getNumericCellValue());
+        	Double doubleVal = hssfCell.getNumericCellValue();
+        	if(Double.parseDouble(longVal + ".0") == doubleVal){   //判断是否含有小数位.0
+                inputValue = longVal;
+            }else{
+                inputValue = doubleVal;
+            }
+        	return String.valueOf(inputValue);
+        } else if(hssfCell.getCellType() == hssfCell.CELL_TYPE_STRING){
+        	//字符串类型
+        	return String.valueOf(hssfCell.getStringCellValue());
+        } else if(hssfCell.getCellType() == hssfCell.CELL_TYPE_BLANK){
+        	System.out.println("控制转换为“”");
+        	return " ";
+        }else {
             return String.valueOf(hssfCell.getStringCellValue());
         }
     }

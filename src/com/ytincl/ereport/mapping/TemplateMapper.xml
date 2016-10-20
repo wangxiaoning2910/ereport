@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ytincl.ereport.dao.TemplateDao" >
+  <resultMap id="BaseResultMap" type="com.ytincl.ereport.pojo.Template" >
+    <id column="temp_id" property="temp_id" jdbcType="VARCHAR" />
+    <result column="temp_name" property="temp_name" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="catalog" property="catalog" jdbcType="VARCHAR" />
+    <result column="file_name" property="file_name" jdbcType="VARCHAR" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="temp_type" property="temp_type" jdbcType="VARCHAR" />
+    <result column="upTemp_id" property="upTemp_id" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    temp_id, temp_name, url, catalog, file_name, create_time, version,temp_type,upTemp_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from template
+    where temp_id = #{temp_id,jdbcType=VARCHAR}
+  </select>
+  <select id="queryTemplate" resultMap="BaseResultMap"  >
+    select temp_id, temp_name,create_time, version,temp_type
+    from template
+  </select>
+  <!--  查询复合模板 -->
+  <select id="queryTemplateF" resultMap="BaseResultMap"  >
+    select temp_id, temp_name,create_time, version,temp_type
+    from template where temp_type = 1;
+  </select>
+  <!--  查询源模板 -->
+  <select id="queryTemplateC" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select t.temp_id from template t where t.upTemp_id = #{upTemp_id,jdbcType=VARCHAR};
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from template
+    where temp_id = #{temp_id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ytincl.ereport.pojo.Template" >
+    insert into template (temp_id, temp_name, url, 
+      catalog, file_name, create_time, 
+      version,temp_type,upTemp_id)
+    values (#{temp_id,jdbcType=VARCHAR}, #{temp_name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{catalog,jdbcType=VARCHAR}, #{file_name,jdbcType=VARCHAR}, #{create_time,jdbcType=TIMESTAMP}, 
+      #{version,jdbcType=VARCHAR},#{temp_type,jdbcType=VARCHAR},#{upTemp_id,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ytincl.ereport.pojo.Template" >
+    insert into template
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="temp_id != null" >
+        temp_id,
+      </if>
+      <if test="temp_name != null" >
+        temp_name,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="catalog != null" >
+        catalog,
+      </if>
+      <if test="file_name != null" >
+        file_name,
+      </if>
+      <if test="create_time != null" >
+        create_time,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="temp_id != null" >
+        #{temp_id,jdbcType=VARCHAR},
+      </if>
+      <if test="temp_name != null" >
+        #{temp_name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="catalog != null" >
+        #{catalog,jdbcType=VARCHAR},
+      </if>
+      <if test="file_name != null" >
+        #{file_name,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ytincl.ereport.pojo.Template" >
+    update template
+    <set >
+      <if test="temp_name != null" >
+        temp_name = #{temp_name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="catalog != null" >
+        catalog = #{catalog,jdbcType=VARCHAR},
+      </if>
+      <if test="file_name != null" >
+        file_name = #{file_name,jdbcType=VARCHAR},
+      </if>
+      <if test="create_time != null" >
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where temp_id = #{temp_id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ytincl.ereport.pojo.Template" >
+    update template
+    set temp_name = #{temp_name,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      catalog = #{catalog,jdbcType=VARCHAR},
+      file_name = #{file_name,jdbcType=VARCHAR},
+      create_time = #{create_time,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=VARCHAR}
+    where temp_id = #{temp_id,jdbcType=VARCHAR}
+  </update>
+</mapper>

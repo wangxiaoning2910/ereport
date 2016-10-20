@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ytincl.ereport.dao.MonthTableDao">
+	<resultMap type="com.ytincl.ereport.pojo.MonthTable" id="result_MonthTable"></resultMap>
+	<select id="queryMonthTable" parameterType="java.lang.String" resultMap="result_MonthTable" statementType="STATEMENT">
+		select * from  ${_parameter} t  
+	</select>
+	
+</mapper>
+
