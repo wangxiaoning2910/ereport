@@ -3,9 +3,7 @@ package com.ytincl.ereport.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -20,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.ytincl.ereport.constant.CommonConstants;
 import com.ytincl.ereport.model.BaseModel;
 import com.ytincl.ereport.model.ToBeUploaded;
-import com.ytincl.ereport.pojo.ResolveExcel;
 import com.ytincl.ereport.pojo.SavingsDifferenceType;
 import com.ytincl.ereport.pojo.SavingsNetAmount;
 import com.ytincl.ereport.pojo.SavingsNetAmount2;
@@ -47,15 +43,10 @@ public class upLoadFile {
 		logger.debug("===========================UpLoadFile=================");
 		//设置文件保存的本地路径
 		String filePath = req.getSession().getServletContext().getRealPath("/uploadFiles/");
-		logger.debug("filePath================="+filePath);
 		String fileName = pic.getOriginalFilename();
-		logger.debug("fileName====="+fileName);
-		String fileType = fileName.split("[.]")[1];
-		logger.debug("fileType====="+fileType);
 		//为了避免文件名重复，在文件名前加UUID
 		String uuid = UUID.randomUUID().toString().replace("-","");
 		String uuidFileName = uuid + fileName;
-		//File f = new File(filePath+"/"+uuid+"."+fileType);
 	
 		//将文件保存到服务器
 		FileUtil.upFile(pic.getInputStream(), uuidFileName, filePath);
@@ -71,7 +62,6 @@ public class upLoadFile {
 		//设置文件保存的本地路径
 		String filePath = req.getSession().getServletContext().getRealPath("/uploadFiles/");
 		String fileName = file.getOriginalFilename();
-		logger.debug("===filename=="+fileName);
 		//为了避免文件名重复，在文件名前加UUID
 		String uuid = UUID.randomUUID().toString().replace("-","");
 		String uuidFileName = uuid + fileName;
@@ -79,9 +69,6 @@ public class upLoadFile {
 		FileUtil.upFile(file.getInputStream(), uuidFileName, filePath);
 		//获取读取Excel规则
 		Map<String,String> map = XMLManager.getRuelRegulation(req, fileName.split("[.]")[0]);
-		logger.debug("map.name="+map.get("name"));
-		logger.debug("map.datastart="+map.get("datastart"));
-		logger.debug("map.dataend="+map.get("dataend"));
 		ReadExcel re = new ReadExcel();
 		List<String[]> list = re.readXls(filePath+"\\"+uuidFileName,map);
 		String[] strs;
@@ -161,9 +148,7 @@ public class upLoadFile {
 					sdt.setBalance_money1(FormatConversion.string2Double(strs[5]));
 					sdt.setSave_compare1(FormatConversion.string2Float(strs[6]));
 					sdt.setOrder_add1(FormatConversion.string2Float(strs[7]));
-					logger.debug("准备插入数据库");
 					tobeuploaded.insertSavingsDifferenceType(sdt);
-					logger.debug("插入数据库完成");
 					
 				}else if(null != aname && aname.equals("储蓄净增额完成情况__地市")){
 					sna = new SavingsNetAmount();
@@ -245,14 +230,11 @@ public class upLoadFile {
 			}
 		}
 		//更新操作状态
-		logger.debug("fileName ==="+fileName);
 		String[] sss = fileName.split("\\.");
 		String fn = sss[0];
 		UpLoadFile ulf = new UpLoadFile();
 		ulf.setName(fn);
-		logger.debug("更改状态 名称===="+fn);
 		ulf.setQueryDate(date);
-		logger.debug("更改状态 时间===="+date);
 		tobeuploaded.updateStatus(ulf);
 		return new BaseModel("000000");
 
