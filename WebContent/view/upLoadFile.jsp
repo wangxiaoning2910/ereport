@@ -34,6 +34,7 @@
 		<script type="text/javascript" src="<c:url value='/resources/bootstrap-fileinput/js/fileinput.js' />"></script>
 		<script type="text/javascript" src="<c:url value='/resources/script/jquery.validate.min.js' />"></script>
 		<script type="text/javascript" src="<c:url value='/resources/script/appscript/upLoadFile.js' />"></script>
+		<script src="../resources/bootstrap-table/bootstrap-table-zh-CN.js"></script>
 		<title>UpLoadFileTOService</title>
 	</head>
 	<body>

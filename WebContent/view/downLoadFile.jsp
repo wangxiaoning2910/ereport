@@ -30,6 +30,7 @@
 		<script type="text/javascript" src="<c:url value='/resources/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js' />"></script>
 		<script type="text/javascript" src="<c:url value='/resources/script/jquery.validate.min.js' />"></script>
 		<script type="text/javascript" src="<c:url value='/resources/script/appscript/downLoadFile.js' />"></script>
+		<script src="../resources/bootstrap-table/bootstrap-table-zh-CN.js"></script>
 		<title>UpLoadFileTOService</title>
 	</head>
 	<body>
@@ -66,7 +67,7 @@
 	                        <!-- /.panel-heading -->
 	                        <div class="panel-body">
 	                        	<button class="btn btn-primary btn-sm" id="downloadfiles">
-									<span class="glyphicon glyphicon-download"></span> DownLoad
+									<span class="glyphicon glyphicon-download"></span> 下载
 								</button>
 	                        	<table id="uploadTable"></table>
 	                        </div>
