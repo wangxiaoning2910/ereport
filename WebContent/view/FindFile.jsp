@@ -66,7 +66,7 @@
 
 	// 日期框设计-只显示年月
     function selectMonth() {  
-        WdatePicker({ dateFmt: 'yyyy-MM', isShowToday: false, isShowClear: false });  
+        WdatePicker({ dateFmt: 'yyyyMM', isShowToday: false, isShowClear: false });  
     }  
 	
 </script>
