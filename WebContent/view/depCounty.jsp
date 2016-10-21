@@ -812,8 +812,13 @@
 					<%
 					
 						}
-										
-			%>		
+				 if(rset.getDepCountyResult().size() <= i) {
+					%>
+					       </tr>
+					<%
+							continue;
+						}
+					%>	
 			
 					        <td><%=rset.getDepCountyResult().get(i).getTime_money() %></td>                               
           					<td><%=rset.getDepCountyResult().get(i).getCurrentbalance_money()%></td>           

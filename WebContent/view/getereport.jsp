@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ page import="java.util.*" %>
+<%@ page import="com.ytincl.ereport.pojo.*" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -19,8 +22,35 @@
 	<script type="text/javascript" src="<c:url value='/resources/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js' />"></script>
    
     <script type="text/javascript">
+   		 function getDeppub(tablename){
+			alert(tablename);			
+			if(tablename=="储蓄分储种情况"){
+
+				getDeptype();
+			}
+			
+			else if(tablename=="储蓄净增额完成情况--地市"){
+
+				getDepCity();
+			}
+			
+			else if(tablename=="储蓄净增额完成情况--县行"){
+
+				getDepCounty();
+			}
+			
+			else{
+				alert("无相应的 报表");
+				
+			}
+		}   
+    
+    
+    
 		function getDeptype(){
-			var date = $('#date_selected').val();
+
+			var date = $('#datetimepicker').val();
+			date = date.replace("-", "");
 			$.get('getDepType.do', {date:date}, 
 				function(data){
 				    $("#result").empty();
@@ -29,7 +59,8 @@
 		}
 		
 		function getDepCity(){
-			var date = $('#date_selected').val();
+			var date = $('#datetimepicker').val();
+			date = date.replace("-", "");
 			$.get('getDepCity.do', {date:date}, 
 				function(data){
 					$("#result").empty();
@@ -38,7 +69,8 @@
 		}
 		
 		function getDepCounty(){
-			var date = $('#date_selected').val();
+			var date = $('#datetimepicker').val();
+			date = date.replace("-", "");
 			$.get('getDepCounty.do', {date:date}, 
 				function(data){
 					$("#result").empty();
@@ -53,31 +85,45 @@
 </head>
 <body>
 
-
+<table >
 <ul id="myTab" class="nav nav-tabs">
-		<li class="active">
-			<a href="#home"  onclick="getDeptype()" data-toggle="tab">
-				${rset.result[0].name}
-			</a>
+		<%
+		    GetEreportSet rset = (GetEreportSet)request.getAttribute("rset");
+		    List<GetEreport> result = rset.getResult();
+		    Iterator<GetEreport> iter = result.iterator();//迭代器
+		    GetEreport obj;
+            if(iter.hasNext()) {
+            	obj = iter.next();
+		%>
+		
+			<li class="active">
+				<a href="#home"   onclick="getDeppub('<%=obj.getName() %>')" data-toggle="tab">
+					<%=obj.getName() %>
+				</a>
+			</li>
+		
+		<%
+            }
 
-		</li>
-	
+            while(iter.hasNext()) {
+		    	obj = iter.next();
+       %>
+       		    	
 		<li>
-
-			<a href="#ios"  onclick="getDepCity()" data-toggle="tab">
-				${rset.result[1].name}
+			<a href="#home"   onclick="getDeppub('<%=obj.getName() %>')" data-toggle="tab">
+				<%=obj.getName() %>
 			</a>
-			
+
 		</li>
-
-		<li>		
-			<a href="#jmeter"  onclick="getDepCounty()" data-toggle="tab">
-				${rset.result[2].name}
-			</a>
-		</li>		
+		
+		<%
+		}
+		    
+		%>
+		
 </ul>
 	
-
+</table>
 <div id="myTabContent" class="tab-content">
 		 <div class="tab-pane fade in active" id="home">
 		      <p id ="result"></p>

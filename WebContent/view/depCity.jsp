@@ -226,7 +226,13 @@
 							
 			<%
 				}
-										
+								
+				if(rset.getDepCityResult().size() <= i) {
+			%>
+			       </tr>
+			<%
+					continue;
+				}
 			%>		
 
 					<td><%=rset.getDepCityResult().get(i).getTime_money() %></td>
@@ -271,15 +277,5 @@
 		</thead>	
 	</table>
 			
-
-
-
-
-
-
-
-
-
-
 
 </body>
