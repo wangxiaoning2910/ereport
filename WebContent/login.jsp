@@ -22,11 +22,10 @@
 </head>
 
 <body>
-	<div class="row" style="height:78px;background:#3D3D3D; color:#FFFFFF">
-   		<%-- <img src="<c:url value='resources/img/logo1.jpg' />"/> --%>
+	<div class="ytincl">
+   		<img src="<c:url value='resources/img/logo2.png' />" height="50px"/>
    	</div>
     <div class="container">
-    	
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
