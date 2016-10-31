@@ -7,7 +7,7 @@
 
     $.fn.bootstrapTable.locales['zh-CN'] = {
         formatLoadingMessage: function () {
-            return '正在努力地加载数据中，请稍候……';
+     //       return '正在努力地加载数据中，请稍候……';
         },
         formatRecordsPerPage: function (pageNumber) {
             return '每页显示 ' + pageNumber + ' 条记录';

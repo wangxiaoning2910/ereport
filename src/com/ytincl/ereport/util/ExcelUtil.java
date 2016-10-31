@@ -1,4 +1,4 @@
-package com.ytincl.ereport.util.templateUtil;
+package com.ytincl.ereport.util;
 
 import java.io.File;
 import java.io.FileInputStream;

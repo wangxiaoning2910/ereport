@@ -1,4 +1,4 @@
-package com.ytincl.ereport.util.templateUtil;
+package com.ytincl.ereport.util;
 
 import java.math.BigDecimal;
 import java.util.regex.Matcher;
@@ -35,12 +35,29 @@ public class Arithmetic {
 		String[] modeValue={"1","2","3"};
 		//String test="(A+B)*C+(B//2)";
 		String test="(a+b)*c+a+b*2/3".toLowerCase();
-		String a=ruleToNumber(mode,modeValue,test);
-		System.out.println(test);
-		System.out.println(a);
-		System.out.println(arithmetic(a));
+		String testValue=ruleToNumber(mode,modeValue,test);
+
 		
 	}
+	public static String computeRow(String[]mode,String[] modeValue,String test){
+		ExcelReader excelReader=new ExcelReader();
+		ReportTools2 reportTools2=new ReportTools2();
+		excelReader.showOneArray(mode);
+		excelReader.showOneArray(modeValue);
+		test=test+"+0";
+		System.out.println("公式："+test);
+		String [] fprop=ReportTools2.getLetterByFprop(mode).clone();
+		excelReader.showOneArray(fprop);
+		test=test.toLowerCase();
+		String testValue=ruleToNumber(fprop,modeValue,test);		
+		String value=""+arithmetic(testValue);
+
+		System.out.println("传参："+testValue);
+		System.out.println("结果："+value);
+		return value;
+	}
+	
+	
 	
 	public String[] getWordByCol(String []fprops){
 		String []ret=new String[fprops.length];

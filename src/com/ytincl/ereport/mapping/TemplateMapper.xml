@@ -32,7 +32,9 @@
   </select>
   <!--  查询源模板 -->
   <select id="queryTemplateC" parameterType="java.lang.String" resultMap="BaseResultMap">
-  	select t.temp_id from template t where t.upTemp_id = #{upTemp_id,jdbcType=VARCHAR};
+  	select 
+  	<include refid="Base_Column_List" />
+    from template t where t.upTemp_id = #{upTemp_id,jdbcType=VARCHAR};
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from template

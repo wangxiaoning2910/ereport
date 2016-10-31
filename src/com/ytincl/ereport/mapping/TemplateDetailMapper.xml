@@ -101,7 +101,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ytincl.ereport.pojo.TemplateDetail" >
+  <update id="addTemplateFormula" parameterType="com.ytincl.ereport.pojo.TemplateDetail" >
     update template_detail
     <set >
       <if test="location != null" >

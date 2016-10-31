@@ -1,6 +1,8 @@
-package com.ytincl.ereport.util.templateUtil;
+package com.ytincl.ereport.util;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ReportTools2 {
 	public static final int JasperPDF = 0;
@@ -29,14 +31,22 @@ public class ReportTools2 {
 	public ReportTools2() {
 	}
 
-	public static void main(String[] args) {
-		ReportTools2 tables = new ReportTools2();
-//		tables.getStringToCood_ColRow("AA8");
-//		tables.getPos_ColRow("C8", "F8");
-		System.out.println(tables.getStringToCoodNextNRowCoodString("c8", 2));
+
+	public static String[] getLetterByFprop(String[] fprop){
+		
+	
+		for(int i=0;i<fprop.length;i++){
+			int cood =getStringToCood_ColRow_only(fprop[i]);
+			fprop[i]=""+str[cood];
+		}
+		
+		
+		return fprop;
 	}
+	
 
 	public static int[] getStringToCood_ColRow(String Cood) {
+		//System.out.println("49999999999999");
 		int[] cood = new int[2];
 		String strOne = "", strTwo = "";
 		if (Cood != null || Cood.length() != 0) {
@@ -52,11 +62,30 @@ public class ReportTools2 {
 		}
 		cood[0] = getColumnsIndex(strOne);
 		cood[1] = getRowsIndex(strTwo);		
-		//System.out.println("cood[0]="+cood[0]);
-		//System.out.println("cood[1]="+cood[1]);
+		System.out.println("cood[0]="+cood[0]);
+		System.out.println("cood[1]="+cood[1]);
 		return cood;
 	}
-
+	public static int getStringToCood_ColRow_only(String Cood) {
+		int[] cood = new int[2];
+		String strOne = "", strTwo = "";
+		if (Cood != null || Cood.length() != 0) {
+			for (int n = 0; n < Cood.length(); n++) {
+				if (Cood.charAt(n) < 48 || Cood.charAt(n) > 58) {
+					strOne += Cood.charAt(n);
+					
+				} else {
+					strTwo = Cood.substring(n, Cood.length());
+					break;
+				}
+			}
+		}
+		cood[0] = getColumnsIndex(strOne);
+	
+		//System.out.println("cood[0]="+cood[0]);
+		//System.out.println("cood[1]="+cood[1]);
+		return cood[0];
+	}
 	public static String[] getPos_ColRow(String first, String end) {
 		int[] firstarr = getStringToCood_ColRow(first);		
 		int rowIndex = firstarr[1] + 1;
@@ -172,6 +201,65 @@ public class ReportTools2 {
 		
 		
 		return firstList;
+	}
+	
+	
+	public static List<String[]> getSumColByIndexForSumListTotal(List<List<String[]>> totalList,
+			String[]fprops,String[] formulaArray){
+		List<String[]> firstList=totalList.get(0);
+
+		
+		for(int m=0;m<totalList.size();m++){
+			List<String[]> tmpList=totalList.get(m);
+		
+		    m++;	
+		    if(m>=totalList.size()){
+		    	break;
+		    }
+			List<String[]> tmpList1=totalList.get(m);
+		
+			
+			firstList=getSumColByIndexForSumListTotal_do(firstList, tmpList1,fprops, formulaArray);
+			m--;
+		}
+		
+		
+		return firstList;
+	}	
+	public static List<String[]> getSumColByIndexForSumListTotal_do(
+			List<String[]> firstList,List<String[]> tmpList,String[]fprops,String[] formulaArray){
+		
+		for(int i=0;i<firstList.size();i++){			
+			  String []firstList_row=firstList.get(i);
+			  String []tmpList_row=tmpList.get(i);
+			  
+			  
+			  for(int k=0;k<firstList_row.length;k++){
+				  if(!formulaArray[k].equalsIgnoreCase("")){
+					  //firstList_row[k]=firstList_row[k]+tmpList_row[k];
+					  
+					  firstList_row[k]=String.valueOf(Double.valueOf(firstList_row[k]).doubleValue()+Double.valueOf(tmpList_row[k]).doubleValue());
+				  }
+				  
+				 /* if(k==index){
+					  str[k]=str[k]+tmpstr[k];
+				  }
+				  */
+			  }
+			firstList.set(i, firstList_row);
+			
+		}
+		
+		
+		return firstList;
+	}		
+	
+	
+	public static void main(String[] args) {
+		ReportTools2 tables = new ReportTools2();
+//		tables.getStringToCood_ColRow("AA8");
+//		tables.getPos_ColRow("C8", "F8");
+		System.out.println(tables.getStringToCoodNextNRowCoodString("c8", 2));
 	}
 	
 }

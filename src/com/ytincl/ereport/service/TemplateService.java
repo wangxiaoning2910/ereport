@@ -9,9 +9,10 @@ import com.ytincl.ereport.pojo.TemplateDetailKey;
 public interface TemplateService {
 	public int insertTemplate(Template template);
 	public ArrayList<Template> queryTemplate();
-	ArrayList<TemplateDetail> queryTemplateDetail(TemplateDetailKey key);
+	public ArrayList<TemplateDetail> queryTemplateDetail(TemplateDetailKey key);
 	public ArrayList<Template> queryTemplateF();
 	public ArrayList<Template> queryTemplateC(String temp_id);
 	
 	public int insertTemplateDetail(TemplateDetail templateDetail);
+	public int addTemplateFormula(TemplateDetail templateDetail); 
 }

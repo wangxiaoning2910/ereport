@@ -140,19 +140,28 @@
 		return data;
 	}
 	function onDblClickRow(row){
+		//模板类型
+		var temp_type = row.temp_type;
+		//以下变量是给源模板以及源模板列获取值
 		  var data;
+		  var dataR;
 	        var result = [];
+	        var resultR = [];
 	        $.ajax({
-	            url: 'queryTemplate.do?t=3&temp_id='+row.temp_id,
+	            url: 'queryTemplate.do?t=3&temp_id='+row.temp_id+'&version='+row.version,
 	            type: "get",
 	            async:false,
 	            contentType: 'application/json',
 			    dataType:'json',
 	            success: function (json) {
 	            	 data = json.list;
+	            	 dataR = json.list1;
 	            	$.each(data,function(key,value){
 	            		result.push({ value: value.temp_id, text: value.temp_id });
 //	               		console.log({ value: key, text: value.temp_id });
+	            	});
+	            	$.each(dataR,function(key,value){
+	            		resultR.push({ value: key, text: value.temp_id+'.'+value.loc_name});
 	            	});
 	            }
 	        });
@@ -207,7 +216,7 @@
 	    		title: '源模板',
 	    		align: 'center',
 	    		editable: {
-               //     type: 'checklist',
+                    type: 'checklist',
                //   title: '源模板',
                     source: result
                 }
@@ -215,9 +224,13 @@
 	    		field: 'Temp_rowC',
 	    		title: '源模板列',
 	    		align: 'center',
-                formatter: function (value, row, index) {
-                    return "<a href=\"#\" name=\"Temp_rowC\" data-type=\"select\" data-pk='1' > </a>";
+	    		editable: {
+                    type: 'select',
+                    source: resultR
                 }
+                /* formatter: function (value, row, index) {
+                    return "<a href=\"#\" name=\"Temp_rowC\" data-type=\"select\" data-pk='1' > </a>";
+                } */
                 
 	        },{
 	    		field: 'version',
@@ -233,26 +246,34 @@
 	    	//四个参数 当前列的名称、当前行数据对象、更新前的值、编辑的当前单元格的jQuery对象
 	    	onEditableSave: function (field, row, oldValue, $el) {
 	    		if(field=="Temp_idC"){//查询源模板中的列
-	    			var data;
-    		        var result = [];
-    		        $.ajax({
-	    		            url: 'queryTemplateCRow.do?Temp_idC='+row.Temp_idC+"&version="+row.version,
-	    		            type: "get",
-	    		            async:false,
-	    		            contentType: 'application/json',
-	    				    dataType:'json',
-	    		            success: function (json) {
-	    		            	 data = json.list1;
-	    		            	$.each(data,function(key,value){
-	    		            		result.push({ value: key, text: value.loc_name });
-	    		            	});
-	    		            }
-	    		        });
-    		        $("#template_detail").bootstrapTable("refresh");
-	    		        $("#template_detail a").editable({
-	                        type: 'select',
-	                        source:result
-	                    });
+	    			if(temp_type=="0"||temp_type=="2"){//如果是单一模板和子模板，保存不改变
+	    				return false;
+	    			}
+	    		       
+	    		}
+	    		if(field=="formula"){
+	    			if(temp_type=="1"||temp_type=="2"){//如果是单一模板和子模板，保存不改变
+	    				return false;
+	    			}
+	    			var temp_id = row.temp_id;
+	    			var version = row.version;
+	    			var loc_num = row.loc_num;
+	    			var formula = row.formula;
+	    			console.log(temp_id+version+loc_num);
+	    			$.ajax({
+	    				type:"get",
+	    			    url:"addTemplateFormula.do",
+	    			    contentType: 'application/json',
+	    			    dataType:'json',
+	    			    data:{temp_id:temp_id,version:version,loc_num:loc_num,formula:formula},
+	    			    success:function(json){
+	    			        alert(123);
+	    			    },
+	    			    error:function(){
+	    			    	alert("错误");
+	    			    	return;
+	    			    }
+	    			})
 	    		}
             }
 		});
