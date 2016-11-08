@@ -248,7 +248,6 @@ public class upLoadFile {
 			@RequestParam(value="ymounth", required=true) String querydate,
 			HttpServletRequest request,
 			HttpServletResponse response){
-		logger.debug("查询日期是====="+querydate);
 		ToBeUploaded tbu = new ToBeUploaded();
 		ArrayList<UpLoadFile> list;
 		list = (ArrayList<UpLoadFile>) tobeuploaded.getToBeUpLoadedList(querydate);

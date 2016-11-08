@@ -53,6 +53,13 @@
 		#{time_money13},#{time_money14},#{time_money15},#{time_money16},#{time_money17},
 		#{time_money18},#{ranking_no2},#{time_money19},#{time_money20},#{ranking_no3},#{time_money21})
 	</insert>
+	<insert id="insertdata" parameterType="com.ytincl.ereport.pojo.UpLoadFile">
+		insert into
+		tobeuploaded
+		(name,status,time)
+		value
+		(#{name},#{status},#{queryDate})
+	</insert>
 	
 </mapper>
 
