@@ -151,7 +151,7 @@ function getList(){
 	        $("#uploadTable").bootstrapTable('load',data);
 	    },
 	    error:function(){
-	    	alert("错误");
+	    	bootbox.alert("错误", function () {})
 	    	return;
 	    }
 	})
@@ -171,7 +171,7 @@ function queryList(){
 	        $("#uploadTable").bootstrapTable('load',data);
 	    },
 	    error:function(){
-	    	alert("错误");
+	    	bootbox.alert("错误", function () {});
 	    	return;
 	    }
 	})
@@ -189,13 +189,15 @@ function setDate(){
 	$("#datetimepicker").attr('value',now);
 }
 function init(){
+	 
+
 	$('#choosefile').on('click',function(){
 		if(!isChoosedFile){
-			alert("请选择要上传的原始文件");
+			bootbox.alert("请选择要上传的文件", function () {})
 			return false;
 		}else{
 			if(choosedFileStatus == 1){
-				alert("该文件已上传成功");
+				bootbox.alert("该文件已上传成功", function () {})
 				return false;
 			}else{
 				
