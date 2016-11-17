@@ -11,7 +11,6 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value='/resources/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css' />">
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="http://www.my97.net/dp/My97DatePicker/WdatePicker.js"></script>
 	<script type="text/javascript" src="<c:url value='/resources/bootstrap-fileinput/js/fileinput.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/resources/script/jquery.validate.min.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/resources/uploadify/jquery.uploadify.js' />"></script>
@@ -70,7 +69,12 @@
 	                          <input type="text"  id="datetimepicker" name="datetimepicker" >                         
 	                          <button type="button" onclick="getReport()" class="btn btn-default btn-sm">
           					        <span class="glyphicon glyphicon-search"></span> 查询
-        					  </button>        					  
+        					  </button>  
+        					  
+        					  
+        					  <button type="button" onclick="makReport()" class="btn btn-default btn-sm">
+          					        <span class="glyphicon glyphicon-ok"></span> 生成报表
+        					  </button>        					    					  
 	               </div>              	              
 	               <!-- /.panel-body -->	              
 	           </div>
@@ -80,16 +84,23 @@
 	</div>
     <!-- /.row -->
     
-
  </form>
 
  <div id="result0" ></div>
 
 </body>
 </html>
+
+
 	
 <!-- 查询报表个数 -->
 <script type="text/javascript">
+ 
+    $(document).ready(function() {		
+         window.onload=getReport();		
+    })
+    
+    //报表原始数据查询
 	function getReport(){
 		var date = $("#datetimepicker").val();
 		date = date.replace("-","");
@@ -97,7 +108,16 @@
 			function(data){$("#result0").html(data);
 		});
 	}
-
+    
+    //生成报表
+    function makReport(){   	
+    	alert("报表生成成功");
+		//var date = $("#datetimepicker").val();
+		//date = date.replace("-","");
+		//$.get('getereport.do', {date:date}, 
+			//function(data){$("#result0").html(data);
+		//});
+	}
 
 	// 日期框设计-只显示年月
     function selectMonth() {  

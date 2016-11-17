@@ -23,7 +23,7 @@
    
     <script type="text/javascript">
    		 function getDeppub(tablename){
-			alert(tablename);			
+			//alert(tablename);			
 			if(tablename=="储蓄分储种情况"){
 
 				getDeptype();
@@ -40,7 +40,7 @@
 			}
 			
 			else{
-				alert("无相应的 报表");
+				alert("无相应的报表数据");
 				
 			}
 		}   
@@ -77,8 +77,7 @@
 					$("#result").html(data);
 				});
 		}
-		
-		
+
 		
 	</script>
 		
@@ -99,12 +98,21 @@
 			<li class="active">
 				<a href="#home"   onclick="getDeppub('<%=obj.getName() %>')" data-toggle="tab">
 					<%=obj.getName() %>
-				</a>
+				</a>	
 			</li>
-		
+			
+			 <script type="text/javascript">         
+			            $(document).ready(function() {
+			    			
+			   			 window.onload=getDeppub('<%=obj.getName() %>');
+			   	        		
+			   	    })
+			   		
+			</script>
+			
+			
 		<%
-            }
-
+            }    
             while(iter.hasNext()) {
 		    	obj = iter.next();
        %>
@@ -120,7 +128,7 @@
 		}
 		    
 		%>
-		
+				
 </ul>
 	
 </table>
@@ -146,3 +154,9 @@
     
     
 </body>
+
+
+
+
+
+
