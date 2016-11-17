@@ -104,7 +104,7 @@
 			 <script type="text/javascript">         
 			            $(document).ready(function() {
 			    			
-			   			 window.onload=getDeppub('<%=obj.getName() %>');
+			   			 getDeppub('<%=obj.getName() %>');
 			   	        		
 			   	    })
 			   		
