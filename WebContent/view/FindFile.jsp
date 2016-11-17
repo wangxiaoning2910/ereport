@@ -33,6 +33,7 @@
 	<script type="text/javascript" src="<c:url value='/resources/bootstrap-table/bootstrap-table.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/resources/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js' />"></script>
 	<script type="text/javascript" src="<c:url value='/resources/script/appscript/upLoadFile.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/resources/script/bootbox.min.js' />"></script>
 	
 </head>
 <body>
@@ -87,7 +88,9 @@
     
     //生成报表
     function makReport(){   	
-    	alert("报表生成成功");
+    	bootbox.alert("报表生成成功", function() {
+ 
+    		});
 		//var date = $("#datetimepicker").val();
 		//date = date.replace("-","");
 		//$.get('getereport.do', {date:date}, 
