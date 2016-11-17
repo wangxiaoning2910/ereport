@@ -1,4 +1,4 @@
-package com.ytincl.ereport.util.templateUtil;
+package com.ytincl.ereport.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -60,7 +60,7 @@ public class ExcelReader {
 		row = sheet.getRow(0);
 		// 标题总列数
 		int colNum = row.getPhysicalNumberOfCells();
-		System.out.println("colNum:" + colNum);
+		//System.out.println("colNum:" + colNum);
 		String[] title = new String[colNum];
 		for (int i = 0; i < colNum; i++) {
 			// title[i] = getStringCellValue(row.getCell((short) i));
@@ -96,7 +96,7 @@ public class ExcelReader {
 		}
 		sheet = wb.getSheetAt(sheetNum);
 		int irow = sheet.getPhysicalNumberOfRows();
-		System.out.println("111111111111------irow="+irow);
+		//System.out.println("111111111111------irow="+irow);
 		//a6,b6,c6
 		int cur_row=0;
 		for(int i=0;i<fprop.length;i++){
@@ -105,7 +105,7 @@ public class ExcelReader {
 		  break;
 		 // String []cur_rowstr=new String[fprop.length];		  
 		}
-		System.out.println("95=="+cur_row);
+		//System.out.println("95=="+cur_row);
 		int cnt=0;
 		while(true){
 			 row = sheet.getRow(cur_row);
@@ -178,7 +178,7 @@ public class ExcelReader {
 
 	public String getCellString(HSSFRow row2, int j) {
 		if(row2==null){
-			System.out.println("null");
+			//System.out.println("null");
 		}
 		if(row2.getCell(j)==null){
 			return "";
@@ -307,7 +307,7 @@ public class ExcelReader {
 			
 			//单一合并 A001例子
 			
-			System.out.println("---------------------------------");
+			//System.out.println("---------------------------------");
 			ExcelReader  excelReader= new ExcelReader();
 			String sheet1_kh = "d:\\学生成绩工作表.xls";
 			String sheet2_kh = "d:\\学生成绩工作表1.xls";
@@ -344,7 +344,7 @@ public class ExcelReader {
 			
 			String word="c6";
 			int index=ReportTools2.getFpropsIndexByWord(fprop,word);			
-			System.out.println("aaaa===="+index);
+			//System.out.println("aaaa===="+index);
 			
 			
 			
@@ -376,63 +376,7 @@ public class ExcelReader {
 		}
 
 	}
-	public static void main(String[] args) throws Exception {	
-		
-		test(args);
-		
-		/*
-		System.out.println("---------------------------");
-		
-		
-		ExcelReader  excelReader= new ExcelReader();
-		String a1="a1";
-		String a2="a2";
-		String a3="a3";
-		String a4="a4";
-		List list=new ArrayList();
-		list.add(a1);
-		list.add(a2);
-		list.add(a3);
-		list.add(a4);
-		
-		 a1="b1";
-		 a2="b2";
-		 a3="b3";
-		 a4="b4";
-		
-		
-		List list2=new ArrayList();
-		list2.add(a1);
-		list2.add(a2);
-		list2.add(a3);
-		list2.add(a4);
-		
-		 a1="c1";
-		 a2="c2";
-		 a3="c3";
-		 a4="c4";
-		
-		List list3=new ArrayList();
-		list3.add(a1);
-		list3.add(a2);
-		list3.add(a3);
-		list3.add(a4);
-		
-		
-		
-		List totalList=new ArrayList();
-		totalList.add(list);
-		totalList.add(list2);
-		totalList.add(list3);
-		
-		String[]props =new String[]{"a1","b1","c1"};
-		
-		List show=excelReader.getMergeCol(props,totalList);
-		//excelReader.showListByString(show);
-		
-	   */
-	
-	}
+
 	
 	
 	public List<String[]> getMergeCol(String[]props,List<List<String>> totalList){
@@ -446,26 +390,17 @@ public class ExcelReader {
 			}			
 	
 		}
-		System.out.println("426,row_num="+row_num);
-
-		
-		int string_len=props.length;
-		
+		//System.out.println("426,row_num="+row_num);		
+		int string_len=props.length;		
 		for(int i=0;i<totalList.size();i++){			
 			//i是索引//j是行
 			List tmpList=(List)totalList.get(i);
 			for (int j=0;j<tmpList.size();j++){				
 				String tmpstr=(String)tmpList.get(j);	
-				//System.out.println("i="+i+",j="+j+",retString["+i+"]="+retString[i]+",422="+tmpstr);
-				//System.out.println("444="+tmpstr);				
 				retTwoArray[j][i]=tmpstr;					
-			}	
-			//retString_new[i]=tmpstr;	
-			//retList.set(i, retString_new);
-			System.out.println("---------");
+			}
 			
-		}	
-		
+		}		
 		showTwoArray(retTwoArray);
 		retList=showTwoArrayToList(retList,retTwoArray);
 		showListByString(retList);
@@ -474,7 +409,7 @@ public class ExcelReader {
 	
 	
 	public void showListByString(List list){
-		System.out.println("list.size=()="+list.size());
+		//System.out.println("list.size=()="+list.size());
 		if(list!=null){
 			for(int i=0;i<list.size();i++){
 				String[]tmpstr=(String[])list.get(i);
@@ -487,7 +422,20 @@ public class ExcelReader {
 		}	
 		
 	}
-	
+	public void showListByStringOnlyOne(List list){
+		//System.out.println("list.size=()="+list.size());
+		if(list!=null){
+			for(int i=0;i<list.size();i++){
+				String tmpstr=(String)list.get(i);
+				
+					//System.out.print(i+",tmpstr"+k+"="+tmpstr[k]);
+					System.out.print(i+",463="+tmpstr+",");
+				
+				System.out.println("");
+			}				
+		}	
+		
+	}
 	public void showTwoArray(String[][] twoArray){
 		System.out.println("showTwoArray,begin");
 		for(int i=0;i<twoArray.length;i++){
@@ -521,30 +469,7 @@ public class ExcelReader {
 		return retList;
 	}
 	
-	public static void test(String[] args) throws Exception{
-		
-		//A001:根据坐标数组得到“带标题”的List，输入参数：文件全路径，坐标数组（a1或a1,b1,c1),行号
-		//A001:去掉列标题的List(不含列标题的所有行）
-		//A001:只查询列标题List		
-		String sheet1_kh = "d:\\学生成绩工作表.xls";
-		String sheet2_kh = "d:\\学生成绩工作表1.xls";
-		ReportTools2 reportTools2 = new ReportTools2();
-		ExcelReader excelReader=new ExcelReader();		
-		String[] fprop=reportTools2.getPos_ColRow("a6", "c6");	
-		//得到所有数据
-		List<String[]> list1=excelReader.getALLExcelListByFileAndLetters(sheet1_kh,fprop, 0);
-		excelReader.showListByString(list1);	
-		//只得到第一行，列标题
-		String []firstArray =excelReader.getListArrayOnlyFirstRow(list1);
-		excelReader.showOneArray(firstArray);		
-		//得到除第一行外的所有行
-		List<String[]> list2=excelReader.getListArrayWithoutFirstRow(list1);
-		excelReader.showListByString(list2);
-		//得到列标题坐标对应的值  a6:编号，b6:名字，C6：成绩
-		Map colMap=excelReader.getColNameByLetter(fprop,firstArray);
-		excelReader.showMapString(colMap);
-		
-	}
+
 	
 	
 	public Map  getColNameByLetter(String[]fprop,String[]colValue){
@@ -598,5 +523,272 @@ public class ExcelReader {
 			}
 		}				
 		return retList;
-	}		
+	}	
+	
+	
+	public List copyListStringArray(List list)throws Exception{
+		List retList=new ArrayList();
+		for(int i=0;i<list.size();i++){
+			String []ret=(String[])list.get(i);
+			retList.add(ret.clone());
+		}		
+		return retList;
+	}
+	
+	public List getSingleFormulaComputeList(List list,List ghostList,String []fprops,String []formulaArray){
+		Arithmetic arithmetic=new Arithmetic();
+		List retList=new ArrayList();
+		for(int i=0;i<list.size();i++){
+			String []ret=(String[])list.get(i);
+			String []ghostRet=(String[])ghostList.get(i);
+			
+			for(int j=0;j<formulaArray.length;j++){
+				  String test=formulaArray[j];
+				  //System.out.println("599="+test);
+				  if(!test.equalsIgnoreCase("")){	
+					  //System.out.println("601:"+test);
+					  ret[j]=arithmetic.computeRow(fprops,ret, test);
+				  }
+			}			
+			
+			retList.add(ret.clone());
+		}		
+		return retList;
+		
+	}
+	
+	
+	public static List<String> getListStringFromArray(List<String[]> list){
+		List retList=new ArrayList();
+		for(int i=0;i<list.size();i++){
+			String[]str=(String[])list.get(i);
+			String tmpstr=str[0];
+			retList.add(tmpstr);
+		}
+		
+		return retList;
+	}
+
+	public static void testDouble(String[] args) throws Exception {	
+		
+		//test(args);
+		
+	
+//		System.out.println("---------------------------");
+//		
+//		
+//		
+//		String a1="a1";
+//		String a2="a2";
+//		String a3="a3";
+//		String a4="a4";
+//		List list=new ArrayList();
+//		list.add(a1);
+//		list.add(a2);
+//		list.add(a3);
+//		list.add(a4);
+//		
+//		 a1="b1";
+//		 a2="b2";
+//		 a3="b3";
+//		 a4="b4";
+//		
+//		
+//		List list2=new ArrayList();
+//		list2.add(a1);
+//		list2.add(a2);
+//		list2.add(a3);
+//		list2.add(a4);
+//		
+//		 a1="c1";
+//		 a2="c2";
+//		 a3="c3";
+//		 a4="c4";
+//		
+//		List list3=new ArrayList();
+//		list3.add(a1);
+//		list3.add(a2);
+//		list3.add(a3);
+//		list3.add(a4);
+//		
+//		
+//		
+//		List totalList=new ArrayList();
+//		//totalList.add(list);
+//		//totalList.add(list2);
+//		//totalList.add(list3);
+//		
+//		//String[] taget_props =new String[]{"a6","b6","c6"};
+		
+		
+		//复合模板处理流程，
+		//首先第一步：选择不同子模板文件中的不同列，分别形成一个对应的list，合并所有的list形成一个合并list。
+        //然后第二步，对合并后复合模板的数据（定义formulaArray【】不为空的列）进行对应公式计算。
+			
+		ExcelReader  excelReader= new ExcelReader();		
+		//001:复合模板 目标列和 对应公式
+		String[] taget_props =new String[]{"a6","b6","c6","d6","e6"};
+		String[] ghost_taget_props =taget_props.clone();
+		
+		String[] formulaArray=new String[]{"","","","","(c+d)*2+e"};	
+		String[] taget_propsValue =new String[]{"id_1","name_1","数学","语文","外语"};
+		String sheet1_kh = "d:\\1\\学生成绩工作表3.xls";
+		
+		//002:复合模板,这里模拟4列，可以来源于不同电子表格。
+		List<String[]> list11=excelReader.getALLExcelListByFileAndLetters(sheet1_kh,new String[]{"a6"}, 4);
+		//字符串一维数组，变为字符串
+		List<String>  list11_two=excelReader.getListStringFromArray(list11);		
+		excelReader.showListByStringOnlyOne(list11_two);
+		
+		
+		List<String[]> list22=excelReader.getALLExcelListByFileAndLetters(sheet1_kh,new String[]{"b6"}, 4);
+		List<String>  list22_two=excelReader.getListStringFromArray(list22);	
+		excelReader.showListByStringOnlyOne(list22_two);
+		
+		List<String[]> list33=excelReader.getALLExcelListByFileAndLetters(sheet1_kh,new String[]{"c6"}, 4);
+		List<String>  list33_two=excelReader.getListStringFromArray(list33);	
+		excelReader.showListByStringOnlyOne(list33_two);		
+		
+		List<String[]> list44=excelReader.getALLExcelListByFileAndLetters(sheet1_kh,new String[]{"d6"}, 4);
+		List<String>  list44_two=excelReader.getListStringFromArray(list44);	
+		excelReader.showListByStringOnlyOne(list44_two);
+		
+		List<String[]> list55=excelReader.getALLExcelListByFileAndLetters(sheet1_kh,new String[]{"e6"}, 4);
+		List<String>  list55_two=excelReader.getListStringFromArray(list55);	
+		excelReader.showListByStringOnlyOne(list55_two);
+		
+		//合并的所有单列所有行，
+		List totalList=new ArrayList();				
+		totalList.add(list11_two);
+		totalList.add(list22_two);	
+		totalList.add(list33_two);
+		totalList.add(list44_two);	
+		totalList.add(list55_two);
+		
+		//totalList.size==formulaArray.length==taget_props.length
+		
+		//formulaArray数组里非空的值，都要求是数字
+		//checkout  mergeList<String,String>,formulaArray[]
+		//
+		//String[] taget_props =new String[]{"a6","b6","c6","d6","e6"};
+		//String[] formulaArray=new String[]{"","","c","d","(c+d)*2+e"};
+		//未来增加判断，不配置为“”空，对应的list列，必须是数字。
+	
+		//003:复合模板,合并所有列
+		List<String[]> mergeList=excelReader.getMergeCol(taget_props,totalList);
+		excelReader.showListByString(mergeList);
+		
+		//只得到第一行，列标题
+		String []firstArray =excelReader.getListArrayOnlyFirstRow(mergeList);
+		excelReader.showOneArray(firstArray);		
+		//得到除第一行外的所有行
+		List<String[]> listData=excelReader.getListArrayWithoutFirstRow(mergeList);
+		excelReader.showListByString(listData);
+		
+		//004:复合模板，ghost所有，为计算做准备
+		List<String[]> ghostListData=excelReader.copyListStringArray(listData);
+		
+		//005:复合模板：复合模板，调用计算公式进行计算。
+		List<String[]> computeSumList=excelReader.getSingleFormulaComputeList(listData,ghostListData,taget_props,formulaArray);
+		excelReader.showListByString(computeSumList);	
+		
+		//重点关注ghost_taget_props
+		ExcelControll excelControll=new ExcelControll();
+		String date = new SimpleDateFormat("yyyyMMddhh24mmss").format(new Date());
+		String fileName = "d:\\1\\学生成绩工作表3.xls";
+		String targetDirPath="d:\\1\\";
+		String targetFileName="学生成绩工作表double_"+date+".xls";		
+		//ghost_taget_props 对应列坐标,taget_propsValue对应列坐标的“数据库列名”
+		excelControll.downloadBatchInst( fileName, targetDirPath,targetFileName,computeSumList,ghost_taget_props,taget_propsValue);
+	
+	}	
+	
+	public static void testSingle(String[] args) throws Exception{
+		
+		//A001:根据坐标数组得到“带标题”的List，输入参数：文件全路径，坐标数组（a1或a1,b1,c1),行号
+		//A001:去掉列标题的List(不含列标题的所有行）
+		//A001:只查询列标题List		
+		String sheet1_kh = "d:\\1\\学生成绩工作表3.xls";
+		String sheet2_kh = "d:\\1\\学生成绩工作表1.xls";
+		ReportTools2 reportTools2 = new ReportTools2();
+		ExcelReader excelReader=new ExcelReader();		
+		String[] fprop=reportTools2.getPos_ColRow("a6", "e6");	
+		
+		//生成EXCEL文件时候适用ghost_fprop
+		String[] ghost_fprop=fprop.clone();
+		
+		
+		//得到所有数据
+		List<String[]> list1=excelReader.getALLExcelListByFileAndLetters(sheet1_kh,fprop, 4);
+		excelReader.showListByString(list1);	
+		//只得到第一行，列标题
+		String []firstArray =excelReader.getListArrayOnlyFirstRow(list1);
+		excelReader.showOneArray(firstArray);		
+		//得到除第一行外的所有行
+		List<String[]> listData=excelReader.getListArrayWithoutFirstRow(list1);
+		excelReader.showListByString(listData);
+		//得到列标题坐标对应的值  a6:编号，b6:名字，C6：成绩
+		Map colMap=excelReader.getColNameByLetter(fprop,firstArray);
+		excelReader.showMapString(colMap);
+		
+		List ghostList=excelReader.copyListStringArray(listData);		
+		excelReader.showListByString(list1);
+		excelReader.showListByString(ghostList);
+		for(int i=0;i<list1.size();i++){
+			String []str=(String[])list1.get(i);
+			str[0]="1000000";
+			list1.set(i, str);
+		}
+		excelReader.showListByString(listData);
+		excelReader.showListByString(ghostList);
+		//单一模板处理流程，首先第一步：先每个单一数据按公式计算。然后第二步，合并后的数据（定义formulaArray【】不为空的列）进行求和。
+		//其他说明：如果仅单一模板，只选择一个，也可以合并，即只执行“首先第一步”
+	
+		//String[]fprop=new String[]{"a6","b6","c6","d6","e6"};
+		//String[] formulaArray=new String[]{"","","","d","(c+d)*2"};
+		//单一模板对应列和公式
+		String[] formulaArray=new String[]{"","","c","d","(c+d)*2"};
+
+		/*
+		List totalList=new ArrayList();
+		totalList.add(excelReader.copyListStringArray(listData));
+		totalList.add(excelReader.copyListStringArray(listData));
+		totalList.add(excelReader.copyListStringArray(listData));
+		totalList.add(excelReader.copyListStringArray(listData));
+		//totalList.add(excelReader.copyListStringArray(listData));
+		
+		
+		List sumList=reportTools2.getSumColByIndexForSumListTotal(totalList,fprop,formulaArray);
+		
+		excelReader.showListByString(sumList);
+		*/
+		
+		//列数组，列对应公式,数据List的集合，返回新list
+		//单一模板公式处理
+		List computeSumList=excelReader.getSingleFormulaComputeList(listData,ghostList,fprop,formulaArray);
+		excelReader.showListByString(computeSumList);		
+		
+		List totalList=new ArrayList();
+		//这里执行单一模板合并操作
+		totalList.add(excelReader.copyListStringArray(computeSumList));
+		totalList.add(excelReader.copyListStringArray(computeSumList));		
+		//最终得到单一模板的结果数据。
+        List sumList=reportTools2.getSumColByIndexForSumListTotal(totalList,fprop,formulaArray);
+		
+		excelReader.showListByString(sumList);
+		
+		//重点关注ghost_taget_props
+		ExcelControll excelControll=new ExcelControll();
+		String date = new SimpleDateFormat("yyyyMMddhh24mmss").format(new Date());
+		String fileName = "d:\\1\\学生成绩工作表3.xls";
+		String targetDirPath="d:\\1\\";
+		String targetFileName="学生成绩工作表single_"+date+".xls";		
+		excelControll.downloadBatchInst( fileName, targetDirPath,targetFileName,computeSumList,ghost_fprop,firstArray);
+	
+		
+	}
+	public static void main(String[] args) throws Exception {	
+		testSingle(args);
+		testDouble(args);
+	}
 }

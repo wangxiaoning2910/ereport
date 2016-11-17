@@ -1,6 +1,7 @@
 //交易与后台交互 获取数据
+var isChoosedFile = false;
+var choosedFileStatus = 1;
 $(document).ready(function() {
-	
 	
 	$('#datetimepicker').datetimepicker({
     	format: 'yyyy-mm',
@@ -100,6 +101,7 @@ $(document).ready(function() {
     	},
     	onCheck:function(row){
     		changeBtnStatus(row.status);
+    		isChoosedFile = true;
     	},
     	onDblClickRow:function(row,element){
     	}
@@ -111,7 +113,6 @@ $(document).ready(function() {
         removeLabel : "删除",
         uploadLabel : "上传",
         allowedFileExtensions: ['xls'],//接收的文件后缀
-        //uploadExtraData:{"id": 1, "fileName":'123.mp3'},
         uploadAsync: true, //默认异步上传
         showUpload: true, //是否显示上传按钮
         showRemove : true, //显示移除按钮
@@ -119,12 +120,6 @@ $(document).ready(function() {
         showCaption: true,//是否显示标题
         browseClass: "btn btn-primary", //按钮样式     
         dropZoneEnabled: false,//是否显示拖拽区域
-        //minImageWidth: 50, //图片的最小宽度
-        //minImageHeight: 50,//图片的最小高度
-        //maxImageWidth: 1000,//图片的最大宽度
-        //maxImageHeight: 1000,//图片的最大高度
-        //maxFileSize: 0,//单位为kb，如果为0表示不限制文件大小
-        //minFileCount: 0,
         maxFileCount: 10, //表示允许同时上传的最大文件个数
         enctype: 'multipart/form-data',
         validateInitialCount:true,
@@ -194,13 +189,27 @@ function setDate(){
 	$("#datetimepicker").attr('value',now);
 }
 function init(){
-	changeBtnStatus(1)
+	$('#choosefile').on('click',function(){
+		if(!isChoosedFile){
+			alert("请选择要上传的原始文件");
+			return false;
+		}else{
+			if(choosedFileStatus == 1){
+				alert("该文件已上传成功");
+				return false;
+			}else{
+				
+			}
+		}
+	});
 }
 function changeBtnStatus(status){
 	if(status == 0){
-		$('#choosefile').removeAttr('disabled');
+		//$('#choosefile').removeAttr('disabled');
+		choosedFileStatus = 0;
 	}else{
-		$('#choosefile').attr('disabled',true);
+		//$('#choosefile').attr('disabled',true);
+		choosedFileStatus = 1;
 	}
 }
 

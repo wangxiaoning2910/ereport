@@ -15,4 +15,5 @@ public interface UpLoadFileDao {
 	public int insertSavingsDifferenceType(SavingsDifferenceType sdt);
 	public int insertSavingsNetAmount(SavingsNetAmount sna);
 	public int insertSavingsNetAmount2(SavingsNetAmount2 sna2);
+	public int insertdata(UpLoadFile ulf);
 }

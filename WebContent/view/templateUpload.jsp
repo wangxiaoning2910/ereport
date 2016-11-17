@@ -57,6 +57,8 @@
 	src="<c:url value='/resources/script/jquery.validate.min.js' />"></script>
 <script src="../resources/bootstrap-table/bootstrap-table-zh-CN.js"></script>
 <script>
+		var files_start;
+		var files_rows;
 	$(document).ready(function() {
 		//文件table
 		 $("#fileSelected").bootstrapTable({
@@ -66,7 +68,7 @@
 		    	cache:false,
 		    	pagination: true,//底部显示分页条
 		    	sortable: false,//禁止所有列排序
-		    	showRefresh:true,//不显示刷新
+		    	showRefresh:true,//显示刷新
 		    	pageNumber:1,      //初始化加载第一页，默认第一页
 		    	pageSize: 10,      //每页的记录行数（*）
 		    	pageList: [10, 25, 50, 100],
@@ -125,7 +127,12 @@
 			previewFileIcon : "<i class='glyphicon glyphicon-king'></i>",
 			msgFilesTooMany : "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
 			uploadExtraData: function() {
-				return {"temp_id":document.getElementById('models').value};
+				var temp_id = document.getElementById('models').value;
+				files_start = document.getElementById('file_start').value;
+				files_rows = document.getElementById('file_rows').value;
+				return {
+					"temp_id":temp_id
+				};
             }
 		});
 			//异步上传失败返回结果处理
@@ -142,6 +149,18 @@
 						 $('#model_add').modal('hide');
 						// $("#choosefile").empty();
 					});
+			var downloadTable = "fileSelected";
+			$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+				// 获取已激活的标签页的名称
+	            var activeTab = $(e.target).text();
+				if(activeTab=="上传子模板及文件"){
+					downloadTable = "fileSelected1";
+				}
+			});
+			//下载
+			$('#exportfiles').click(function(){
+				exportfiles(downloadTable);
+		    })
 			//获取模板
 			var data;
 			$.ajax({
@@ -152,7 +171,7 @@
 			    success:function(json){
 			        data= json.list;
 			    	for(var i = data.length - 1; i >= 0; i--){
-			    		$("#models").append("<option value='" + data[i].temp_id + "'>"+ data[i].temp_id + "</option>");
+			    		$("#models").append("<option>"+ data[i].temp_id+"."+data[i].version + "</option>");
 			    	}
 			    },
 			    error:function(){
@@ -190,6 +209,7 @@
 		})
 		return data;
 	}
+	var f = true;
 	function filesAndModels(){
 		//文件table
 		 $("#fileSelected1").bootstrapTable({
@@ -312,6 +332,8 @@
 						console.log(data.response);
 						 $('#model_add').modal('hide');
 					});
+			
+			if(f){
 			var data1;
 			$.ajax({
 				type:"get",
@@ -320,16 +342,20 @@
 			    dataType:'json',
 			    success:function(json){
 			    	data1 = json.list;
+			    //	var html = "<option value='0'>无</option> ";
 			    	for(var i = data1.length - 1; i >= 0; i--){
 			    		$("#upTemp_id").append("<option value='" + data1[i].temp_id + "'>"+ data1[i].temp_id + "</option>");
 			    	}
+			    //	$("#upTemp_id").append(html);
 			    },
 			    error:function(){
 			    	alert("错误");
 			    	return;
 			    }
 			})
-			return data1; 
+			f = false;
+			}
+			
 	}
 	function deleteFile(t){
 		var selects = $('#fileSelected').bootstrapTable('getSelections');
@@ -362,6 +388,42 @@
 		}
 		return false; 
 	}
+	function exportfiles(downloadTable){
+		if(downloadTable=="fileSelected"){
+			var selects = $('#fileSelected').bootstrapTable('getSelections');
+			var temp_id = document.getElementById('models').value;
+			var url = "exportByTemplate.do";
+		}else if(downloadTable=="fileSelected1"){
+			var selects = $('#fileSelected1').bootstrapTable('getSelections');
+			var url = "";
+		}
+		if(selects==""||selects==null){
+			alert("请选择");
+			return false;
+		}
+		if(downloadTable=="fileSelected"&&selects.length>1){
+			alert("只能选择一条");
+			return false;
+		}
+		var fileNames = $.map(selects, function(row) {
+			return row.file_name;
+		});
+		fileNames = encodeURI(fileNames);
+		$.ajax({
+			type:"get",
+		//    url:"exportByTemplate.do?fileNames="+fileNames,//合并导出
+		    url:url,//合并导出
+		    contentType: 'application/json',
+		    dataType:'json',
+		    data:{temp_id:temp_id,fileNames:fileNames,files_start:files_start,files_rows:files_rows},
+		    success:function(json){
+		    },
+		    error:function(){
+		    	alert("错误");
+		    	return;
+		    }
+		})
+	}
 </script>
 <title>UpLoadFileTOService</title>
 </head>
@@ -374,6 +436,11 @@
 				<!-- /.col-lg-6 -->
 				<div class="col-lg-12">
 					<div class="panel panel-default">
+						<div class="panel-heading">
+						<button class="btn btn-primary btn-sm" id="exportfiles">
+									<span class="glyphicon glyphicon-download"></span> 下载
+								</button>
+						</div>
 						<div class="panel-body">
 							<div class="dataTable_wrapper">
 								<ul id="myTab" class="nav nav-tabs">
@@ -382,11 +449,16 @@
 								</ul>
 								<div id="myTabContent" class="tab-content">
 									<div class="tab-pane fade in active" id="sourseFiles">
+									<div class="form-group">
 										<label>请选择模板</label>
 										<select id="models" class="form-control" name="models">
-										</select>
-										<label>请选择文件</label>
-										<input type="file" name="files" id="choosefile" /> 
+										</select></div>
+										<div class="form-group">
+										<button class="btn btn-primary btn-sm" data-toggle="modal"
+											data-target="#files_upload">
+											<span class="glyphicon glyphicon-plus"></span> 请选择文件
+										</button>
+										</div>
 										<table id="fileSelected"></table>
 									</div>
 									<div class="tab-pane fade" id="sourseFilesAndModels">
@@ -409,6 +481,40 @@
 				<!-- /.col-lg-6 -->
 			</div>
 			<!-- /.row -->
+			<!-- =============================单一模板上传文件============================== -->
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="files_upload" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">文件上传</h4>
+				</div>
+				<div class="modal-body">
+					 <label>标题起终点坐标(如:a1-h1)</label><input
+									class="form-control" id="file_start" name="file_start" /> 
+									<div class="form-group">
+									<label>行数</label><input
+									class="form-control" id="file_rows" name="file_rows" />
+									</div>
+								<div class="form-group">
+									<input type="file" name="files" id="choosefile" /> 
+								</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button type="button" id="add" class="btn btn-primary"
+						onClick="save()">提交更改</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+	<!-- =============================单一模板上传文件完============================== -->
 		<!-- /#page-wrapper -->
 	</div>
 	<!-- /#wrapper -->

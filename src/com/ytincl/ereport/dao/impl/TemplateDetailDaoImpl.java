@@ -41,15 +41,16 @@ public class TemplateDetailDaoImpl implements TemplateDetailDao{
 		return list;
 	}
 
+
 	@Override
-	public int updateByPrimaryKeySelective(TemplateDetail record) {
+	public int updateByPrimaryKey(TemplateDetail record) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int updateByPrimaryKey(TemplateDetail record) {
-		// TODO Auto-generated method stub
+	public int addTemplateFormula(TemplateDetail record) {
+		sqlSession.update("com.ytincl.ereport.dao.TemplateDetailDao.addTemplateFormula", record);
 		return 0;
 	}
 

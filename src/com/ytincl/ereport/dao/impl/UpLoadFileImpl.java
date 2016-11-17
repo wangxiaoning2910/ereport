@@ -48,8 +48,12 @@ public class UpLoadFileImpl implements UpLoadFileDao{
 	@Override
 	public int insertSavingsNetAmount2(SavingsNetAmount2 sna2) {
 		// TODO Auto-generated method stub
-		System.out.println("dao sna2");
 		return sqlSession.insert("com.ytincl.ereport.dao.UpLoadFileDao.insertSavingsNetAmount2",sna2);
+	}
+	@Override
+	public int insertdata(UpLoadFile ulf) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("com.ytincl.ereport.dao.UpLoadFileDao.insertdata",ulf);
 	}
 	
 

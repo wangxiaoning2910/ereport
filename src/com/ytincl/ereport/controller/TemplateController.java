@@ -28,8 +28,9 @@ import com.ytincl.ereport.pojo.TemplateDetail;
 import com.ytincl.ereport.pojo.TemplateDetailKey;
 import com.ytincl.ereport.service.TemplateService;
 import com.ytincl.ereport.util.FileUtil;
-import com.ytincl.ereport.util.templateUtil.ExcelReader;
-import com.ytincl.ereport.util.templateUtil.ReportTools2;
+import com.ytincl.ereport.util.ExcelControll;
+import com.ytincl.ereport.util.ExcelReader;
+import com.ytincl.ereport.util.ReportTools2;
 
 
 @Controller
@@ -117,15 +118,26 @@ public class TemplateController {
 	public TemplateRes queryTemplate(HttpServletRequest request, HttpServletResponse response){
 		String t = request.getParameter("t");
 		ArrayList<Template> list = new ArrayList<Template>();
+		TemplateRes tr = new TemplateRes();
 		if("0".equals(t)){//查询全部模板
 			list = templateService.queryTemplate();
 		}else if("1".equals(t)){//只查询复合模板
 			list = templateService.queryTemplateF();
-		}else if("3".equals(t)){
+		}else if("3".equals(t)){//查询源模板及源模板的列
 			String temp_id = request.getParameter("temp_id");
+			String version = request.getParameter("version");
 			list = templateService.queryTemplateC(temp_id);
+			TemplateDetailKey key = new TemplateDetailKey();
+			ArrayList<TemplateDetail> list1 = new ArrayList<TemplateDetail>();
+			for(int i=0;i<list.size();i++){//查询源模板列
+				key.setTemp_id(list.get(i).getTemp_id());
+				key.setVersion(list.get(i).getVersion());
+				System.out.println("========="+list.get(i).getTemp_name()+list.get(i).getVersion()+list.get(i).getVersion());
+				list1.addAll(templateService.queryTemplateDetail(key));
+			}
+			tr.setList1(list1);
 		}
-		TemplateRes tr = new TemplateRes();
+		
 		tr.setList(list);
 		return tr;
 	}
@@ -214,25 +226,80 @@ public class TemplateController {
 		this.saveFile(file, filePath);
 		return new BaseModel("000000");
 	}
-	/**
-	 * 查询源模板列  =====查询模板明细
+	/**向模板明细中添加公式
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/view/addTemplateFormula.do")
+	@ResponseBody
+	public BaseModel addTemplateFormula(HttpServletRequest request, HttpServletResponse response){
+		TemplateDetail templateDetail = new TemplateDetail();
+		templateDetail.setTemp_id(request.getParameter("temp_id"));
+		templateDetail.setVersion(request.getParameter("version"));
+		templateDetail.setLoc_num(request.getParameter("loc_num"));
+		templateDetail.setFormula(request.getParameter("formula"));
+		templateService.addTemplateFormula(templateDetail);
+		return new BaseModel("000000");
+	}
+	
+	/**单一模板上传文件并合并输出
 	 * @param request
 	 * @param response
 	 * @return
+	 * @throws Exception
 	 */
-	@RequestMapping(value="/view/queryTemplateCRow.do")
+	@RequestMapping(value="/view/exportByTemplate.do")
 	@ResponseBody
-	public TemplateRes queryTemplateCRow(HttpServletRequest request, HttpServletResponse response){
-		String version = request.getParameter("version");
-		String Temp_idC = request.getParameter("Temp_idC");
+	public BaseModel exportByTemplate(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String fileNames = request.getParameter("fileNames");
+		fileNames = java.net.URLDecoder.decode(fileNames, "UTF-8");
+		String id_version = request.getParameter("temp_id");
+		String filesCol = request.getParameter("files_start");
+		String filesRows = request.getParameter("files_rows");
+		String temp_id = id_version.split("\\.")[0];
+		String version = id_version.split("\\.")[1];
+		String filePath = request.getSession().getServletContext().getRealPath("/"+id_version+"/");
+		String sheet1_kh = filePath +"/"+ fileNames;
+		System.out.println(sheet1_kh+"=====================");
+		ExcelReader excelReader=new ExcelReader();
+		ReportTools2 reportTools2 = new ReportTools2();
+		//根据文件起终点获取列
+		String[] fprop=reportTools2.getPos_ColRow(filesCol.split("-")[0], filesCol.split("-")[1]);	
 		TemplateDetailKey key = new TemplateDetailKey();
-		key.setTemp_id(Temp_idC);
+		key.setTemp_id(temp_id);
 		key.setVersion(version);
 		ArrayList<TemplateDetail> list = new ArrayList<TemplateDetail>();
 		list = templateService.queryTemplateDetail(key);
-		TemplateRes tr = new TemplateRes();
-		tr.setList1(list);
-		return tr;
+		String[] firstArray = new String[list.size()];//获取模板第一列的值
+		String[] formulaArray=new String[list.size()];
+		String[] fprop_temp = new String[list.size()];
+		for(int i=0;i<list.size();i++){
+			firstArray[i] = list.get(i).getLoc_name();
+			formulaArray[i] = list.get(i).getFormula();//获取列公式放入数组
+			fprop_temp[i] = list.get(i).getLoc_num();
+		}
+		//生成EXCEL文件时候适用ghost_fprop
+		String[] ghost_fprop=fprop_temp.clone();
+		//得到所有数据
+		List<String[]> list1=excelReader.getALLExcelListByFileAndLetters(sheet1_kh,fprop, Integer.parseInt(filesRows));
+		//得到除第一行外的所有行
+		List<String[]> listData=excelReader.getListArrayWithoutFirstRow(list1);
+		List ghostList=excelReader.copyListStringArray(listData);
+		//列数组，列对应公式,数据List的集合，返回新list
+		//单一模板公式处理
+		List computeSumList=excelReader.getSingleFormulaComputeList(listData,ghostList,fprop,formulaArray);
+		excelReader.showListByString(computeSumList);
+		//这里执行单一模板合并操作
+		List totalList=new ArrayList();
+		totalList.add(excelReader.copyListStringArray(computeSumList));
+		//最终得到单一模板的结果数据。
+        List sumList=reportTools2.getSumColByIndexForSumListTotal(totalList,fprop,formulaArray);
+        ExcelControll excelControll=new ExcelControll();
+		String date = new SimpleDateFormat("yyyyMMddhh24mmss").format(new Date());
+		String targetDirPath="d:\\1\\";
+		String targetFileName="学生成绩工作表single_"+date+".xls";		
+		excelControll.downloadBatchInst( sheet1_kh, targetDirPath,targetFileName,computeSumList,ghost_fprop,firstArray);
+		return new BaseModel("000000");
 	}
 	public String saveFile( CommonsMultipartFile file,String filePath) throws IOException{
 		String fileName = file.getOriginalFilename();

@@ -52,6 +52,12 @@ public class UpLoadFileServiceImpl implements UpLoadFileService{
 		// TODO Auto-generated method stub
 		return uploadfiledao.insertSavingsNetAmount2(sna2);
 	}
+
+	@Override
+	public int insertdata(UpLoadFile ulf) {
+		// TODO Auto-generated method stub
+		return uploadfiledao.insertdata(ulf);
+	}
 	
 	
 }

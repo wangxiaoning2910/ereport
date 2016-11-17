@@ -107,10 +107,32 @@
 		    	return;
 		    }
 		})
-		    return data;
-		
+		//下载
+		$('#downloadfiles').click(function(){
+	    	downloadFiles();
+	    })
 	});
-	
+	function downloadFiles(){
+		/*	$('#MonthFilename').attr('value',MonthFilename);
+	 	$('#ymounth').attr('value',date); */
+		$('#exportFileMonth').attr('method','post');
+		$("#exportFileMonth").attr("action", "exportFileMonth.do");
+		$('#exportFileMonth').submit();
+	}
+	 $(function(){
+	            $('#MonthFilename').attr('value',"fullaperture_month");
+	        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+	            // 获取已激活的标签页的名称
+	            var activeTab = $(e.target).text();
+	           if(activeTab=="全口径积累"){
+	            	$('#MonthFilename').attr('value',"fullaperture_total");
+	            }else if(activeTab=="自营本月"){
+	            	$('#MonthFilename').attr('value',"selfoperate_month");
+	            }else if(activeTab=="自营积累"){
+	            	$('#MonthFilename').attr('value',"selfoperate_total");
+	            }
+	        });
+	    });
 </script>
 <title>MonthTalbes</title>
 </head>
@@ -132,6 +154,13 @@
 								class="btn btn-primary btn-sm">
 								<span class="glyphicon glyphicon-search"></span> 查询
 							</button>
+							<form role="form"  id="exportFileMonth">
+		                        	<input type="hidden"  name="MonthFilename" id="MonthFilename">
+		                        	<input type="hidden"  name="ymounth" id="ymounth">
+		                        </form>
+							<button class="btn btn-primary btn-sm" id="downloadfiles">
+									<span class="glyphicon glyphicon-download"></span> DownLoad
+								</button>
 						</div>
 						<!-- /.panel-body -->
 					</div>

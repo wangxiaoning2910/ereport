@@ -22,13 +22,15 @@
 </head>
 
 <body>
-
+	<div class="ytincl">
+   		<img src="<c:url value='resources/img/logo2.png' />" height="50px"/>
+   	</div>
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
-                        <h2 class="form-signin-heading">欢迎登陆JSP</h2>
+                        <h2 class="form-signin-heading">欢迎登陆</h2>
                     </div>
                     <div class="panel-body">
                         <form role="form"  id="loginform" method="POST" action="javascript:verifyUser();" >

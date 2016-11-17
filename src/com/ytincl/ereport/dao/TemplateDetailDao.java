@@ -14,7 +14,7 @@ public interface TemplateDetailDao {
 
     ArrayList<TemplateDetail> queryTemplateDetail(TemplateDetailKey key);
 
-    int updateByPrimaryKeySelective(TemplateDetail record);
+    int addTemplateFormula(TemplateDetail record);
 
     int updateByPrimaryKey(TemplateDetail record);
 }

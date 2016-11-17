@@ -57,8 +57,14 @@ public class TemplateServiceImpl implements TemplateService {
 
 	@Override
 	public int insertTemplateDetail(TemplateDetail templateDetail) {
-		int n = templateDetailDao.insert(templateDetail);
-		return 0;
+		 
+		return templateDetailDao.insert(templateDetail);
+	}
+
+	@Override
+	public int addTemplateFormula(TemplateDetail templateDetail) {
+		return  templateDetailDao.addTemplateFormula(templateDetail);
+		
 	}
 	
 
