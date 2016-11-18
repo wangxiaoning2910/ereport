@@ -43,18 +43,14 @@
 	      <div class="col-lg-12">
 	          <div class="panel panel-default">
 	               <div class="panel-heading">
-	               </div>
-                   <div class="panel-heading">
-                        <h4 class="panel-title">报表数据查询</h4>
-                   </div>                                                        
+	               </div>                                                                         
 	               <div class="panel-body">	                     
 	                          <!--<input id="date_selected" type="text" name="d11" runat="server" onfocus="selectMonth()" />-->	
 	                          <input type="text"  id="datetimepicker" name="datetimepicker" >                         
 	                          <button type="button" onclick="getReport()" class="btn btn-default btn-sm">
           					        <span class="glyphicon glyphicon-search"></span> 查询
         					  </button>  
-        					  
-        					  
+        					         					  
         					  <button type="button" onclick="makReport()" class="btn btn-default btn-sm">
           					        <span class="glyphicon glyphicon-ok"></span> 生成报表
         					  </button>        					    					  
@@ -90,12 +86,8 @@
     function makReport(){   	
     	bootbox.alert("报表生成成功", function() {
  
-    		});
-		//var date = $("#datetimepicker").val();
-		//date = date.replace("-","");
-		//$.get('getereport.do', {date:date}, 
-			//function(data){$("#result0").html(data);
-		//});
+        });
+		
 	}
 
 	
