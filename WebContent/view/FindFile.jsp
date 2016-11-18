@@ -84,7 +84,7 @@
     
     //生成报表
     function makReport(){   	
-    	bootbox.alert("报表生成成功", function() {
+    	bootbox.alert("生成报表成功", function() {
  
         });
 		
