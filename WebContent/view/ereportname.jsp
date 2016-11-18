@@ -47,8 +47,8 @@
 	                
 	                <div class="panel panel-default">
 					     <div class="panel-heading">
-					           <span class="glyphicon glyphicon-step-backward"></span> 
-					           <Button type="button" class="btn btn-default"  id="select" onclick="javascript:history.back(1);" >返回</button>								
+					           <!-- <span class="glyphicon glyphicon-step-backward"></span>  -->
+					           <Button type="button" class="glyphicon glyphicon-chevron-left"  id="select" onclick="javascript:history.back(1);" >返回</button>								
 					      </div>
 					      
 					           <!-- /.panel-body -->
