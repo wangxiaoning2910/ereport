@@ -53,6 +53,7 @@
 	src="<c:url value='/resources/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js' />"></script>
 <script type="text/javascript"
 	src="<c:url value='/resources/script/jquery.validate.min.js' />"></script>
+	<script type="text/javascript" src="<c:url value='/resources/script/bootbox.min.js' />"></script>
 <script>
 	$(document).ready(function() {
 		$('#datetimepicker').datetimepicker({
@@ -133,6 +134,25 @@
 	            }
 	        });
 	    });
+	 function getWaterMarkFileName(str){
+		$.ajax({
+			type:"POST",
+		    url:"queryWaterMarkFileName.do",
+		    data:{str:str},
+		    dataType:'json',
+		    success:function(data){
+		    	var filename = data.filename;
+		    	$('#table1').css('background','url(../resources/img/'+filename+')')
+		    },
+		    error:function(){
+		    	bootbox.alert("错误", function () {
+		    		//回调方法
+		    	});
+		    	return;
+		    }
+		})
+	 }
+	 $(getWaterMarkFileName("报表系统WaterMark"))
 </script>
 <title>MonthTalbes</title>
 </head>
@@ -180,7 +200,7 @@
 						</ul>
 					<div id="myTabContent" class="tab-content">
 						<div class="tab-pane fade in active" id="fullaperture_month">
-							<table id="table1" class="table table-striped table-bordered table-hover">
+							<table id="table1" class="table  table-bordered ">
 					 <thead>
 						<tr>
 							<th>机构代码</th>
@@ -206,7 +226,7 @@
 					</table>
 						</div>
 						<div class="tab-pane fade" id="selfoperate_month">
-							<table id="table1" class="table table-striped table-bordered table-hover">
+							<table id="table1" class="table table-striped table-bordered table-hover" >
 					 <thead>
 						<tr>
 							<th>机构代码</th>

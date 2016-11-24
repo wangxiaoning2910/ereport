@@ -23,6 +23,7 @@ public class CommonConstants {
     public static final String UPLOADFILEPATH = "/uploadFiles/";
     public static final String BACKSLANT = "\\";
     public static final String DEFAULT_SHEETNAME = "sheet1";
+    public static final String SUFFIX_PNG = "png";
 	private CommonConstants() {
 	}
 

@@ -8,7 +8,10 @@
     	<param-name>contextConfigLocation</param-name>
     	<param-value>classpath:/config/spring-mybatis.xml</param-value>
   	</context-param>
-  	
+  	<context-param>
+  		<param-name>webAppRootKey</param-name>
+  		<param-value>ereport.root</param-value>
+  	</context-param>
   	<listener>
     	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   	</listener>
@@ -47,6 +50,21 @@
   	<welcome-file-list>
     	<welcome-file>login.jsp</welcome-file>
   	</welcome-file-list>
+  	<!-- <login-config>
+		Authorization setting for SSL
+		<auth-method>CLIENT-CERT</auth-method>
+		<realm-name>Client Cert Users-only Area</realm-name>
+	</login-config>
+	<security-constraint>
+		Authorization setting for SSL
+		<web-resource-collection>
+			<web-resource-name>SSL</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint> -->
   	<context-param>
     	<param-name>log4jConfigLocation</param-name>
     	<param-value>classpath:/config/log4j.xml</param-value>
