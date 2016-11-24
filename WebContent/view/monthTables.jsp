@@ -134,11 +134,11 @@
 	            }
 	        });
 	    });
-	 function getWaterMarkFileName(str){
+	 function getWaterMarkFileName(institution,operator){
 		$.ajax({
 			type:"POST",
 		    url:"queryWaterMarkFileName.do",
-		    data:{str:str},
+		    data:{institution:institution,operator:operator},
 		    dataType:'json',
 		    success:function(data){
 		    	var filename = data.filename;
@@ -152,7 +152,7 @@
 		    }
 		})
 	 }
-	 $(getWaterMarkFileName("报表系统WaterMark"))
+	 $(getWaterMarkFileName("水印测试-机构","测试柜员"))
 </script>
 <title>MonthTalbes</title>
 </head>

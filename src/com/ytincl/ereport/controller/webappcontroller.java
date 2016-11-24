@@ -84,10 +84,11 @@ public class webappcontroller {
 	@RequestMapping(value="/view/queryWaterMarkFileName.do")
 	@ResponseBody
 	public waterMarkFileName getFilename(
-			@RequestParam(value="str", required=true) String context,
+			@RequestParam(value="institution", required=true) String institution,
+			@RequestParam(value="operator", required=true) String operator,
 			HttpServletRequest request,
 			HttpServletResponse response){
-		String fn = waterMark.getWaterMark(context);
+		String fn = waterMark.getWaterMark(institution,operator);
 		waterMarkFileName wmfn = new waterMarkFileName();
 		wmfn.setFilename(fn);
 		return wmfn;
