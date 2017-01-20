@@ -40,18 +40,12 @@ public class GetGrid {
 	}
 	public int getX() {
 		String x = (String)grids[0];
-		System.out.println("x==="+x);
-		System.out.println("x.length()==="+x.length());
 		if(x.length() == 2){
-			System.out.println("x.substring(0,0)====="+x.substring(0,1));
 			int a = CHARTONUM.get(x.substring(0,1))+1;
-			System.out.println("a==="+a);
 			int b = 26 * a;
-			System.out.println("b==="+b);
 			this.x = b + CHARTONUM.get(x.substring(1,2));
 		}else{
 			this.x = CHARTONUM.get(x);
-			
 		}
 		return this.x;
 	}

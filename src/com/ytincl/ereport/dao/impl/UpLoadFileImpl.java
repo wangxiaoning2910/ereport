@@ -11,6 +11,8 @@ import com.ytincl.ereport.pojo.SavingsDifferenceType;
 import com.ytincl.ereport.pojo.SavingsNetAmount;
 import com.ytincl.ereport.pojo.SavingsNetAmount2;
 import com.ytincl.ereport.pojo.UpLoadFile;
+import com.ytincl.ereport.pojo.pbsmr_busi;
+import com.ytincl.ereport.pojo.pbsmr_inst;
 
 
 
@@ -55,6 +57,15 @@ public class UpLoadFileImpl implements UpLoadFileDao{
 		// TODO Auto-generated method stub
 		return sqlSession.insert("com.ytincl.ereport.dao.UpLoadFileDao.insertdata",ulf);
 	}
-	
+	@Override
+	public int insertNormData(pbsmr_busi pb) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("com.ytincl.ereport.dao.UpLoadFileDao.insertNormData",pb);
+	}
+	@Override
+	public int insertNormData(pbsmr_inst pi) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("com.ytincl.ereport.dao.UpLoadFileDao.insertNormData_inst",pi);
+	}
 
 }

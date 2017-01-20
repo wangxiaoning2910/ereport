@@ -3,6 +3,16 @@
 
 <mapper namespace="com.ytincl.ereport.dao.UpLoadFileDao">
 	<resultMap type="UpLoadFile" id="result_tobeuploaded"></resultMap>
+	<resultMap type="ManuallyTemplate" id="result_ManuallyTemplate"></resultMap>
+	<resultMap type="originalData" id="result_Original">
+		<result property="text" column="report_name" /> 
+	</resultMap>
+	<resultMap type="pbsmr_busi" id="result_pbsmr_busi">
+		<result property="text" column="report_name" /> 
+	</resultMap>
+	<resultMap type="pbsmr_inst" id="result_pbsmr_inst">
+		<result property="text" column="report_name" /> 
+	</resultMap>
 	<select id="selectToBeUpLoaded"  resultMap="result_tobeuploaded">
 		select t.name,t.status from tobeuploaded t where t.time = #{querydate}
 	</select>
@@ -60,6 +70,57 @@
 		value
 		(#{name},#{status},#{queryDate})
 	</insert>
-	
+	<insert id="insertNormData" parameterType="pbsmr_busi">
+		INSERT INTO 
+		pbsmr_busi 
+		(reportname,statisticsmechanism,statisticsdate,statisticstype,dotproperties,paytype,
+		containsubordinateinst,
+		busicode,businame,transamount_month,transamount_year,transmoney_month,
+		transmoney_year,correctnum_month,correctnum_year,correctmoney_month,
+		correctmoney_year,cancelamount_month,cancelamount_year,cancelmoney_month,cancelmoney_year,
+		transtotalnum_month,transtotalnum_year,transtotalmoney_month,transtotalmoney_year) 
+		VALUE
+		(#{reportName},#{statisticsmechanism},#{statisticsdate},#{statisticstype},#{dotproperties},#{paytype},
+		#{containsubordinateinst},#{busicode},#{businame},#{transamount_month},#{transamount_year},#{transmoney_month},#{transmoney_year},#{correctnum_month}
+		,#{correctnum_year},#{correctmoney_month},#{correctmoney_year},#{cancelamount_month},#{cancelamount_year},#{cancelmoney_month},#{cancelmoney_year}
+		,#{transtotalnum_month},#{transtotalnum_year},#{transtotalmoney_month},#{transtotalmoney_year});
+	</insert>
+	<insert id="insertNormData_inst" parameterType="pbsmr_inst">
+		INSERT INTO 
+		pbsmr_inst 
+		(reportname,statisticsmechanism,statisticsdate,statisticstype,dotproperties,paytype,
+		containsubordinateinst,busicode,
+		instcode,instname,transamount_month,transamount_year,transmoney_month,
+		transmoney_year,correctnum_month,correctnum_year,correctmoney_month,
+		correctmoney_year,cancelamount_month,cancelamount_year,cancelmoney_month,cancelmoney_year,
+		transtotalnum_month,transtotalnum_year,transtotalmoney_month,transtotalmoney_year) 
+		VALUE
+		(#{reportName},#{statisticsmechanism},#{statisticsdate},#{statisticstype},#{dotproperties},#{paytype},
+		#{containsubordinateinst},#{busicode},#{instcode},#{instname},#{transamount_month},#{transamount_year},#{transmoney_month},#{transmoney_year},#{correctnum_month}
+		,#{correctnum_year},#{correctmoney_month},#{correctmoney_year},#{cancelamount_month},#{cancelamount_year},#{cancelmoney_month},#{cancelmoney_year}
+		,#{transtotalnum_month},#{transtotalnum_year},#{transtotalmoney_month},#{transtotalmoney_year});
+	</insert>
+	<select id="queryTemplates"  resultMap="result_ManuallyTemplate">
+		select t.tempName,t.dataSpace,t.status from mtemplates t
+	</select>
+	<select id="queryOriginalData" resultMap="result_Original">
+		select * from yt_report_availablestatement;
+	</select>
+	<select id="querypbs" resultMap="result_pbsmr_busi" parameterType="pbsmr_busi">
+		SELECT * FROM 
+		pbsmr_busi pb
+		WHERE
+		pb.reportname = #{reportName} and pb.statisticsdate = #{statisticsdate} and pb.statisticstype = #{statisticstype} and  pb.dotproperties = #{dotproperties}
+	</select>
+	<select id="querypis" resultMap="result_pbsmr_inst" parameterType="pbsmr_inst">
+		SELECT * FROM 
+		pbsmr_inst pi
+		WHERE
+			pi.reportname = #{reportName} 
+		AND pi.statisticsdate = #{statisticsdate} 
+		AND pi.statisticstype = #{statisticstype} 
+		AND pi.dotproperties = #{dotproperties}
+		AND pi.busicode = #{busicode}
+	</select>
 </mapper>
 

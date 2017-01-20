@@ -42,7 +42,7 @@ public class XMLManager {
                 Map<String, String> map = new HashMap<>();
                 for (Node node = regulation.getFirstChild(); node != null; node = node.getNextSibling()){  
                     if (node.getNodeType() == Node.ELEMENT_NODE){  
-                        String name = node.getNodeName();  
+                		String name = node.getNodeName();  
                         String value = node.getFirstChild().getNodeValue();  
                         map.put(name, value);
                     }  
@@ -65,7 +65,7 @@ public class XMLManager {
 		Map<String,String> map;
 		for(int i = 0;i<list.size();i++){
 			map = list.get(i);
-			if(map.get("name") != null && map.get("name").equals(filename)){
+			if(map.get("name") != null && filename.contains(map.get("name"))){
 				return map;
 			}
 		}

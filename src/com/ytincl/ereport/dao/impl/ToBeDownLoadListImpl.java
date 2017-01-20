@@ -6,7 +6,11 @@ import javax.annotation.Resource;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 import com.ytincl.ereport.dao.ToBeDownLoadListDao;
+import com.ytincl.ereport.pojo.ManuallyTemplate;
 import com.ytincl.ereport.pojo.ToBeDownLoadFile;
+import com.ytincl.ereport.pojo.originalData;
+import com.ytincl.ereport.pojo.pbsmr_busi;
+import com.ytincl.ereport.pojo.pbsmr_inst;
 import com.ytincl.ereport.pojo.testdownloaddata;
 
 
@@ -25,6 +29,26 @@ public class ToBeDownLoadListImpl implements ToBeDownLoadListDao{
 		ArrayList<testdownloaddata> list;
 		list = (ArrayList)sqlSession.selectList("com.ytincl.ereport.dao.download.selectdownloadata",querydate);
 		return list;
+	}
+	@Override
+	public List<ManuallyTemplate> getTempList() {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("com.ytincl.ereport.dao.UpLoadFileDao.queryTemplates");
+	}
+	@Override
+	public List<originalData> getOriginalData() {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("com.ytincl.ereport.dao.UpLoadFileDao.queryOriginalData");
+	}
+	@Override
+	public ArrayList<pbsmr_busi> getpbsmr_busiList(pbsmr_busi pb) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("com.ytincl.ereport.dao.UpLoadFileDao.querypbs",pb);
+	}
+	@Override
+	public ArrayList<pbsmr_inst> getpbsmr_busiList(pbsmr_inst pi) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("com.ytincl.ereport.dao.UpLoadFileDao.querypis",pi);
 	}
 
 }

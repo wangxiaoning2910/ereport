@@ -20,4 +20,18 @@
         <datastart>A-0</datastart>
         <dataend>B-1</dataend>
     </regulation>
+    <regulation>
+        <name>代收付业务统计月报-按业务</name>
+       	<normal>A-0,B-1</normal>
+       	<normal_sign>A-2,A-3,B-3,C-3,D-3</normal_sign>
+        <datastart>A-6</datastart>
+        <dataend>R-9999</dataend>
+    </regulation>
+    <regulation>
+        <name>代收付业务统计月报-按机构</name>
+       <normal>A-0,B-1</normal>
+       	<normal_sign>A-2,A-3,B-3,C-3,D-3,E-3</normal_sign>
+        <datastart>A-6</datastart>
+        <dataend>R-9999</dataend>
+    </regulation>
 </regulations>

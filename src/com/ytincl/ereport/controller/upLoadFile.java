@@ -1,9 +1,13 @@
 package com.ytincl.ereport.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -12,17 +16,25 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import com.ytincl.ereport.constant.CommonConstants;
 import com.ytincl.ereport.model.BaseModel;
 import com.ytincl.ereport.model.ToBeUploaded;
+import com.ytincl.ereport.model.pbsmr_busis;
+import com.ytincl.ereport.model.pbsmr_insts;
 import com.ytincl.ereport.pojo.SavingsDifferenceType;
 import com.ytincl.ereport.pojo.SavingsNetAmount;
 import com.ytincl.ereport.pojo.SavingsNetAmount2;
 import com.ytincl.ereport.pojo.UpLoadFile;
+import com.ytincl.ereport.pojo.pbsmr_busi;
+import com.ytincl.ereport.pojo.pbsmr_inst;
 import com.ytincl.ereport.service.UpLoadFileService;
 import com.ytincl.ereport.util.FileUtil;
 import com.ytincl.ereport.util.FormatConversion;
@@ -223,7 +235,10 @@ public class upLoadFile {
 					sna2.setTime_money21(FormatConversion.string2Double(strs[28]));
 					//存入数据库
 					tobeuploaded.insertSavingsNetAmount2(sna2);
+				}else if(null != aname && aname.equals("储蓄净增额完成情况__县行")){
+					
 				}
+				
 				
 				
 			}
@@ -253,7 +268,146 @@ public class upLoadFile {
 		tbu.setList(list);
 		return tbu;
 	}
-	
+	@RequestMapping(value="/view/test.do")
+	public void resolveReport(HttpServletRequest request) throws FileNotFoundException{
+		//String fileName = file.getName();
+		File f = new File("C://Users/John/代收付业务统计月报-按机构（自营、业务代码2）2016.et");
+		String fname = f.getName();
+		//获取读取Excel规则
+		Map<String,String> map = XMLManager.getRuelRegulation(request, fname.split("[.]")[0]);
+		ReadExcel re = new ReadExcel();
+		try {
+			if(null != map){
+				String aname = map.get("name");
+				Map resultmap = re.readXls2norm(f, map);
+				if(aname.contains("按业务")){
+					pbsmr_busis pbs = new pbsmr_busis();
+					pbsmr_busi pb;
+					List<pbsmr_busi> list = new ArrayList<pbsmr_busi>();
+					ArrayList<String[]> looplist = (ArrayList<String[]>) resultmap.get("loopdata");
+					ArrayList<String[]> singlelist = (ArrayList<String[]>) resultmap.get("sl");
+					ArrayList<String[]> singlelist1 = (ArrayList<String[]>) resultmap.get("sl1");
+					String[] loopdatas;
+					String[] sl = singlelist1.get(0);
+					String reportname = singlelist.get(0)[0];//报表名称
+					String codename = singlelist.get(0)[1];//统计机构名称/代码
+					String yearmonth = sl[0];//统计年月
+					String cstype = sl[1];//统计方式
+					String dottype = sl[2];//网点属性
+					String paytype = sl[3];//支付方式
+					String Contains = sl[4];//是否包含下级机构
+					for (int i = 0; i < looplist.size(); i++) {
+						//每一行
+						loopdatas = looplist.get(i);
+						pb = new pbsmr_busi();
+						pb.setReportName(reportname);
+						pb.setStatisticsmechanism(codename);
+						pb.setStatisticsdate(yearmonth);
+						pb.setStatisticstype(cstype);
+						pb.setDotproperties(dottype);
+						pb.setPaytype(paytype);
+						pb.setContainsubordinateinst(Contains);
+						/**每一列**/
+						pb.setBusicode(loopdatas[0]);
+						pb.setBusiname(loopdatas[1]);
+						pb.setTransamount_month(loopdatas[2]);
+						pb.setTransamount_year(loopdatas[3]);
+						pb.setTransmoney_month(loopdatas[4]);
+						pb.setTransmoney_year(loopdatas[5]);
+						pb.setCorrectnum_month(loopdatas[6]);
+						pb.setCorrectnum_year(loopdatas[7]);
+						pb.setCorrectmoney_month(loopdatas[8]);
+						pb.setCorrectmoney_year(loopdatas[9]);
+						pb.setCancelamount_month(loopdatas[10]);
+						pb.setCancelamount_year(loopdatas[11]);
+						pb.setCancelmoney_month(loopdatas[12]);
+						pb.setCancelmoney_year(loopdatas[13]);
+						pb.setTranstotalnum_month(loopdatas[14]);
+						pb.setTranstotalnum_year(loopdatas[15]);
+						pb.setTranstotalmoney_month(loopdatas[16]);
+						pb.setTranstotalmoney_year(loopdatas[17]);
+						list.add(pb);
+					}
+					pbs.setList(list);
+					//插入数据库
+					pbsmr_busi insertpb;
+					for(int i = 0;i<pbs.getList().size();i++){
+						insertpb = pbs.getList().get(i);
+						int insertresult = tobeuploaded.insertNormData(insertpb);
+
+					}
+				}else if(aname.contains("按机构")){
+					pbsmr_inst pi;
+					pbsmr_insts pis = new pbsmr_insts();
+					List<pbsmr_inst> list = new ArrayList<pbsmr_inst>();
+					ArrayList<String[]> looplist = (ArrayList<String[]>) resultmap.get("loopdata");
+					ArrayList<String[]> singlelist = (ArrayList<String[]>) resultmap.get("sl");
+					ArrayList<String[]> singlelist1 = (ArrayList<String[]>) resultmap.get("sl1");
+					String reportname = singlelist.get(0)[0];//报表名称
+					String codename = singlelist.get(0)[1];//统计机构名称/代码
+					
+					String[] sl = singlelist1.get(0);
+					String[] loopdatas;
+					String date = sl[0];//统计年月
+					String type = sl[1];//统计方式
+					String dot = sl[2];//网点属性
+					String paytype = sl[3];//支付方式
+					String baohan = sl[4];//是否包含下级机构
+					String busicode = sl[5];
+					for (int i = 0; i < looplist.size(); i++) {
+						loopdatas = looplist.get(i);
+						pi = new pbsmr_inst();
+						pi.setReportName(reportname);
+						pi.setStatisticsmechanism(codename);
+						pi.setStatisticsdate(date);
+						pi.setStatisticstype(type);
+						pi.setDotproperties(dot);
+						pi.setPaytype(paytype);
+						pi.setContainsubordinateinst(baohan);
+						pi.setBusicode(busicode);
+						
+						
+						pi.setInstcode(loopdatas[0]);
+						pi.setInstname(loopdatas[1]);
+						pi.setTransamount_month(loopdatas[2]);
+						pi.setTransamount_year(loopdatas[3]);
+						pi.setTransmoney_month(loopdatas[4]);
+						pi.setTransmoney_year(loopdatas[5]);
+						pi.setCorrectnum_month(loopdatas[6]);
+						pi.setCorrectnum_year(loopdatas[7]);
+						pi.setCorrectmoney_month(loopdatas[8]);
+						pi.setCorrectmoney_year(loopdatas[9]);
+						pi.setCancelamount_month(loopdatas[10]);
+						pi.setCancelamount_year(loopdatas[11]);
+						pi.setCancelmoney_month(loopdatas[12]);
+						pi.setCancelmoney_year(loopdatas[13]);
+						pi.setTranstotalnum_month(loopdatas[14]);
+						pi.setTranstotalnum_year(loopdatas[15]);
+						pi.setTranstotalmoney_month(loopdatas[16]);
+						pi.setTranstotalmoney_year(loopdatas[17]);
+						list.add(pi);
+					}
+					pis.setList(list);
+					//插入数据库
+					pbsmr_inst insertpb;
+					for(int i = 0;i<pis.getList().size();i++){
+						insertpb = pis.getList().get(i);
+						int insertresult = tobeuploaded.insertNormData(insertpb);
+
+					}
+					
+				}else{
+					
+				}
+			}else{
+				logger.debug("==============map is null==================");
+			}
+				
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
 }

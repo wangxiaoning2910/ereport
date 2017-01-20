@@ -20,7 +20,7 @@
 	    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/sb-admin-2.css' />">
 	    <!-- Custom Fonts -->
 	    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/font-awesome.min.css' />">
-	    <link rel="stylesheet" type="text/css" media="screen" href="<c:url value='/resources/css/bootstrap-addtabs.css' />">
+	    <link rel="stylesheet" type="text/css" media="screen" href="<c:url value='/resources/bootstrap-addtabs/css/bootstrap.addtabs.css' />">
 	    <link rel="stylesheet" type="text/css" media="screen" href="<c:url value='/resources/css/bootstrap-treeview.min.css' />">
 	    <link rel="stylesheet" type="text/css" href="<c:url value='/resources/css/custom.css' />">
 	</head>
@@ -287,7 +287,7 @@
     <script type="text/javascript" src="<c:url value='/resources/script/raphael-min.js' />"></script>
     <!-- Custom Theme JavaScript -->
     <script type="text/javascript" src="<c:url value='/resources/script/sb-admin-2.js' />"></script>
-    <script type="text/javascript" src="<c:url value='/resources/script/bootstrap-addtabs.js' />"></script>
+    <script type="text/javascript" src="<c:url value='/resources/bootstrap-addtabs/js/bootstrap.addtabs.js' />"></script>
     <script type="text/javascript" src="<c:url value='/resources/script/bootstrap-treeview.min.js' />"></script>
 	<script type="text/javascript">
 		var PREVIOUS_NODEID = "";

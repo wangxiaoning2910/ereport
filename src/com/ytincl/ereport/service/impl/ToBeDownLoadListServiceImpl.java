@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ytincl.ereport.dao.ToBeDownLoadListDao;
+import com.ytincl.ereport.pojo.ManuallyTemplate;
 import com.ytincl.ereport.pojo.ToBeDownLoadFile;
+import com.ytincl.ereport.pojo.originalData;
+import com.ytincl.ereport.pojo.pbsmr_busi;
+import com.ytincl.ereport.pojo.pbsmr_inst;
 import com.ytincl.ereport.pojo.testdownloaddata;
 import com.ytincl.ereport.service.ToBeDownLoadListService;
 @Service("getdownloadlist")
@@ -23,6 +27,26 @@ public class ToBeDownLoadListServiceImpl implements ToBeDownLoadListService{
 		ArrayList<testdownloaddata> list;
 		list = (ArrayList<testdownloaddata>) toBeDownLoadListDao.getDataList(querydate);
 		return list;
+	}
+	@Override
+	public ArrayList<ManuallyTemplate> getTempList() {
+		// TODO Auto-generated method stub
+		return (ArrayList<ManuallyTemplate>)toBeDownLoadListDao.getTempList();
+	}
+	@Override
+	public ArrayList<originalData> getOriginalData() {
+		// TODO Auto-generated method stub
+		return (ArrayList<originalData>)toBeDownLoadListDao.getOriginalData();
+	}
+	@Override
+	public ArrayList<pbsmr_busi> getpbsmr_busiList(pbsmr_busi pb) {
+		// TODO Auto-generated method stub
+		return (ArrayList<pbsmr_busi>)toBeDownLoadListDao.getpbsmr_busiList(pb);
+	}
+	@Override
+	public ArrayList<pbsmr_inst> getpbsmr_instList(pbsmr_inst pi) {
+		// TODO Auto-generated method stub
+		return (ArrayList<pbsmr_inst>)toBeDownLoadListDao.getpbsmr_busiList(pi);
 	}
 
 }

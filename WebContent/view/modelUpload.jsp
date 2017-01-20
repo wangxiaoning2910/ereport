@@ -32,33 +32,7 @@
 <%-- <link rel="stylesheet" type="text/css"
 	href="<c:url value='/resources/bootstrap-editable/bootstrap-editable.css' />">  --%>
 <link rel="stylesheet" type="text/css" href="../resources/bootstrap-editable/bootstrap-editable.css" rel="stylesheet" /> 
-<!-- jQuery -->
-<script type="text/javascript"
-	src="<c:url value='/resources/script/jquery-1.11.1.min.js' />"></script>
-<!-- Bootstrap Core JavaScript -->
-<script type="text/javascript"
-	src="<c:url value='/resources/script/bootstrap.min.js' />"></script>
-<!-- Custom Theme JavaScript -->
-<script type="text/javascript"
-	src="<c:url value='/resources/script/sb-admin-2.js' />"></script>
-<!-- Metis Menu Plugin JavaScript -->
-<script type="text/javascript"
-	src="<c:url value='/resources/script/metisMenu.min.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/uploadify/jquery.uploadify.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/bootstrap-table/bootstrap-table.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/bootstrap-fileinput/js/fileinput.js' />"></script>
-<script type="text/javascript"
-	src="<c:url value='/resources/script/jquery.validate.min.js' />"></script>
-<script src="../resources/bootstrap-table/bootstrap-table-zh-CN.js"></script>
- <script src="../resources/bootstrap-editable/bootstrap-editable.js"></script>
-<script src="../resources/bootstrap-editable/bootstrap-table-editable.js"></script>
+
 
 <script>
 	$(document).ready(function() {

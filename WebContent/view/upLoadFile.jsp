@@ -70,6 +70,7 @@
 	                        </div>
 	                        <!-- /.panel-heading -->
 	                        <div class="panel-body">
+	                        	<button type="button" class="btn btn-default" onclick="test()" >测试</button>
 	                        	<input type="file" name="file" id="choosefile" />
 	                        	<table id="uploadTable"></table>
 	                        <!--<button type="button" id="file_upload"></button>-->
@@ -90,4 +91,20 @@
     	</div>
     <!-- /#wrapper -->
 	</body>
+	<script>
+		function test(){
+			$.ajax({
+				type:"POST",
+			    url:"test.do",
+			    dataType:'json',
+			    success:function(json){
+			    	console.log(json)
+			    },
+			    error:function(){
+			    	bootbox.alert("错误", function () {});
+			    	return;
+			    }
+			});
+		}
+	</script>
 </html>

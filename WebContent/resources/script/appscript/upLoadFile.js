@@ -168,6 +168,7 @@ function queryList(){
 	    dataType:'json',
 	    success:function(json){
 	    	data = json.list;
+	    	console.log(data)
 	        $("#uploadTable").bootstrapTable('load',data);
 	    },
 	    error:function(){

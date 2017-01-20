@@ -9,6 +9,8 @@ import com.ytincl.ereport.pojo.SavingsDifferenceType;
 import com.ytincl.ereport.pojo.SavingsNetAmount;
 import com.ytincl.ereport.pojo.SavingsNetAmount2;
 import com.ytincl.ereport.pojo.UpLoadFile;
+import com.ytincl.ereport.pojo.pbsmr_busi;
+import com.ytincl.ereport.pojo.pbsmr_inst;
 import com.ytincl.ereport.service.UpLoadFileService;
 
 
@@ -57,6 +59,18 @@ public class UpLoadFileServiceImpl implements UpLoadFileService{
 	public int insertdata(UpLoadFile ulf) {
 		// TODO Auto-generated method stub
 		return uploadfiledao.insertdata(ulf);
+	}
+
+	@Override
+	public int insertNormData(pbsmr_busi pb) {
+		// TODO Auto-generated method stub
+		return uploadfiledao.insertNormData(pb);
+	}
+
+	@Override
+	public int insertNormData(pbsmr_inst pi) {
+		// TODO Auto-generated method stub
+		return uploadfiledao.insertNormData(pi);
 	}
 	
 	

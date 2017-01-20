@@ -13,5 +13,9 @@
     	<typeAlias type="com.ytincl.ereport.pojo.GetEreport" alias="GetEreport" />
     	<typeAlias type="com.ytincl.ereport.pojo.DepCity" alias="DepCity" />
     	<typeAlias type="com.ytincl.ereport.pojo.DepCounty" alias="DepCounty" />
+    	<typeAlias type="com.ytincl.ereport.pojo.ManuallyTemplate" alias="ManuallyTemplate" />
+    	<typeAlias type="com.ytincl.ereport.pojo.originalData" alias="originalData" />
+    	<typeAlias type="com.ytincl.ereport.pojo.pbsmr_busi" alias="pbsmr_busi" />
+    	<typeAlias type="com.ytincl.ereport.pojo.pbsmr_inst" alias="pbsmr_inst" />
 	</typeAliases>  
 </configuration>
