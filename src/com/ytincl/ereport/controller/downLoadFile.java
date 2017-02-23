@@ -40,14 +40,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.ytincl.ereport.constant.CommonConstants;
 import com.ytincl.ereport.model.ToBeDownLoadList;
 import com.ytincl.ereport.model.pbsmr_busis;
+import com.ytincl.ereport.model.pbsmr_entrustunits;
 import com.ytincl.ereport.model.pbsmr_insts;
 import com.ytincl.ereport.model.testdownloaddatalist;
 import com.ytincl.ereport.pojo.RowData;
 import com.ytincl.ereport.pojo.ToBeDownLoadFile;
 import com.ytincl.ereport.pojo.pbsmr_busi;
+import com.ytincl.ereport.pojo.pbsmr_entrustunit;
 import com.ytincl.ereport.pojo.pbsmr_inst;
 import com.ytincl.ereport.pojo.testdownloaddata;
 import com.ytincl.ereport.service.ToBeDownLoadListService;
@@ -903,7 +906,196 @@ public class downLoadFile {
 				downloadfiles[i] = fullPath;
 				out.close();
 			}else if(filenames[i].equals("代收付新增委托单位")){
+				oldfilename = filenames[i]+CommonConstants.POINT+CommonConstants.OFFICE_EXCEL_2003_POSTFIX;
+				//文件名+后缀
+				filename = filenames[i]+querydate + CommonConstants.POINT+CommonConstants.OFFICE_EXCEL_2003_POSTFIX;
+				//路径+文件名+后缀
+				fullPath = filePath + backslant +filename;
+				oldfullPath = oldfilePath+backslant+oldfilename;
 				
+				//查询数据
+				String tomonth = querydate;
+				String beforemonth = String.valueOf(Integer.parseInt(querydate)-1);
+				String beforeyear = String.valueOf(Integer.parseInt(querydate)-100);
+				
+				pbsmr_entrustunit pe = new pbsmr_entrustunit();
+				pbsmr_entrustunits pes = new pbsmr_entrustunits();
+				pbsmr_entrustunits pes_beforemonth = new pbsmr_entrustunits();
+				pbsmr_entrustunits pes_beforeyear = new pbsmr_entrustunits();
+				pe.setReportName("代收付业务统计月报--按委托单位");
+				pe.setStatisticsdate(tomonth);
+				pe.setStatisticstype("0-交易机构");
+				pe.setDotproperties("0-全部");
+				pes.setList(getdownloadlist.getpbsmr_enList(pe));
+				pe.setStatisticsdate(beforemonth);
+				pes_beforemonth.setList(getdownloadlist.getpbsmr_enList(pe));
+				pe.setStatisticsdate(beforeyear);
+				pes_beforeyear.setList(getdownloadlist.getpbsmr_enList(pe));
+				
+				
+				//获取模板文件
+				File file = new File(oldfullPath);
+				
+				//模板文件的固定列
+				String[] Permutation = {"哈尔滨","佳木斯","绥化","牡丹江","齐齐哈尔","大庆","鸡西","双鸭山","黑河","鹤岗","伊春",
+						"七台河","大兴安岭","直属支行"};
+				String[] Permutatio_code = {"2301","2308","2312","2310","2302","2306","2303",
+						"2305","2311","2304","2307","2309","2327","2399"};
+				
+				//整理数据 ，按委托单位前四位进行区分、排序
+				String[] cell1_data = new String[Permutation.length];//第一列数据
+				if(pes_beforeyear.getList().size() == 0){
+					for(int cdi = 0;cdi<cell1_data.length;cdi++){
+						cell1_data[cdi] = "-";
+					}
+				}else{
+					for(int cdi1 = 0;cdi1<Permutatio_code.length;cdi1++){
+						String merchcode = Permutatio_code[cdi1];
+						int counter  = 0;
+						for(int cdi = 0;cdi < pes_beforeyear.getList().size();cdi++){
+							pbsmr_entrustunit temp = pes_beforeyear.getList().get(cdi);
+							if(temp.getMerchid().contains(merchcode)){
+								counter++;
+							}
+						}
+						cell1_data[cdi1] = String.valueOf(counter);
+					}
+				}
+				
+				String[] cell2_data = new String[Permutation.length];//第2列数据：本月新增的全口径的委托单位，先区分，在相减
+				String[] beforemonth_data = new String[Permutation.length];//上月各市委托单位数量
+				String[] thismonth_data = new String[Permutation.length];//本月各市委托单位数量
+				if(pes_beforemonth.getList().size() == 0 || pes.getList().size() ==0){
+					for(int cd2 = 0;cd2 < cell2_data.length;cd2++){
+						cell2_data[cd2] = "-";
+					}
+				}else{
+					if(pes_beforemonth.getList().size() == 0){
+					}else{
+						for(int bdi1 = 0;bdi1<Permutatio_code.length;bdi1++){
+							String merchcode = Permutatio_code[bdi1];
+							int counter  = 0;
+							for(int cdi = 0;cdi < pes_beforemonth.getList().size();cdi++){
+								pbsmr_entrustunit temp = pes_beforemonth.getList().get(cdi);
+								if(temp.getMerchid().length()>4 && temp.getMerchid().substring(0, 4).equals(merchcode)){
+									counter++;
+								}
+							}
+							beforemonth_data[bdi1] = String.valueOf(counter);
+						}
+					}
+					if(pes.getList().size() == 0){
+					}else{
+						for(int bdi1 = 0;bdi1<Permutatio_code.length;bdi1++){
+							String merchcode = Permutatio_code[bdi1];
+							int counter  = 0;
+							for(int cdi = 0;cdi < pes.getList().size();cdi++){
+								pbsmr_entrustunit temp = pes.getList().get(cdi);
+								if(temp.getMerchid().length()>4 && temp.getMerchid().substring(0, 4).equals(merchcode)){
+									counter++;
+								}
+							}
+							thismonth_data[bdi1] = String.valueOf(counter);
+						}
+					}
+					for(int cd2 = 0;cd2<Permutation.length;cd2++){
+						cell2_data[cd2] = String.valueOf(Integer.parseInt(thismonth_data[cd2]) - Integer.parseInt(beforemonth_data[cd2]));
+					}
+				}
+				/*
+				 * 第三列数据，本年比上一年增加的委托单位，用本年12月减去上一年12月的数据
+				 * */
+				String[] cell3_data = new String[Permutatio_code.length];
+				String[] beforeyear_data = new String[Permutation.length];//上月各市委托单位数量
+				if(pes.getList().size() ==0|| pes_beforeyear.getList().size() == 0){
+					for(int cd3 = 0;cd3<cell3_data.length;cd3++){
+						cell3_data[cd3] = "-";
+					}
+				}else{
+					for(int bdi1 = 0;bdi1<Permutatio_code.length;bdi1++){
+						String merchcode = Permutatio_code[bdi1];
+						int counter  = 0;
+						for(int cdi = 0;cdi < pes_beforeyear.getList().size();cdi++){
+							pbsmr_entrustunit temp = pes_beforeyear.getList().get(cdi);
+							if(temp.getMerchid().length()>4 && temp.getMerchid().substring(0, 4).equals(merchcode)){
+								counter++;
+							}
+						}
+						beforeyear_data[bdi1] = String.valueOf(counter);
+					}
+					for(int cd3 = 0;cd3<cell3_data.length;cd3++){
+						cell3_data[cd3] = String.valueOf(Integer.parseInt(thismonth_data[cd3])-Integer.parseInt(beforeyear_data[cd3]));
+					}
+				}
+				//第4、5列数据，本年新增的委托单位本年入账笔数和本年入账金额
+				//首先得到今年新增了哪些委托单位，之后区分这些委托单位，在区分的时候获取其数据
+				
+				String[] cell4_data =  new String[Permutatio_code.length];
+				String[] cell5_data =  new String[Permutatio_code.length];
+				if(pes.getList().size() == 0 || pes_beforeyear.getList().size()==0){
+					for(int sz = 0;sz<Permutatio_code.length;sz++){
+						cell4_data[sz] = "-";
+						cell5_data[sz] = "-";
+					}
+				}else{
+					//获取全部的新增
+					List<pbsmr_entrustunit>  diff = compare(pes, pes_beforeyear);
+					//区分不同的地区
+					for(int sz = 0;sz<Permutatio_code.length;sz++){
+						int totalrz = 0;
+						double totalmoney = 0;
+						String tempcode = Permutatio_code[sz];
+						for(int sz1 = 0;sz1<diff.size();sz1++){
+							if(diff.get(sz1).getMerchid().substring(0, 4).equals(tempcode)){
+								totalrz = totalrz + Integer.parseInt(diff.get(sz1).getTransamount_year());
+								totalmoney = totalmoney + Double.parseDouble(diff.get(sz1).getTransmoney_year());
+							}
+						}
+						cell4_data[sz] = String.valueOf(totalrz);
+						cell5_data[sz] = String.valueOf(totalmoney);
+					}	
+				}
+				
+				
+				
+				
+				
+				//开始向模板文件中写入数据
+				InputStream is = new FileInputStream(file);
+		        //HSSFWorkbook读取该文件
+		        HSSFWorkbook hssfWorkbook = new HSSFWorkbook(is);
+				HSSFSheet sheet = hssfWorkbook.getSheetAt(0);
+				if(sheet == null){
+					logger.debug("sheet 是 null");
+				}else{
+					int index = 0;
+					for(int row = 3;row < 17;row++){
+						HSSFRow everyrow = sheet.getRow(row);
+						HSSFCell cell1 = everyrow.getCell(1);
+						HSSFCell cell2 = everyrow.getCell(2);
+						HSSFCell cell3 = everyrow.getCell(3);
+						HSSFCell cell4 = everyrow.getCell(4);
+						HSSFCell cell5 = everyrow.getCell(5);
+						HSSFCell cell6 = everyrow.getCell(6);
+						HSSFCell cell7 = everyrow.getCell(7);
+						HSSFCell cell8 = everyrow.getCell(8);
+						HSSFCell cell9 = everyrow.getCell(9);
+						HSSFCell cell10 = everyrow.getCell(10);
+						HSSFCell cell11 = everyrow.getCell(11);
+						HSSFCell cell12 = everyrow.getCell(12);
+						cell1.setCellValue(cell1_data[index]);
+						cell2.setCellValue(cell2_data[index]);
+						cell3.setCellValue(cell3_data[index]);
+						cell4.setCellValue(cell4_data[index]);
+						cell5.setCellValue(cell5_data[index]);
+						index++;
+					}
+				}
+				FileOutputStream out = new FileOutputStream(fullPath);
+				hssfWorkbook.write(out);
+				hssfWorkbook.close();
+				downloadfiles[i] = fullPath;
+				out.close();
 			}else{
 				
 			}
@@ -1038,5 +1230,33 @@ public class downLoadFile {
 			}
 		}
 		return pi;
+	}
+	private static List<pbsmr_entrustunit> compare(pbsmr_entrustunits t,pbsmr_entrustunits b){
+		List<pbsmr_entrustunit> temp_obj = new ArrayList<pbsmr_entrustunit>();
+		String[] n = new String[]{};
+		String[] o = new String[]{};
+		for(int a = 0;a<t.getList().size();a++){
+			n[a] = t.getList().get(a).getMerchid();
+		}
+		for(int i = 0;i<b.getList().size();i++){
+			o[i] = b.getList().get(i).getMerchid();
+		}
+		List<String> list1 = Arrays.asList(o);
+		List<String> list2 = new ArrayList<String>();
+		for(String a:n){
+			if(!list1.contains(a)){
+				list2.add(a);
+			}
+		}
+		for(int dxh = 0;dxh<list2.size();dxh++){
+			String tempstr = list2.get(dxh);
+			for(int x = 0;x<t.getList().size();x++){
+				if(tempstr.equals(t.getList().get(x).getMerchid())){
+					temp_obj.add(t.getList().get(x));
+				}
+				
+			}
+		}
+		return temp_obj;
 	}
 }
