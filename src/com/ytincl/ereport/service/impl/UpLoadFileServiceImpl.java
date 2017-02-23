@@ -10,6 +10,7 @@ import com.ytincl.ereport.pojo.SavingsNetAmount;
 import com.ytincl.ereport.pojo.SavingsNetAmount2;
 import com.ytincl.ereport.pojo.UpLoadFile;
 import com.ytincl.ereport.pojo.pbsmr_busi;
+import com.ytincl.ereport.pojo.pbsmr_entrustunit;
 import com.ytincl.ereport.pojo.pbsmr_inst;
 import com.ytincl.ereport.service.UpLoadFileService;
 
@@ -73,7 +74,11 @@ public class UpLoadFileServiceImpl implements UpLoadFileService{
 		return uploadfiledao.insertNormData(pi);
 	}
 	
-	
+	@Override
+	public int insertNormData(pbsmr_entrustunit pe) {
+		// TODO Auto-generated method stub
+		return uploadfiledao.insertNormData(pe);
+	}
 }
 
 

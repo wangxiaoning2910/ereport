@@ -7,6 +7,7 @@ import com.ytincl.ereport.pojo.SavingsNetAmount;
 import com.ytincl.ereport.pojo.SavingsNetAmount2;
 import com.ytincl.ereport.pojo.UpLoadFile;
 import com.ytincl.ereport.pojo.pbsmr_busi;
+import com.ytincl.ereport.pojo.pbsmr_entrustunit;
 import com.ytincl.ereport.pojo.pbsmr_inst;
 
 public interface UpLoadFileService {
@@ -19,4 +20,5 @@ public interface UpLoadFileService {
 	public int insertdata(UpLoadFile ulf);
 	public int insertNormData(pbsmr_busi pb);
 	public int insertNormData(pbsmr_inst pi);
+	public int insertNormData(pbsmr_entrustunit pe);
 }

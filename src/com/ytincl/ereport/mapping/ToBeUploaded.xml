@@ -13,6 +13,9 @@
 	<resultMap type="pbsmr_inst" id="result_pbsmr_inst">
 		<result property="text" column="report_name" /> 
 	</resultMap>
+	<resultMap type="pbsmr_entrustunit" id="result_pbsmr_entrustunit">
+		<result property="text" column="report_name" /> 
+	</resultMap>
 	<select id="selectToBeUpLoaded"  resultMap="result_tobeuploaded">
 		select t.name,t.status from tobeuploaded t where t.time = #{querydate}
 	</select>
@@ -100,11 +103,26 @@
 		,#{correctnum_year},#{correctmoney_month},#{correctmoney_year},#{cancelamount_month},#{cancelamount_year},#{cancelmoney_month},#{cancelmoney_year}
 		,#{transtotalnum_month},#{transtotalnum_year},#{transtotalmoney_month},#{transtotalmoney_year});
 	</insert>
+	<insert id="insertNormData_entrustunit" parameterType="pbsmr_entrustunit">
+		INSERT INTO 
+		pbsmr_entrustunit 
+		(reportname,statisticsmechanism,statisticsdate,statisticstype,dotproperties,paytype,
+		containsubordinateinst,
+		merchid,merchname,businame,transamount_month,transamount_year,transmoney_month,
+		transmoney_year,correctnum_month,correctnum_year,correctmoney_month,
+		correctmoney_year,cancelamount_month,cancelamount_year,cancelmoney_month,cancelmoney_year,
+		transtotalnum_month,transtotalnum_year,transtotalmoney_month,transtotalmoney_year) 
+		VALUE
+		(#{reportName},#{statisticsmechanism},#{statisticsdate},#{statisticstype},#{dotproperties},#{paytype},
+		#{containsubordinateinst},#{merchid},#{merchname},#{businame},#{transamount_month},#{transamount_year},#{transmoney_month},#{transmoney_year},#{correctnum_month}
+		,#{correctnum_year},#{correctmoney_month},#{correctmoney_year},#{cancelamount_month},#{cancelamount_year},#{cancelmoney_month},#{cancelmoney_year}
+		,#{transtotalnum_month},#{transtotalnum_year},#{transtotalmoney_month},#{transtotalmoney_year});
+	</insert>
 	<select id="queryTemplates"  resultMap="result_ManuallyTemplate">
 		select t.tempName,t.dataSpace,t.status from mtemplates t
 	</select>
 	<select id="queryOriginalData" resultMap="result_Original">
-		select * from yt_report_availablestatement;
+		select * from yt_report_availablestatement where report_status = '1';
 	</select>
 	<select id="querypbs" resultMap="result_pbsmr_busi" parameterType="pbsmr_busi">
 		SELECT * FROM 
@@ -121,6 +139,15 @@
 		AND pi.statisticstype = #{statisticstype} 
 		AND pi.dotproperties = #{dotproperties}
 		AND pi.busicode = #{busicode}
+	</select>
+	<select id="querypes" resultMap="result_pbsmr_entrustunit" parameterType="pbsmr_entrustunit">
+		SELECT * FROM 
+		pbsmr_entrustunit pe
+		WHERE
+			pe.reportname = #{reportName} 
+		AND pe.statisticsdate = #{statisticsdate} 
+		AND pe.statisticstype = #{statisticstype} 
+		AND pe.dotproperties = #{dotproperties}
 	</select>
 </mapper>
 

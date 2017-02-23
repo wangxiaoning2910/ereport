@@ -92,7 +92,7 @@ public class QueryTableController {
 			//定义Outputstream
 			OutputStream out = new FileOutputStream(fullPath);
 			//生成Excel文件
-			ex.exportExcel(headers, monthTables1, out);
+			//ex.exportExcel(headers, monthTables1, out);
 			out.close();
 			//获取生成的文件
 			File file = new File(fullPath);

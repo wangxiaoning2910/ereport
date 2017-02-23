@@ -10,6 +10,7 @@ import com.ytincl.ereport.pojo.ManuallyTemplate;
 import com.ytincl.ereport.pojo.ToBeDownLoadFile;
 import com.ytincl.ereport.pojo.originalData;
 import com.ytincl.ereport.pojo.pbsmr_busi;
+import com.ytincl.ereport.pojo.pbsmr_entrustunit;
 import com.ytincl.ereport.pojo.pbsmr_inst;
 import com.ytincl.ereport.pojo.testdownloaddata;
 import com.ytincl.ereport.service.ToBeDownLoadListService;
@@ -48,5 +49,9 @@ public class ToBeDownLoadListServiceImpl implements ToBeDownLoadListService{
 		// TODO Auto-generated method stub
 		return (ArrayList<pbsmr_inst>)toBeDownLoadListDao.getpbsmr_busiList(pi);
 	}
-
+	@Override
+	public ArrayList<pbsmr_entrustunit> getpbsmr_enList(pbsmr_entrustunit pe) {
+		// TODO Auto-generated method stub
+		return (ArrayList<pbsmr_entrustunit>)toBeDownLoadListDao.getpbsmr_enList(pe);
+	}
 }

@@ -17,5 +17,6 @@
     	<typeAlias type="com.ytincl.ereport.pojo.originalData" alias="originalData" />
     	<typeAlias type="com.ytincl.ereport.pojo.pbsmr_busi" alias="pbsmr_busi" />
     	<typeAlias type="com.ytincl.ereport.pojo.pbsmr_inst" alias="pbsmr_inst" />
+    	<typeAlias type="com.ytincl.ereport.pojo.pbsmr_entrustunit" alias="pbsmr_entrustunit" />
 	</typeAliases>  
 </configuration>

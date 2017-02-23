@@ -10,6 +10,7 @@ import com.ytincl.ereport.pojo.ManuallyTemplate;
 import com.ytincl.ereport.pojo.ToBeDownLoadFile;
 import com.ytincl.ereport.pojo.originalData;
 import com.ytincl.ereport.pojo.pbsmr_busi;
+import com.ytincl.ereport.pojo.pbsmr_entrustunit;
 import com.ytincl.ereport.pojo.pbsmr_inst;
 import com.ytincl.ereport.pojo.testdownloaddata;
 
@@ -49,6 +50,11 @@ public class ToBeDownLoadListImpl implements ToBeDownLoadListDao{
 	public ArrayList<pbsmr_inst> getpbsmr_busiList(pbsmr_inst pi) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("com.ytincl.ereport.dao.UpLoadFileDao.querypis",pi);
+	}
+	@Override
+	public ArrayList<pbsmr_entrustunit> getpbsmr_enList(pbsmr_entrustunit pe) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("com.ytincl.ereport.dao.UpLoadFileDao.querypes",pe);
 	}
 
 }

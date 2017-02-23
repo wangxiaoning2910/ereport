@@ -4,59 +4,17 @@ var choosedFileStatus = 1;
 $(document).ready(function() {
 	
 	$('#datetimepicker').datetimepicker({
-    	format: 'yyyy-mm',
-    	startDate:'201606',
+		format: 'yyyy-mm',
         startView:3,
         weekStart:1,
         minView:3,
         maxView:4,
+        autoclose:true,
+        todayBtn:true,
         todayHighlight:true,
         language:'zh-CN',
     });
-	
-	//上传
-    /*$("#file_upload").uploadify({
-    	'auto':false,
-        'successTimeout':99999,
-        'swf': "<c:url value='/resources/uploadify/uploadify.swf' />",
-        'queueID':'uploadfileQueue',
-        'fileObjName':'pic',
-       	'uploader':'uploadFile.do',
-        'buttonText':'选择文件',
-        'removeCompleted':false,
-        'fileTypeDesc':'支持的格式：',
-        'fileTypeExts':'*.xlsx', 
-        'fileSizeLimit':'100KB',
-        'onSelect' : function(file) {
-                 
-        },
-        'onSelectError':function(file, errorCode, errorMsg){
-            switch(errorCode) {
-                case -100:
-                    alert("上传的文件数量已经超出系统限制的"
-                     +$('#file_upload').uploadify('settings','queueSizeLimit')+"个文件！");
-                    break;
 
-                case -110:
-                    alert("文件 ["+file.name+"] 大小超出系统限制的"
-                     +$('#file_upload').uploadify('settings','fileSizeLimit')+"大小！");
-                    break;
-                case -120:
-                    alert("文件 ["+file.name+"] 大小异常！");
-                    break;
-                case -130:
-                    alert("文件 ["+file.name+"] 类型不正确！");
-                    break;
-            }
-        },
-        'onUploadSuccess':function(file, data, response){
-        	getList();
-        },
-        'onUploadError': function (file, errorCode, errorMsg, errorString) { 
-        	alert("上传失败");
-        } 
-    });*/
-    
     //bootstrapTable
     $("#uploadTable").bootstrapTable({
     	classes:'table table-hover table-condensed table-no-bordered',
@@ -108,11 +66,12 @@ $(document).ready(function() {
 	});
     $("#choosefile").fileinput({
         language: 'zh', //设置语言
-        uploadUrl: "uploadFile1.do", //上传的地址
+        //uploadUrl: "uploadFile1.do", //上传的地址
+        uploadUrl: "test.do",
         browseLabel : "选择文件",
         removeLabel : "删除",
         uploadLabel : "上传",
-        allowedFileExtensions: ['xls'],//接收的文件后缀
+        allowedFileExtensions: ['xls','et'],//接收的文件后缀
         uploadAsync: true, //默认异步上传
         showUpload: true, //是否显示上传按钮
         showRemove : true, //显示移除按钮
@@ -131,7 +90,6 @@ $(document).ready(function() {
 	});
 	//异步上传成功返回结果处理
 	$("#choosefile").on("fileuploaded", function (event, data, previewId, index) {
-		console.log(event)
 		queryList();
     });
 });
@@ -168,7 +126,6 @@ function queryList(){
 	    dataType:'json',
 	    success:function(json){
 	    	data = json.list;
-	    	console.log(data)
 	        $("#uploadTable").bootstrapTable('load',data);
 	    },
 	    error:function(){

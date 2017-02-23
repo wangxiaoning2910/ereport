@@ -2,6 +2,7 @@ package com.ytincl.ereport.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -140,7 +141,6 @@ public class ReadExcel {
                 	//xssfRowsize为开始的列
                     for(int xssfRowsize = startx,xb = 0;xssfRowsize <= endx;xssfRowsize++,xb++){
                     	arr[xb] = getValue(hssfRow.getCell(xssfRowsize));
-                    	System.out.println("===arr[xb]=="+arr[xb]);
                     }
                     list.add(arr);
                 }
@@ -276,5 +276,25 @@ public class ReadExcel {
 	     }
 	     return CommonConstants.NULL_STRING;
 	 }
-
+	public String[] getfixedata(File file,int startx,int starty,int endx,int endy) throws IOException{
+		String[] x = new String[(endx-startx+1)*(endy-starty+1)] ;
+		InputStream is = new FileInputStream(file);
+        //HSSFWorkbook读取该文件
+        HSSFWorkbook hssfWorkbook = new HSSFWorkbook(is);
+        HSSFSheet hssfSheet = hssfWorkbook.getSheetAt(0);//每一个Sheet对象
+        int xb = 0;
+        for (int rowNum = starty; rowNum <endy; rowNum++) {
+            HSSFRow hssfRow = hssfSheet.getRow(rowNum);//每一行的对象
+            if (hssfRow != null) {
+            	//xssfRowsize为开始的列
+                for(int xssfRowsize = startx;xssfRowsize <= endx;xssfRowsize++){
+                	x[xb] = getValue(hssfRow.getCell(xssfRowsize));
+                	xb = xb+1;
+                }
+            }
+        }
+        hssfWorkbook.close();
+		return x;
+		
+	}
 }

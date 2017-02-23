@@ -115,7 +115,7 @@ function downloadFile(index){
 	$('#filename').attr('value',filename);
 	$('#ymounth').attr('value',date);
 	$('#exportfileform').attr('method','post');
-	$("#exportfileform").attr("action", "exportfile.do");
+	$("#exportfileform").attr("action", "exportfiles.do");
 	$('#exportfileform').submit();
 }
 function downloadFiles(){
