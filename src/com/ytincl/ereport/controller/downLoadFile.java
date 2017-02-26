@@ -1023,11 +1023,11 @@ public class downLoadFile {
 				//首先得到今年新增了哪些委托单位，之后区分这些委托单位，在区分的时候获取其数据
 				
 				String[] cell4_data =  new String[Permutatio_code.length];
-				String[] cell5_data =  new String[Permutatio_code.length];
+				Double[] cell5_data =  new Double[Permutatio_code.length];
 				if(pes.getList().size() == 0 || pes_beforeyear.getList().size()==0){
 					for(int sz = 0;sz<Permutatio_code.length;sz++){
 						cell4_data[sz] = "-";
-						cell5_data[sz] = "-";
+						cell5_data[sz] = 0.00;
 					}
 				}else{
 					//获取全部的新增
@@ -1044,7 +1044,7 @@ public class downLoadFile {
 							}
 						}
 						cell4_data[sz] = String.valueOf(totalrz);
-						cell5_data[sz] = String.valueOf(totalmoney/1000);
+						cell5_data[sz] = totalmoney/10000;
 					}	
 				}
 				//第6列的数据、第7列数据
@@ -1074,7 +1074,7 @@ public class downLoadFile {
 				
 				//第9列数据
 				String[] cell9_data =  new String[Permutatio_code.length];
-				String[] cell10_data = new String[Permutatio_code.length];
+				Double[] cell10_data = new Double[Permutatio_code.length];
 				for(int cd9 =0;cd9<cell9_data.length;cd9++){
 					String percode = Permutatio_code[cd9];
 					int totalsum = 0;
@@ -1093,12 +1093,16 @@ public class downLoadFile {
 						}
 					}
 					cell9_data[cd9] = String.valueOf(totalsum);
-					cell10_data[cd9] = String.valueOf(totalmoney/1000);
+					cell10_data[cd9] = totalmoney/10000;
 				}
 				//第11列数据，自营占比
-				String[] cell11_data = new String[Permutatio_code.length];
+				Double[] cell11_data = new Double[Permutatio_code.length];
 				for(int cd11 =0;cd11<cell11_data.length;cd11++){
-					cell11_data[cd11] = String.valueOf(Double.parseDouble(cell10_data[cd11]) / Double.parseDouble(cell5_data[cd11]));
+					cell11_data[cd11] = cell10_data[cd11] / cell5_data[cd11];
+				}
+				Double[] cell12_data = new Double[Permutatio_code.length];
+				for(int cd12 = 0;cd12<cell12_data.length;cd12++){
+					cell12_data[cd12] = cell10_data[cd12]*10000 / Integer.parseInt(cell9_data[cd12]);
 				}
 				//开始向模板文件中写入数据
 				InputStream is = new FileInputStream(file);
@@ -1133,6 +1137,7 @@ public class downLoadFile {
 						cell9.setCellValue(cell9_data[index]);
 						cell10.setCellValue(cell10_data[index]);
 						cell11.setCellValue(cell11_data[index]);
+						cell12.setCellValue(cell12_data[index]);
 						index++;
 					}
 				}
