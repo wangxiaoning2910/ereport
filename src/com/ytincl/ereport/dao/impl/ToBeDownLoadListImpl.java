@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.ytincl.ereport.dao.ToBeDownLoadListDao;
 import com.ytincl.ereport.pojo.ManuallyTemplate;
 import com.ytincl.ereport.pojo.ToBeDownLoadFile;
+import com.ytincl.ereport.pojo.newMerch;
 import com.ytincl.ereport.pojo.originalData;
 import com.ytincl.ereport.pojo.pbsmr_busi;
 import com.ytincl.ereport.pojo.pbsmr_entrustunit;
@@ -55,6 +56,16 @@ public class ToBeDownLoadListImpl implements ToBeDownLoadListDao{
 	public ArrayList<pbsmr_entrustunit> getpbsmr_enList(pbsmr_entrustunit pe) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("com.ytincl.ereport.dao.UpLoadFileDao.querypes",pe);
+	}
+	@Override
+	public int insertNewMerch(newMerch nm) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("com.ytincl.ereport.dao.UpLoadFileDao.insertNewMerch",nm);
+	}
+	@Override
+	public ArrayList<newMerch> getnewMerch(newMerch nm) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("com.ytincl.ereport.dao.UpLoadFileDao.getNewMerch",nm);
 	}
 
 }

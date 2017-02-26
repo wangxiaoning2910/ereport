@@ -122,7 +122,7 @@
 						<select class="form-control" id="used_busi" name="used_busi" >
 							<option>0-全部</option>
 							<option>1-自营</option>
-							<option>1-代理</option>
+							<option>2-代理</option>
 						</select> 
 						<label>统计方式</label> 
 						<select class="form-control" id="institutionAdd_busi" name="institutionAdd_busi">
@@ -154,7 +154,7 @@
 						<select class="form-control" id="used_eu" name="used_eu" >
 							<option>0-全部</option>
 							<option>1-自营</option>
-							<option>1-代理</option>
+							<option>2-代理</option>
 						</select> 
 						<label>统计方式</label> 
 						<select class="form-control" id="institutionAdd_eu" name="institutionAdd_eu">

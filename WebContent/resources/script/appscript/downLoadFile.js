@@ -56,26 +56,190 @@ $(document).ready(function() {
 			} 
 		}],
     	onRefresh:function(){
-    		queryList();
     	},onCheck:function(row){
-    		getSelectNum()
     	},onCheckAll:function(rows){
-    		getSelectNum()
     	},onUncheckAll:function(rows){
-    		getSelectNum()
     	},onUncheck:function(row){
-    		getSelectNum()
     	}
+	});
+    $("#choosemerch").bootstrapTable({
+    	classes:'table table-hover',
+    	dataType:'json',
+    	height: $('#InsertNewMerch').height()/4*3,
+    	striped:true,
+    	cache:false,
+    	pagination: true,
+    	sortable: false,
+    	showRefresh:false,
+    	pagination:false,
+    	columns: [{
+    		checkbox:true
+    	},{
+    	    field: 'merchid',
+    	    title: '委托单位代码',
+    	    align: 'center',
+    	    width: '20%',
+    	},{
+    	    field: 'merchname',
+    	    title: '委托单位名称',
+    	    align: 'center',
+    	    width: '50%',
+    	},{
+    	    field: 'businame',
+    	    title: '业务代码-名称',
+    	    align: 'center',
+    	    width: '30%',
+    	}]
+	});
+    $("#choosemerch1").bootstrapTable({
+    	classes:'table table-hover',
+    	dataType:'json',
+    	height: $('#InsertNewMerch').height()/4*3,
+    	striped:true,
+    	cache:false,
+    	pagination: true,
+    	sortable: false,
+    	showRefresh:false,
+    	pagination:false,
+    	columns: [{
+    		checkbox:true
+    	},{
+    	    field: 'merchid',
+    	    title: '委托单位代码',
+    	    align: 'center',
+    	    width: '20%',
+    	},{
+    	    field: 'merchname',
+    	    title: '委托单位名称',
+    	    align: 'center',
+    	    width: '50%',
+    	},{
+    	    field: 'businame',
+    	    title: '业务代码-名称',
+    	    align: 'center',
+    	    width: '30%',
+    	}]
 	});
     $('#downloadfiles').click(function(){
     	downloadFiles();
-    })
+    });
+    $('#insertdata').click(function(){
+    	insertNewMerchData_month();
+    });
+    $('#insertdata1').click(function(){
+    	insertNewMerchData_year();
+    });
 	
 });
 $(setDate)
 $(init)
 $(queryList)
 var Listdata;
+function insertNewMerchData_month(){
+	var ziying = $('#choosemerch').bootstrapTable('getSelections');
+	var total = $('#choosemerch').bootstrapTable('getData');
+	var insertdate = $('#ymounth').val();
+	var daili = [];
+	for(var x = 0;x<ziying.length;x++){
+		var temp = ziying[x].merchid;
+		var temp1 = ziying[x].businame;
+		for(var i = 0;i<total.length;i++){
+			if(total[i].merchid == temp && total[i].businame == temp1){
+				total.splice(i,1);
+			}
+		}
+	}
+	daili = total;
+	var selfsupport_merchid = [];
+	var selfsupport_merchname = [];
+	var selfsupport_businame = [];
+	var agent_merchid = [];
+	var agent_merchname = [];
+	var agent_businame = [];
+	for(var a = 0;a<ziying.length;a++){
+		selfsupport_merchid[a] = ziying[a].merchid;
+		selfsupport_merchname[a] = ziying[a].merchname;
+		selfsupport_businame[a] = ziying[a].businame;
+	}
+	for(var b = 0;b<daili.length;b++){
+		agent_merchid[b] = daili[b].merchid;
+		agent_merchname[b] = daili[b].merchname;
+		agent_businame[b] = daili[b].businame;
+	}
+	var param = {'insertdate':insertdate,'selfsupport_merchid':selfsupport_merchid,
+			'selfsupport_merchname':selfsupport_merchname,'selfsupport_businame':selfsupport_businame,
+			'agent_merchid':agent_merchid,'agent_merchname':agent_merchname,'agent_businame':agent_businame};
+	$.ajax({
+		type:"POST",
+	    url:"intsertnewMerch_month.do",
+	    traditional: true,
+	    data:param,
+	    dataType:'json',
+	    success:function(json){
+	    	$('#InsertNewMerch').modal("hide");
+	    	getnm_year();
+	    	
+	    },
+	    error:function(){
+	    	alert("错误");
+	    	return;
+	    }
+	})
+	
+}
+function insertNewMerchData_year(){
+	var ziying = $('#choosemerch1').bootstrapTable('getSelections');
+	var total = $('#choosemerch1').bootstrapTable('getData');
+	var insertdate = $('#ymounth').val().substring(0,4);
+	var daili = [];
+	for(var x = 0;x<ziying.length;x++){
+		var temp = ziying[x].merchid;
+		var temp1 = ziying[x].businame;
+		for(var i = 0;i<total.length;i++){
+			if(total[i].merchid == temp && total[i].businame == temp1){
+				total.splice(i,1);
+			}
+		}
+	}
+	daili = total;
+	var selfsupport_merchid = [];
+	var selfsupport_merchname = [];
+	var selfsupport_businame = [];
+	var agent_merchid = [];
+	var agent_merchname = [];
+	var agent_businame = [];
+	for(var a = 0;a<ziying.length;a++){
+		selfsupport_merchid[a] = ziying[a].merchid;
+		selfsupport_merchname[a] = ziying[a].merchname;
+		selfsupport_businame[a] = ziying[a].businame;
+	}
+	for(var b = 0;b<daili.length;b++){
+		agent_merchid[b] = daili[b].merchid;
+		agent_merchname[b] = daili[b].merchname;
+		agent_businame[b] = daili[b].businame;
+	}
+	var param = {'insertdate':insertdate,'selfsupport_merchid':selfsupport_merchid,
+			'selfsupport_merchname':selfsupport_merchname,'selfsupport_businame':selfsupport_businame,
+			'agent_merchid':agent_merchid,'agent_merchname':agent_merchname,'agent_businame':agent_businame};
+	$.ajax({
+		type:"POST",
+	    url:"intsertnewMerch_year.do",
+	    traditional: true,
+	    data:param,
+	    dataType:'json',
+	    success:function(json){
+	    	$('#InsertNewMerch1').modal("hide");
+	    	$('#exportfileform').attr('method','post');
+			$("#exportfileform").attr("action", "exportfiles.do");
+			$('#exportfileform').submit();
+	    },
+	    error:function(){
+	    	alert("错误");
+	    	return;
+	    }
+	})
+	
+}
 function queryList(){
 	var ymounth = $("#datetimepicker").val();
 	ymounth = ymounth.replace("-","");
@@ -94,7 +258,7 @@ function queryList(){
 	    	alert("错误");
 	    	return;
 	    }
-	})
+	});
 	return data;
 }
 function setDate(){
@@ -114,13 +278,54 @@ function downloadFile(index){
 	var filename = row.filename
 	$('#filename').attr('value',filename);
 	$('#ymounth').attr('value',date);
-	$('#exportfileform').attr('method','post');
-	$("#exportfileform").attr("action", "exportfiles.do");
-	$('#exportfileform').submit();
+	if(filename == "代收付新增委托单位"){
+		getnm_month(filename,date);
+	}else{
+		$('#exportfileform').attr('method','post');
+		$("#exportfileform").attr("action", "exportfiles.do");
+		$('#exportfileform').submit();
+	}
+	
+}
+function getnm_month(filename,date){
+	$.ajax({
+		type:"POST",
+	    url:"getnewMerch_month.do",
+	    data:{ymounth:date,filename:filename},
+	    dataType:'json',
+	    success:function(json){
+	    	data = json.list;
+	        $("#choosemerch").bootstrapTable('load',data);
+	        $('#InsertNewMerch').modal("show");
+	    },
+	    error:function(){
+	    	alert("错误");
+	    	return;
+	    }
+	})
+}
+function getnm_year(){
+	var filename = $('#filename').val();
+	var date = $('#ymounth').val();
+	$.ajax({
+		type:"POST",
+	    url:"getnewMerch_year.do",
+	    data:{ymounth:date,filename:filename},
+	    dataType:'json',
+	    success:function(json){
+	    	data = json.list;
+	    	console.log(data)
+	        $("#choosemerch1").bootstrapTable('load',data);
+	        $('#InsertNewMerch1').modal("show");
+	    },
+	    error:function(){
+	    	alert("错误");
+	    	return;
+	    }
+	})
 }
 function downloadFiles(){
 	var selectedrows = $('#uploadTable').bootstrapTable('getSelections');
-	
 	var filename = [];
 	var date = selectedrows[0].date;
 	var length = selectedrows.length;

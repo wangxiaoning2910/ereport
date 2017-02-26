@@ -1,13 +1,12 @@
 package com.ytincl.ereport.service.impl;
 
 import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.ytincl.ereport.dao.ToBeDownLoadListDao;
 import com.ytincl.ereport.pojo.ManuallyTemplate;
 import com.ytincl.ereport.pojo.ToBeDownLoadFile;
+import com.ytincl.ereport.pojo.newMerch;
 import com.ytincl.ereport.pojo.originalData;
 import com.ytincl.ereport.pojo.pbsmr_busi;
 import com.ytincl.ereport.pojo.pbsmr_entrustunit;
@@ -53,5 +52,15 @@ public class ToBeDownLoadListServiceImpl implements ToBeDownLoadListService{
 	public ArrayList<pbsmr_entrustunit> getpbsmr_enList(pbsmr_entrustunit pe) {
 		// TODO Auto-generated method stub
 		return (ArrayList<pbsmr_entrustunit>)toBeDownLoadListDao.getpbsmr_enList(pe);
+	}
+	@Override
+	public int insertNewMerch(newMerch nm) {
+		// TODO Auto-generated method stub
+		return toBeDownLoadListDao.insertNewMerch(nm);
+	}
+	@Override
+	public ArrayList<newMerch> getnewMerch(newMerch nm) {
+		// TODO Auto-generated method stub
+		return (ArrayList<newMerch>)toBeDownLoadListDao.getnewMerch(nm);
 	}
 }

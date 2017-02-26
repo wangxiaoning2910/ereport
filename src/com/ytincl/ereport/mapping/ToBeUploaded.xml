@@ -16,6 +16,7 @@
 	<resultMap type="pbsmr_entrustunit" id="result_pbsmr_entrustunit">
 		<result property="text" column="report_name" /> 
 	</resultMap>
+	<resultMap type="newMerch" id="result_newMerch"></resultMap>
 	<select id="selectToBeUpLoaded"  resultMap="result_tobeuploaded">
 		select t.name,t.status from tobeuploaded t where t.time = #{querydate}
 	</select>
@@ -72,6 +73,13 @@
 		(name,status,time)
 		value
 		(#{name},#{status},#{queryDate})
+	</insert>
+	<insert id="insertNewMerch" parameterType="com.ytincl.ereport.pojo.newMerch">
+		insert into
+		yt_report_merchtype
+		(merchid,merchname,busicode,merchtype,addate)
+		value
+		(#{merchid},#{merchname},#{busicode},#{merchtype},#{addate})
 	</insert>
 	<insert id="insertNormData" parameterType="pbsmr_busi">
 		INSERT INTO 
@@ -148,6 +156,12 @@
 		AND pe.statisticsdate = #{statisticsdate} 
 		AND pe.statisticstype = #{statisticstype} 
 		AND pe.dotproperties = #{dotproperties}
+	</select>
+	<select id="getNewMerch" resultMap="result_newMerch" parameterType="newMerch">
+		SELECT * FROM 
+		yt_report_merchtype mt
+		WHERE
+		mt.addate = #{addate} 
 	</select>
 </mapper>
 

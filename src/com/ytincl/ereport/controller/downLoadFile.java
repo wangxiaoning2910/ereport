@@ -8,22 +8,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -38,27 +31,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.mysql.fabric.xmlrpc.base.Array;
 import com.ytincl.ereport.constant.CommonConstants;
+import com.ytincl.ereport.model.BaseModel;
 import com.ytincl.ereport.model.ToBeDownLoadList;
 import com.ytincl.ereport.model.pbsmr_busis;
 import com.ytincl.ereport.model.pbsmr_entrustunits;
 import com.ytincl.ereport.model.pbsmr_insts;
-import com.ytincl.ereport.model.testdownloaddatalist;
-import com.ytincl.ereport.pojo.RowData;
 import com.ytincl.ereport.pojo.ToBeDownLoadFile;
+import com.ytincl.ereport.pojo.newMerch;
 import com.ytincl.ereport.pojo.pbsmr_busi;
 import com.ytincl.ereport.pojo.pbsmr_entrustunit;
 import com.ytincl.ereport.pojo.pbsmr_inst;
-import com.ytincl.ereport.pojo.testdownloaddata;
 import com.ytincl.ereport.service.ToBeDownLoadListService;
-import com.ytincl.ereport.service.UpLoadFileService;
-import com.ytincl.ereport.util.ExportExcel;
-import com.ytincl.ereport.util.ExportExcel1;
-import com.ytincl.ereport.util.FileUtil;
-import com.ytincl.ereport.util.GetGrid;
 import com.ytincl.ereport.util.ReadExcel; 
 
 @Controller
@@ -932,6 +916,14 @@ public class downLoadFile {
 				pe.setStatisticsdate(beforeyear);
 				pes_beforeyear.setList(getdownloadlist.getpbsmr_enList(pe));
 				
+				newMerch nm_t = new newMerch();
+				newMerch nm_b = new newMerch();
+				nm_t.setAddate(querydate);
+				nm_b.setAddate(querydate.substring(0,4));
+				List<newMerch> nmlist_t = getdownloadlist.getnewMerch(nm_t);
+				List<newMerch> nmlist_b = getdownloadlist.getnewMerch(nm_b);
+				
+				
 				
 				//获取模板文件
 				File file = new File(oldfullPath);
@@ -1052,14 +1044,62 @@ public class downLoadFile {
 							}
 						}
 						cell4_data[sz] = String.valueOf(totalrz);
-						cell5_data[sz] = String.valueOf(totalmoney);
+						cell5_data[sz] = String.valueOf(totalmoney/1000);
 					}	
 				}
+				//第6列的数据、第7列数据
+				String[] cell6_data =  new String[Permutatio_code.length];
+				String[] cell7_data =  new String[Permutatio_code.length];
 				
+				for(int cd6 = 0;cd6<cell6_data.length;cd6++){
+					String percode = Permutatio_code[cd6];
+					int newmerchsum = 0;
+					int newmerchsum1 = 0;
+					for(int cd6_nm = 0;cd6_nm<nmlist_t.size();cd6_nm++){
+						newMerch temp = nmlist_t.get(cd6_nm);
+						if(percode.equals(temp.getMerchid().substring(0, 4)) && ("1-自营").equals(temp.getMerchtype())){
+							newmerchsum++;
+						}
+					}
+					for(int cd6_nm = 0;cd6_nm<nmlist_b.size();cd6_nm++){
+						newMerch temp = nmlist_b.get(cd6_nm);
+						if(percode.equals(temp.getMerchid().substring(0, 4)) && ("1-自营").equals(temp.getMerchtype())){
+							newmerchsum1++;
+						}
+					}
+					cell6_data[cd6] = String.valueOf(newmerchsum);
+					cell7_data[cd6] = String.valueOf(newmerchsum1);
+				}
+				//第8列数据，
 				
-				
-				
-				
+				//第9列数据
+				String[] cell9_data =  new String[Permutatio_code.length];
+				String[] cell10_data = new String[Permutatio_code.length];
+				for(int cd9 =0;cd9<cell9_data.length;cd9++){
+					String percode = Permutatio_code[cd9];
+					int totalsum = 0;
+					double totalmoney = 0;
+					for(int cd9_nm = 0;cd9_nm<nmlist_t.size();cd9_nm++){
+						newMerch temp = nmlist_b.get(cd9_nm);
+						if(percode.equals(temp.getMerchid().substring(0, 4)) && ("1-自营").equals(temp.getMerchtype())){
+							String merchcode = temp.getMerchid();
+							String businame = temp.getBusicode();
+							for(int x = 0;x<pes.getList().size();x++){
+								if(merchcode.equals(pes.getList().get(x).getMerchid()) && businame.equals(pes.getList().get(x).getBusiname())){
+									totalsum = totalsum + Integer.parseInt(pes.getList().get(x).getTransamount_year());
+									totalmoney = totalmoney + Double.parseDouble(pes.getList().get(x).getTransmoney_year());
+								}
+							}
+						}
+					}
+					cell9_data[cd9] = String.valueOf(totalsum);
+					cell10_data[cd9] = String.valueOf(totalmoney/1000);
+				}
+				//第11列数据，自营占比
+				String[] cell11_data = new String[Permutatio_code.length];
+				for(int cd11 =0;cd11<cell11_data.length;cd11++){
+					cell11_data[cd11] = String.valueOf(Double.parseDouble(cell10_data[cd11]) / Double.parseDouble(cell5_data[cd11]));
+				}
 				//开始向模板文件中写入数据
 				InputStream is = new FileInputStream(file);
 		        //HSSFWorkbook读取该文件
@@ -1088,6 +1128,11 @@ public class downLoadFile {
 						cell3.setCellValue(cell3_data[index]);
 						cell4.setCellValue(cell4_data[index]);
 						cell5.setCellValue(cell5_data[index]);
+						cell6.setCellValue(cell6_data[index]);
+						cell7.setCellValue(cell7_data[index]);
+						cell9.setCellValue(cell9_data[index]);
+						cell10.setCellValue(cell10_data[index]);
+						cell11.setCellValue(cell11_data[index]);
 						index++;
 					}
 				}
@@ -1154,6 +1199,157 @@ public class downLoadFile {
         
 		
 		return null;
+	}
+	@RequestMapping(value="/view/getnewMerch_month.do")
+	@ResponseBody
+	public pbsmr_entrustunits getnewMerch_month(
+			@RequestParam(value="ymounth", required=true) String querydate,
+			@RequestParam(value="filename", required=true) String fn,
+    		HttpServletRequest request,HttpServletResponse response){
+		pbsmr_entrustunits result = new pbsmr_entrustunits();
+		//查询数据
+		String tomonth = querydate;
+		String beforemonth = String.valueOf(Integer.parseInt(querydate)-1);
+		pbsmr_entrustunit pe = new pbsmr_entrustunit();
+		pbsmr_entrustunits pes = new pbsmr_entrustunits();
+		pbsmr_entrustunits pes_beforemonth = new pbsmr_entrustunits();
+		pe.setReportName("代收付业务统计月报--按委托单位");
+		pe.setStatisticsdate(tomonth);
+		pe.setStatisticstype("0-交易机构");
+		pe.setDotproperties("0-全部");
+		pes.setList(getdownloadlist.getpbsmr_enList(pe));
+		pe.setStatisticsdate(beforemonth);
+		pes_beforemonth.setList(getdownloadlist.getpbsmr_enList(pe));
+		
+		List<pbsmr_entrustunit> list = compare(pes,pes_beforemonth);
+		result.setList(list);
+		return result;
+	}
+	@RequestMapping(value="/view/intsertnewMerch_month.do")
+	@ResponseBody
+	public BaseModel intsertnew_month(
+			@RequestParam(value="insertdate", required=true) String insertdate,
+			@RequestParam(value="selfsupport_merchid", required=false) String[] selfsupport_merchid,
+			@RequestParam(value="selfsupport_merchname", required=false) String[] selfsupport_merchname,
+			@RequestParam(value="selfsupport_businame", required=false) String[] selfsupport_businame,
+			@RequestParam(value="agent_merchid", required=false) String[] agent_merchid,
+			@RequestParam(value="agent_merchname", required=false) String[] agent_merchname,
+			@RequestParam(value="agent_businame", required=false) String[] agent_businame,
+    		HttpServletRequest request,HttpServletResponse response){
+		List<newMerch> selflist = new ArrayList<newMerch>();
+		List<newMerch> agentlist = new ArrayList<newMerch>();
+		newMerch selfpe;
+		newMerch agentpe;
+		if(selfsupport_merchid.length>0){
+			for(int a= 0;a<selfsupport_merchid.length;a++){
+				selfpe = new newMerch();
+				selfpe.setMerchid(selfsupport_merchid[a]);
+				selfpe.setMerchname(selfsupport_merchname[a]);
+				selfpe.setBusicode(selfsupport_businame[a]);
+				selfpe.setMerchtype("1-自营");
+				selfpe.setAddate(insertdate);
+				selflist.add(selfpe);
+			}
+		}
+		if(agent_merchid.length>0){
+			for(int x= 0;x<agent_merchid.length;x++){
+				agentpe = new newMerch();
+				agentpe.setMerchid(agent_merchid[x]);
+				agentpe.setMerchname(agent_merchname[x]);
+				agentpe.setBusicode(agent_businame[x]);
+				agentpe.setMerchtype("2-代理");
+				agentpe.setAddate(insertdate);
+				agentlist.add(agentpe);
+			}
+		}
+		//插入数据
+		for(int b = 0;b<selflist.size();b++){
+			selfpe = selflist.get(b);
+			getdownloadlist.insertNewMerch(selfpe);
+		}
+		for(int c = 0;c<agentlist.size();c++){
+			agentpe = agentlist.get(c);
+			getdownloadlist.insertNewMerch(agentpe);
+		}
+		return new BaseModel("000000");
+	}
+	@RequestMapping(value="/view/intsertnewMerch_year.do")
+	@ResponseBody
+	public BaseModel intsertnew_year(
+			@RequestParam(value="insertdate", required=true) String insertdate,
+			@RequestParam(value="selfsupport_merchid", required=false) String[] selfsupport_merchid,
+			@RequestParam(value="selfsupport_merchname", required=false) String[] selfsupport_merchname,
+			@RequestParam(value="selfsupport_businame", required=false) String[] selfsupport_businame,
+			@RequestParam(value="agent_merchid", required=false) String[] agent_merchid,
+			@RequestParam(value="agent_merchname", required=false) String[] agent_merchname,
+			@RequestParam(value="agent_businame", required=false) String[] agent_businame,
+    		HttpServletRequest request,HttpServletResponse response){
+		List<newMerch> selflist = new ArrayList<newMerch>();
+		List<newMerch> agentlist = new ArrayList<newMerch>();
+		newMerch selfpe;
+		newMerch agentpe;
+		if(selfsupport_merchid.length>0){
+			for(int a= 0;a<selfsupport_merchid.length;a++){
+				selfpe = new newMerch();
+				selfpe.setMerchid(selfsupport_merchid[a]);
+				selfpe.setMerchname(selfsupport_merchname[a]);
+				selfpe.setBusicode(selfsupport_businame[a]);
+				selfpe.setMerchtype("1-自营");
+				selfpe.setAddate(insertdate);
+				selflist.add(selfpe);
+			}
+		}
+		if(agent_merchid.length>0){
+			for(int x= 0;x<agent_merchid.length;x++){
+				agentpe = new newMerch();
+				agentpe.setMerchid(agent_merchid[x]);
+				agentpe.setMerchname(agent_merchname[x]);
+				agentpe.setBusicode(agent_businame[x]);
+				agentpe.setMerchtype("2-代理");
+				agentpe.setAddate(insertdate);
+				agentlist.add(agentpe);
+			}
+		}
+		//插入数据
+		for(int b = 0;b<selflist.size();b++){
+			selfpe = selflist.get(b);
+			getdownloadlist.insertNewMerch(selfpe);
+		}
+		for(int c = 0;c<agentlist.size();c++){
+			agentpe = agentlist.get(c);
+			getdownloadlist.insertNewMerch(agentpe);
+		}
+		return new BaseModel("000000");
+	}
+	@RequestMapping(value="/view/getnewMerch_year.do")
+	@ResponseBody
+	public pbsmr_entrustunits getnewMerch_year(
+			@RequestParam(value="ymounth", required=true) String querydate,
+			@RequestParam(value="filename", required=true) String fn,
+			HttpServletRequest request,HttpServletResponse response){
+		pbsmr_entrustunits result = new pbsmr_entrustunits();
+		//查询数据
+		String tomonth = querydate;
+		String beforeyear = String.valueOf(Integer.parseInt(querydate)-100);
+		
+		pbsmr_entrustunit pe = new pbsmr_entrustunit();
+		pbsmr_entrustunits pes = new pbsmr_entrustunits();
+		pbsmr_entrustunits pes_beforeyear = new pbsmr_entrustunits();
+		pe.setReportName("代收付业务统计月报--按委托单位");
+		pe.setStatisticsdate(tomonth);
+		pe.setStatisticstype("0-交易机构");
+		pe.setDotproperties("0-全部");
+		pes.setList(getdownloadlist.getpbsmr_enList(pe));
+		pe.setStatisticsdate(beforeyear);
+		pes_beforeyear.setList(getdownloadlist.getpbsmr_enList(pe));
+		List<pbsmr_entrustunit> list = compare(pes,pes_beforeyear);
+		result.setList(list);
+		return result;
+	}
+	@RequestMapping(value="/view/insertnewMerch.do")
+	@ResponseBody
+	public void insertnewMerch(){
+		
 	}
 	private boolean ishave(int a,List list){
 		boolean bool = false;
@@ -1231,27 +1427,40 @@ public class downLoadFile {
 		}
 		return pi;
 	}
+	/**
+	 * 获取pbsmr_entrustunits不同项
+	 * @param t 数量大,b数量小
+	 * @return List<pbsmr_entrustunit>
+	 * **/
 	private static List<pbsmr_entrustunit> compare(pbsmr_entrustunits t,pbsmr_entrustunits b){
 		List<pbsmr_entrustunit> temp_obj = new ArrayList<pbsmr_entrustunit>();
-		String[] n = new String[]{};
-		String[] o = new String[]{};
+		String[] n = new String[t.getList().size()];
+		String[] n_code = new String[t.getList().size()];
+		String[] o = new String[b.getList().size()];
+		String[] o_code = new String[b.getList().size()];
 		for(int a = 0;a<t.getList().size();a++){
 			n[a] = t.getList().get(a).getMerchid();
+			n_code[a] = t.getList().get(a).getBusiname();
 		}
 		for(int i = 0;i<b.getList().size();i++){
 			o[i] = b.getList().get(i).getMerchid();
+			o_code[i] = t.getList().get(i).getBusiname();
 		}
 		List<String> list1 = Arrays.asList(o);
 		List<String> list2 = new ArrayList<String>();
-		for(String a:n){
+		List<String> list3 = new ArrayList<String>();
+		for(int nt = 0;nt<n.length;nt++){
+			String a = n[nt];
 			if(!list1.contains(a)){
 				list2.add(a);
+				list3.add(n_code[nt]);
 			}
 		}
 		for(int dxh = 0;dxh<list2.size();dxh++){
 			String tempstr = list2.get(dxh);
+			String businame = list3.get(dxh);
 			for(int x = 0;x<t.getList().size();x++){
-				if(tempstr.equals(t.getList().get(x).getMerchid())){
+				if(tempstr.equals(t.getList().get(x).getMerchid()) && businame.equals(t.getList().get(x).getBusiname())){
 					temp_obj.add(t.getList().get(x));
 				}
 				

@@ -51,7 +51,6 @@ $(function(){
 	});
 	$('#selectreport').on('select2:select', function (evt) {
 		var reprotname = evt.params.data.text;
-		console.log("==========="+reprotname)
 		querydataclick(reprotname);
 	}).on('select2:unselecting',function(evt){
 	}).on('change',function(evt){

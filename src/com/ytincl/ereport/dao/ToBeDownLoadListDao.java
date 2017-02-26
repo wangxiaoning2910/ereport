@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ytincl.ereport.pojo.ManuallyTemplate;
 import com.ytincl.ereport.pojo.ToBeDownLoadFile;
+import com.ytincl.ereport.pojo.newMerch;
 import com.ytincl.ereport.pojo.originalData;
 import com.ytincl.ereport.pojo.pbsmr_busi;
 import com.ytincl.ereport.pojo.pbsmr_entrustunit;
@@ -19,4 +20,6 @@ public interface ToBeDownLoadListDao {
 	public ArrayList<pbsmr_busi> getpbsmr_busiList(pbsmr_busi pb);
 	public ArrayList<pbsmr_inst> getpbsmr_busiList(pbsmr_inst pi);
 	public ArrayList<pbsmr_entrustunit> getpbsmr_enList(pbsmr_entrustunit pe);
+	public int insertNewMerch(newMerch nm);
+	public ArrayList<newMerch> getnewMerch(newMerch nm);
 }
