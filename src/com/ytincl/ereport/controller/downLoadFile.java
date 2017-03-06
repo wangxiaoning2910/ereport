@@ -1140,6 +1140,46 @@ public class downLoadFile {
 						cell12.setCellValue(cell12_data[index]);
 						index++;
 					}
+					HSSFRow row17 = sheet.getRow(17);
+					HSSFCell cell1 = row17.getCell(1);
+					HSSFCell cell2 = row17.getCell(2);
+					HSSFCell cell3 = row17.getCell(3);
+					HSSFCell cell4 = row17.getCell(4);
+					HSSFCell cell5 = row17.getCell(5);
+					HSSFCell cell6 = row17.getCell(6);
+					HSSFCell cell7 = row17.getCell(7);
+					HSSFCell cell8 = row17.getCell(8);
+					HSSFCell cell9 = row17.getCell(9);
+					HSSFCell cell10 = row17.getCell(10);
+					HSSFCell cell11 = row17.getCell(11);
+					HSSFCell cell12 = row17.getCell(12);
+					int t1 = 0,t2 = 0,t3 = 0,t4 = 0,t6 = 0,t7 = 0,t8 = 0,t9 = 0;
+					double t5 = 0,t10 = 0,t11 = 0,t12 = 0;
+					for(int tt = 0;tt<Permutatio_code.length;tt++){
+						t1 = t1 + Integer.parseInt(cell1_data[tt]);
+						t2 = t2 + Integer.parseInt(cell2_data[tt]);
+						t3 = t3 + Integer.parseInt(cell3_data[tt]);
+						t4 = t4 + Integer.parseInt(cell4_data[tt]);
+						t6 = t6 + Integer.parseInt(cell6_data[tt]);
+						t7 = t7 + Integer.parseInt(cell7_data[tt]);
+						//t8 = t8 + Integer.parseInt(cell8_data[tt]);
+						t9 = t9 + Integer.parseInt(cell9_data[tt]);
+						t5 = t5 + cell5_data[tt];
+						t10 = t10 + cell10_data[tt];
+						t11 = t11 + cell11_data[tt];
+						t12 = t12 + cell12_data[tt];
+					}
+					cell1.setCellValue(t1);
+					cell2.setCellValue(t2);
+					cell3.setCellValue(t3);
+					cell4.setCellValue(t4);
+					cell5.setCellValue(t5);
+					cell6.setCellValue(t6);
+					cell7.setCellValue(t7);
+					cell9.setCellValue(t9);
+					cell10.setCellValue(t10);
+					cell11.setCellValue(t11);
+					cell12.setCellValue(t12);
 				}
 				FileOutputStream out = new FileOutputStream(fullPath);
 				hssfWorkbook.write(out);
