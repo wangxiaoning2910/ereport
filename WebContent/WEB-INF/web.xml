@@ -6,7 +6,7 @@
   	</session-config>
   	<context-param>
     	<param-name>contextConfigLocation</param-name>
-    	<param-value>classpath:/config/spring-mybatis.xml</param-value>
+    	<param-value>classpath:/config/spring-mybatis.xml,classpath:/config/spring-security.xml</param-value>
   	</context-param>
   	<context-param>
   		<param-name>webAppRootKey</param-name>
@@ -47,6 +47,20 @@
     	<filter-name>characterEncodingFilter</filter-name>
     	<url-pattern>/*</url-pattern>
   	</filter-mapping>
+  	
+  	  <!-- 权限  Spring Security3.1 的权限过滤-->
+  <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>
+            org.springframework.web.filter.DelegatingFilterProxy
+        </filter-class>
+   </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+  	
+  	
   	<welcome-file-list>
     	<welcome-file>login.jsp</welcome-file>
   	</welcome-file-list>

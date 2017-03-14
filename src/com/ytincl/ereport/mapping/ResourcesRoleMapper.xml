@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ytincl.ereport.dao.ResourcesRoleDao" >
+  <resultMap id="BaseResultMap" type="com.ytincl.ereport.pojo.ResourcesRole" >
+    <id column="resc_id" property="resc_id" jdbcType="INTEGER" />
+    <id column="role_id" property="role_id" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.ytincl.ereport.pojo.ResourcesRole" >
+    delete from res_roles
+    where resc_id = #{resc_id,jdbcType=INTEGER}
+      and role_id = #{role_id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ytincl.ereport.pojo.ResourcesRole" >
+    insert into res_roles (resc_id, role_id)
+    values (#{resc_id,jdbcType=INTEGER}, #{role_id,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ytincl.ereport.pojo.ResourcesRole" >
+    insert into res_roles
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="resc_id != null" >
+        resc_id,
+      </if>
+      <if test="role_id != null" >
+        role_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="resc_id != null" >
+        #{resc_id,jdbcType=INTEGER},
+      </if>
+      <if test="role_id != null" >
+        #{role_id,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

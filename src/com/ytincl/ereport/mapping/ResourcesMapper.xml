@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ytincl.ereport.dao.ResourcesDao">
+  <resultMap id="BaseResultMap" type="com.ytincl.ereport.pojo.Resources">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="text" jdbcType="VARCHAR" property="text" />
+    <result column="parentmid" jdbcType="INTEGER" property="parentmid" />
+    <result column="resKey" jdbcType="VARCHAR" property="resKey" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="href" jdbcType="VARCHAR" property="href" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="mid" jdbcType="VARCHAR" property="mid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, text, parentmid, resKey, type, href, level, description, mid 
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from resources
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getResourcesByMid" parameterType="String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from resources
+    where mid = #{mid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getAllResources"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from resources
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from resources
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ytincl.ereport.pojo.Resources">
+    insert into resources (id, text, parentmid, 
+      resKey, type, href, 
+      level, description)
+    values (#{id,jdbcType=INTEGER}, #{text,jdbcType=VARCHAR}, #{parentmid,jdbcType=INTEGER}, 
+      #{resKey,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{href,jdbcType=VARCHAR}, 
+      #{level,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}), #{mid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ytincl.ereport.pojo.Resources">
+    insert into resources
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="text != null">
+        text,
+      </if>
+      <if test="parentmid != null">
+        parentmid,
+      </if>
+      <if test="resKey != null">
+        resKey,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="href != null">
+        href,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+       <if test="mid != null">
+        mid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="text != null">
+        #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="parentmid != null">
+        #{parentmid,jdbcType=INTEGER},
+      </if>
+      <if test="resKey != null">
+        #{resKey,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="href != null">
+        #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="mid != null">
+        #{mid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ytincl.ereport.pojo.Resources">
+    update resources
+    <set>
+      <if test="text != null">
+        text = #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="parentmid != null">
+        parentmid = #{parentmid,jdbcType=INTEGER},
+      </if>
+      <if test="resKey != null">
+        resKey = #{resKey,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="href != null">
+        href = #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="mid != null">
+        mid = #{mid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ytincl.ereport.pojo.Resources">
+    update resources
+    set text = #{text,jdbcType=VARCHAR},
+      parentmid = #{parentmid,jdbcType=INTEGER},
+      resKey = #{resKey,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      href = #{href,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      mid = #{mid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="queryAll" resultMap="BaseResultMap" parameterType="com.ytincl.ereport.pojo.Resources">
+		select
+		<include refid="Base_Column_List" />
+		from resources 
+		where 1+1
+		<if test="text != null and text != ''">
+				and text like '%${text}%'
+				</if>
+		<if test="parentmid != null">
+				and parentmid =#{parentmid}
+		</if>
+		order By level asc
+	</select>
+	<!-- 根据账号Id获取该用户的权限-->
+	<select id="findAccountResourcess" parameterType="String" resultType="com.ytincl.ereport.pojo.Resources">
+		SELECT 
+		<include refid="Base_Column_List" />
+		FROM resources WHERE id in(
+		SELECT resc_id FROM
+		res_roles WHERE role_id in(
+		SELECT role_id FROM acc_role
+		WHERE acc_id=#{id}))
+		order By level asc
+	</select>
+</mapper>

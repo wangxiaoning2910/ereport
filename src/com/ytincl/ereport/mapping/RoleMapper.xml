@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ytincl.ereport.dao.RoleDao" >
+  <resultMap id="BaseResultMap" type="com.ytincl.ereport.pojo.Role" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="roleKey" property="roleKey" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, enable, name, roleKey, description
+  </sql>
+  <select id="getRoleByRoleKey" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    from role
+    where roleKey = #{roleKey,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="getRoleByName" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    from role
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="queryAllRole" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from role
+  </select>
+  
+  <select id="findRoleByAccount" parameterType="java.lang.Integer" resultType="com.ytincl.ereport.pojo.Role">
+  select 
+  <include refid="Base_Column_List" /> 
+  from role where id in (SELECT role_id FROM acc_role WHERE acc_id=#{accountId}) 
+  </select>
+  
+  <delete id="deleteByName" parameterType="String" >
+    delete from role
+    where name = #{name,jdbcType=VARCHAR}
+  </delete>
+  <!-- <insert id="insert" parameterType="com.ytincl.ereport.pojo.Role" >
+    insert into role (id, enable, name, 
+      roleKey, description)
+    values (#{id,jdbcType=INTEGER}, #{enable,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{roleKey,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+  </insert> -->
+  <insert id="insert" parameterType="com.ytincl.ereport.pojo.Role" >
+    insert into role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="roleKey != null" >
+        roleKey,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="roleKey != null" >
+        #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByName" parameterType="com.ytincl.ereport.pojo.Role" >
+    update role
+    <set >
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="roleKey != null" >
+        roleKey = #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByName1" parameterType="com.ytincl.ereport.pojo.Role" >
+    update role
+    set enable = #{enable,jdbcType=INTEGER},
+      roleKey = #{roleKey,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR}
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+</mapper>
